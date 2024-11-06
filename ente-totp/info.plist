@@ -6,11 +6,11 @@
 	<string></string>
 	<key>connections</key>
 	<dict>
-		<key>548A4F34-31FF-4E4B-AD7C-1CA4D8391AAA</key>
+		<key>0742C028-71B8-4E5F-A7C1-4691ECEB1CC5</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>61342121-5F6E-4340-A89B-F4DC5D5A7965</string>
+				<string>767EC73E-A689-4C98-8D03-74B8C14ADB87</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -19,11 +19,93 @@
 				<false/>
 			</dict>
 		</array>
-		<key>61342121-5F6E-4340-A89B-F4DC5D5A7965</key>
+		<key>3CF1F65C-E12D-4519-ADD3-2621F1A2A7B0</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>89FF22C4-362B-4675-AEFA-B15E67898E1B</string>
+				<string>7877E834-FFD6-4C60-BBA4-9E1CB4138C89</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>4C488BB6-78ED-42DE-A6F7-FAF5D47FAC4C</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>ABA020FE-CDF0-44DF-BD72-CD62C27DDE87</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>83A8A297-F20A-44C1-91E9-C38DE398E869</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>11486D2B-A25F-49CC-B2D5-B2C1B74CB5D8</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>B742E95D-D267-4F89-AA1C-26791CD622DB</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>3CF1F65C-E12D-4519-ADD3-2621F1A2A7B0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string>Copy current code</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>83A8A297-F20A-44C1-91E9-C38DE398E869</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string>Paste current code</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>4C488BB6-78ED-42DE-A6F7-FAF5D47FAC4C</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Copy next code</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>0742C028-71B8-4E5F-A7C1-4691ECEB1CC5</string>
+				<key>modifiers</key>
+				<integer>1572864</integer>
+				<key>modifiersubtext</key>
+				<string>Paste next code</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>D885F04A-9895-4488-BD97-53F15AEB53FA</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>B742E95D-D267-4F89-AA1C-26791CD622DB</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -46,6 +128,117 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{var:split1}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>7877E834-FFD6-4C60-BBA4-9E1CB4138C89</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>delimiter</key>
+				<string>,</string>
+				<key>discardemptyarguments</key>
+				<false/>
+				<key>outputas</key>
+				<integer>0</integer>
+				<key>trimarguments</key>
+				<true/>
+				<key>variableprefix</key>
+				<string>split</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.split</string>
+			<key>uid</key>
+			<string>3CF1F65C-E12D-4519-ADD3-2621F1A2A7B0</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>delimiter</key>
+				<string>,</string>
+				<key>discardemptyarguments</key>
+				<false/>
+				<key>outputas</key>
+				<integer>0</integer>
+				<key>trimarguments</key>
+				<true/>
+				<key>variableprefix</key>
+				<string>split</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.split</string>
+			<key>uid</key>
+			<string>83A8A297-F20A-44C1-91E9-C38DE398E869</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>0</integer>
+				<key>hotmod</key>
+				<integer>0</integer>
+				<key>hotstring</key>
+				<string></string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>D885F04A-9895-4488-BD97-53F15AEB53FA</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<true/>
+				<key>clipboardtext</key>
+				<string>{var:split1}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>11486D2B-A25F-49CC-B2D5-B2C1B74CB5D8</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>alfredfiltersresults</key>
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
@@ -63,11 +256,11 @@
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
-				<true/>
+				<false/>
 				<key>queuedelaymode</key>
 				<integer>0</integer>
 				<key>queuemode</key>
-				<integer>1</integer>
+				<integer>2</integer>
 				<key>runningsubtext</key>
 				<string>Getting code for query: "{query}"...</string>
 				<key>script</key>
@@ -77,7 +270,7 @@
 				<key>scriptfile</key>
 				<string></string>
 				<key>subtext</key>
-				<string>Get TOTP Codes from Ente Auth Database</string>
+				<string>What service do you need a code for?</string>
 				<key>title</key>
 				<string>{const:alfred_workflow_name}</string>
 				<key>type</key>
@@ -88,17 +281,59 @@
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>61342121-5F6E-4340-A89B-F4DC5D5A7965</string>
+			<string>B742E95D-D267-4F89-AA1C-26791CD622DB</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>autopaste</key>
+				<key>delimiter</key>
+				<string>,</string>
+				<key>discardemptyarguments</key>
+				<false/>
+				<key>outputas</key>
+				<integer>0</integer>
+				<key>trimarguments</key>
 				<true/>
+				<key>variableprefix</key>
+				<string>split</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.split</string>
+			<key>uid</key>
+			<string>4C488BB6-78ED-42DE-A6F7-FAF5D47FAC4C</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>delimiter</key>
+				<string>,</string>
+				<key>discardemptyarguments</key>
+				<false/>
+				<key>outputas</key>
+				<integer>0</integer>
+				<key>trimarguments</key>
+				<true/>
+				<key>variableprefix</key>
+				<string>split</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.split</string>
+			<key>uid</key>
+			<string>0742C028-71B8-4E5F-A7C1-4691ECEB1CC5</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
 				<key>clipboardtext</key>
-				<string>{query}</string>
+				<string>{var:split2}</string>
 				<key>ignoredynamicplaceholders</key>
 				<false/>
 				<key>transient</key>
@@ -107,40 +342,9 @@
 			<key>type</key>
 			<string>alfred.workflow.output.clipboard</string>
 			<key>uid</key>
-			<string>89FF22C4-362B-4675-AEFA-B15E67898E1B</string>
+			<string>ABA020FE-CDF0-44DF-BD72-CD62C27DDE87</string>
 			<key>version</key>
 			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>action</key>
-				<integer>0</integer>
-				<key>argument</key>
-				<integer>0</integer>
-				<key>focusedappvariable</key>
-				<false/>
-				<key>focusedappvariablename</key>
-				<string></string>
-				<key>hotkey</key>
-				<integer>14</integer>
-				<key>hotmod</key>
-				<integer>1703936</integer>
-				<key>hotstring</key>
-				<string>E</string>
-				<key>leftcursor</key>
-				<false/>
-				<key>modsmode</key>
-				<integer>0</integer>
-				<key>relatedAppsMode</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.trigger.hotkey</string>
-			<key>uid</key>
-			<string>548A4F34-31FF-4E4B-AD7C-1CA4D8391AAA</string>
-			<key>version</key>
-			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -191,6 +395,25 @@
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<true/>
+				<key>clipboardtext</key>
+				<string>{var:split2}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>767EC73E-A689-4C98-8D03-74B8C14ADB87</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string>An Alfred Workflow that uses your Ente Exports
@@ -199,33 +422,82 @@ Ente Auth CLI does not support exporting TOTP codes. To use this project, please
 The file can be deleted once imported.</string>
 	<key>uidata</key>
 	<dict>
+		<key>0742C028-71B8-4E5F-A7C1-4691ECEB1CC5</key>
+		<dict>
+			<key>xpos</key>
+			<real>535</real>
+			<key>ypos</key>
+			<real>275</real>
+		</dict>
+		<key>11486D2B-A25F-49CC-B2D5-B2C1B74CB5D8</key>
+		<dict>
+			<key>xpos</key>
+			<real>960</real>
+			<key>ypos</key>
+			<real>155</real>
+		</dict>
 		<key>3101A957-02C3-4D0C-8B13-1C3721459261</key>
 		<dict>
 			<key>xpos</key>
-			<real>250.0</real>
+			<real>250</real>
 			<key>ypos</key>
-			<real>330.0</real>
+			<real>330</real>
 		</dict>
-		<key>548A4F34-31FF-4E4B-AD7C-1CA4D8391AAA</key>
+		<key>3CF1F65C-E12D-4519-ADD3-2621F1A2A7B0</key>
 		<dict>
 			<key>xpos</key>
-			<real>30.0</real>
+			<real>535</real>
 			<key>ypos</key>
-			<real>305.0</real>
+			<real>90</real>
 		</dict>
-		<key>61342121-5F6E-4340-A89B-F4DC5D5A7965</key>
+		<key>4C488BB6-78ED-42DE-A6F7-FAF5D47FAC4C</key>
 		<dict>
 			<key>xpos</key>
-			<real>240.0</real>
+			<real>535</real>
 			<key>ypos</key>
-			<real>105.0</real>
+			<real>215</real>
 		</dict>
-		<key>89FF22C4-362B-4675-AEFA-B15E67898E1B</key>
+		<key>767EC73E-A689-4C98-8D03-74B8C14ADB87</key>
 		<dict>
 			<key>xpos</key>
-			<real>495.0</real>
+			<real>960</real>
 			<key>ypos</key>
-			<real>140.0</real>
+			<real>420</real>
+		</dict>
+		<key>7877E834-FFD6-4C60-BBA4-9E1CB4138C89</key>
+		<dict>
+			<key>xpos</key>
+			<real>955</real>
+			<key>ypos</key>
+			<real>15</real>
+		</dict>
+		<key>83A8A297-F20A-44C1-91E9-C38DE398E869</key>
+		<dict>
+			<key>xpos</key>
+			<real>535</real>
+			<key>ypos</key>
+			<real>145</real>
+		</dict>
+		<key>ABA020FE-CDF0-44DF-BD72-CD62C27DDE87</key>
+		<dict>
+			<key>xpos</key>
+			<real>955</real>
+			<key>ypos</key>
+			<real>295</real>
+		</dict>
+		<key>B742E95D-D267-4F89-AA1C-26791CD622DB</key>
+		<dict>
+			<key>xpos</key>
+			<real>255</real>
+			<key>ypos</key>
+			<real>160</real>
+		</dict>
+		<key>D885F04A-9895-4488-BD97-53F15AEB53FA</key>
+		<dict>
+			<key>xpos</key>
+			<real>35</real>
+			<key>ypos</key>
+			<real>150</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
@@ -272,49 +544,9 @@ The file can be deleted once imported.</string>
 			<key>variable</key>
 			<string>export_file_path</string>
 		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>default</key>
-				<false/>
-				<key>required</key>
-				<false/>
-				<key>text</key>
-				<string></string>
-			</dict>
-			<key>description</key>
-			<string></string>
-			<key>label</key>
-			<string>include username in results title</string>
-			<key>type</key>
-			<string>checkbox</string>
-			<key>variable</key>
-			<string>username_in_title</string>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>default</key>
-				<true/>
-				<key>required</key>
-				<false/>
-				<key>text</key>
-				<string></string>
-			</dict>
-			<key>description</key>
-			<string></string>
-			<key>label</key>
-			<string>include username in results subtitle</string>
-			<key>type</key>
-			<string>checkbox</string>
-			<key>variable</key>
-			<string>username_in_subtitle</string>
-		</dict>
 	</array>
-	<key>variablesdontexport</key>
-	<array/>
 	<key>version</key>
-	<string>1.0.0</string>
+	<string>v1.2</string>
 	<key>webaddress</key>
 	<string>https://github.com/chkpwd/alfred-workflows/main/tree/ente-totp</string>
 </dict>
