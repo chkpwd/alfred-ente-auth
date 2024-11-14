@@ -1,26 +1,28 @@
 import os
+import json
+import pyotp
+import logging
 
+from attrs.converters import to_bool
+from datetime import datetime, timedelta
 from urllib.parse import parse_qs, unquote, urlparse
 
-
-USERNAME_IN_TITLE = os.getenv("username_in_title", "false").lower() in (
-    "true",
-    "1",
-    "t",
-    "y",
-    "yes",
-)
-USERNAME_IN_SUBTITLE = os.getenv("username_in_subtitle", "false").lower() in (
-    "true",
-    "1",
-    "t",
-    "y",
-    "yes",
+from src.models import (
+    AlfredOutput,
+    TotpAccount,
+    TotpAccounts,
+    AlfredOutputItem,
+    AlfredOutputItemIcon,
 )
 
+logger = logging.getLogger(__name__)
 
-def parse_secrets(file_path="secrets.txt"):
-    secrets_list = []
+USERNAME_IN_TITLE = to_bool(os.getenv("username_in_title", "False"))
+USERNAME_IN_SUBTITLE = to_bool(os.getenv("username_in_subtitle", "False"))
+
+
+def parse_secrets(file_path: str) -> TotpAccounts:
+    accounts = TotpAccounts()
 
     with open(file_path, "r") as secrets_file:
         for line in secrets_file:
@@ -30,6 +32,7 @@ def parse_secrets(file_path="secrets.txt"):
                 if "codeDisplay" in line:
                     line = line.split("codeDisplay")[0][:-1]
 
+                # Manually parse the secrets without pyotp
                 # https://github.com/pyauth/pyotp/issues/171
                 parsed_uri = urlparse(line)
                 if parsed_uri.scheme == "otpauth":
@@ -42,38 +45,64 @@ def parse_secrets(file_path="secrets.txt"):
                     query_params = parse_qs(parsed_uri.query)
                     secret = query_params.get("secret", [None])[0]
 
-                    if secret:
-                        secrets_list.append((service_name, username, secret))
-                    else:
-                        print(f"Unable to parse secret in: {line}")
+                    if not secret:
+                        raise ValueError(
+                            f"Unable to parse 'secret' parameter in: {line}"
+                        )
 
-                # parsed_uri = pyotp.parse_uri(line)
-                # if parsed_uri:
-                #     service_name = parsed_uri.issuer or parsed_uri.name
-                #     username = parsed_uri.name
-                #     secret = parsed_uri.secret
-                #     if secret:
-                #         secrets_list.append((service_name, username, secret))
-                #     else:
-                #         print(f"Unable to parse secret in: {line}")
-                # else:
-                #     print(f"Unable to parse the line: {line}")
-    return secrets_list
+                    accounts[service_name] = TotpAccount(
+                        username=username, secret=secret
+                    )
+    return accounts
 
-def format_data(service_name, username, current_totp, next_totp):
-    """Format the TOTP data based on the output type."""
-    subset = f"Current TOTP: {current_totp} | Next TOTP: {next_totp}" + (
-        f" - {username}" if username and USERNAME_IN_SUBTITLE else ""
-    )
-    service_name = (
-        f"{service_name} - {username}"
-        if username and USERNAME_IN_TITLE
-        else service_name
-    )
 
-    return {
-        "title": service_name,
-        "subtitle": subset,
-        "arg": current_totp,
-        "icon": {"path": "../icon.png"},
-    }
+def format_secrets_data(secrets: TotpAccounts) -> AlfredOutput:
+    """Format the secrets data."""
+    try:
+        items: list[AlfredOutputItem] = []
+
+        for service_name, service_data in secrets.items():
+            current_totp = pyotp.TOTP(service_data.secret).now()
+            next_time = datetime.now() + timedelta(seconds=30)
+            next_totp = pyotp.TOTP(service_data.secret).at(next_time)
+
+            service_name = (
+                f"{service_name} - {service_data.username}"
+                if service_data.username and USERNAME_IN_TITLE
+                else service_name
+            )
+            subtitle = f"Current TOTP: {current_totp} | Next TOTP: {next_totp}" + (
+                f" - {service_data.username}"
+                if service_data.username and USERNAME_IN_SUBTITLE
+                else ""
+            )
+
+            items.append(
+                AlfredOutputItem(
+                    title=service_name,
+                    subtitle=subtitle,
+                    arg=current_totp,
+                    icon=AlfredOutputItemIcon(path="../icon.png"),
+                )
+            )
+
+        if items:
+            output = AlfredOutput(items)
+        else:
+            output = AlfredOutput(
+                [AlfredOutputItem(title="No matching services found.")]
+            )
+
+        logger.debug(json.dumps(output, indent=4))
+
+        return output
+
+    except Exception as e:
+        logging.error(f"Error: {str(e)}")
+        return AlfredOutput(
+            [
+                AlfredOutputItem(
+                    title="Unexpected error in format_secrets_data function."
+                )
+            ]
+        )

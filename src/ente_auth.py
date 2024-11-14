@@ -2,53 +2,81 @@ import os
 import logging
 import subprocess
 
-from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
-# Ente Auth Binary Path
-ENTE_AUTH_BINARY_PATH = "/usr/local/bin/ente"
-DEFAULT_EXPORT_PATH = f"{str(Path.home())}/Documents/ente"
 
+class EnteAuth:
+    def __init__(self):
+        ente_auth_binary_path_env = os.getenv("ENTE_AUTH_BINARY_PATH")
+        if ente_auth_binary_path_env:
+            self.ente_auth_binary_path = self.check_ente_binary(
+                ente_auth_binary_path_env
+            )
+        else:
+            self.ente_auth_binary_path = self._find_ente_path()
 
-def create_ente_path(path: str) -> str:
-    if not os.path.exists(path):
-        os.makedirs(path)
-        logger.info("Ente folder created at", path)
+    def _find_ente_path(self) -> str:
+        result = subprocess.run(
+            ["which", "ente"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
+        if result.returncode != 0:
+            raise OSError("'ente' binary not found. Please ensure it's installed.")
 
-    return path
+        return result.stdout.decode("utf-8").strip()
 
-def check_ente_binary() -> bool:
-    try:
-        subprocess.run([f"{ENTE_AUTH_BINARY_PATH}", "version"], check=True)
-        return True
-    except subprocess.CalledProcessError:
-        logger.error("Ente binary not found. Please install it.")
-        return False
+    def create_ente_path(self, path: str) -> None:
+        if not os.path.exists(path):
+            os.makedirs(path)
+            logger.info(f"Ente folder created at: {path}")
 
-def export_ente_auth_secrets() -> bool:
-    export_file_path = f"{DEFAULT_EXPORT_PATH}/ente_auth.txt"
-    if not os.path.exists(export_file_path):
-        logger.info("ente_auth.txt not found. Exporting...")
+    def export_ente_auth_secrets(self, export_path: str, overwrite: bool) -> None:
+        path_exists = os.path.exists(export_path)
+
+        if path_exists and overwrite:
+            logger.debug("Ente auth export file found. Overwrite is true. Deleting...")
+            self.delete_ente_export(export_path)
+        elif path_exists and not overwrite:
+            logger.info("Export file already exists. Skipping export.")
+            return
+
+        logger.debug("Ente auth export file not found. Exporting...")
         try:
-            subprocess.run(["ente", "export"], check=True)
+            result = subprocess.run(["ente", "export"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+            # When export directory doesn't exist, Ente CLI still returns rc0 but prints an error to stderr.
+            # If this happens, we'll create the path and retry.
+            if "error: path does not exist" in result.stderr.decode("utf-8"):
+                export_dir = os.path.dirname(export_path)
+                logger.info(f"Export directory does not exist. Creating: {export_dir}")
+                self.create_ente_path(export_dir)
+                logger.info("Retrying export...")
+                self.export_ente_auth_secrets(export_path, overwrite)
+
         except subprocess.CalledProcessError as e:
-            logger.error(f"Export failed: {e}")
+            logger.exception("Export failed", e)
+            raise e
+
+        if not os.path.exists(export_path):
+            raise Exception(
+                "Export appeared to succeed, but the export file was not found."
+            )
+
+    def delete_ente_export(self, export_path: str) -> None:
+        try:
+            os.remove(export_path)
+            logger.info("Ente export file deleted")
+        except OSError as e:
+            logger.exception("Error during removal", e)
+            raise e
+
+    @staticmethod
+    def check_ente_binary(path) -> bool:
+        try:
+            subprocess.run([f"{path}", "version"], check=True)
+            return True
+        except subprocess.CalledProcessError:
+            logger.error(
+                f"Ente binary not found at {path}. Please check ente CLI is installed and the path is correct."
+            )
             return False
-
-        if not os.path.exists(export_file_path):
-            logger.error("Export failed. Please check if the command is correct.")
-            return False
-    else:
-        logger.info("Skipping export...")
-
-    return True
-
-def delete_ente_export() -> bool:
-    try:
-        os.remove(f"{DEFAULT_EXPORT_PATH}/ente_auth.txt")
-    except OSError as e:
-        logger.error(f"Error during removal: {e}")
-        return False
-
-    return True
