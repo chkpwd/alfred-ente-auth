@@ -4,9 +4,9 @@ from src.models import AlfredOutput, AlfredOutputItem, TotpAccounts
 def str_to_bool(val):
     if isinstance(val, str):
         val = val.lower()
-    if val in (True, "true"):
+    if val in (True, "true", "1", 1):
         return True
-    if val in (False, "false"):
+    if val in (False, "false", "0", 0):
         return False
     msg = f"Cannot convert value to bool: {val!r}"
     raise ValueError(msg)
