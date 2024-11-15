@@ -96,9 +96,5 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
     except Exception as e:
         logging.exception(f"Error: {str(e)}")
         return AlfredOutput(
-            [
-                AlfredOutputItem(
-                    title="Unexpected error in format_totp_result function."
-                )
-            ]
+            [AlfredOutputItem(title="Unexpected error in format_totp_result function.")]
         )
