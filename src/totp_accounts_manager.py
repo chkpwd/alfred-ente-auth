@@ -1,4 +1,3 @@
-import json
 import logging
 import os
 from datetime import datetime, timedelta
@@ -91,8 +90,6 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
             output = AlfredOutput(
                 [AlfredOutputItem(title="No matching services found.")]
             )
-
-        logger.debug(json.dumps(output, indent=4))
 
         return output
 
