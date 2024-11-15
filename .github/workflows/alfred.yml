@@ -16,7 +16,8 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version-file: "pyproject.toml"
+          cache: "poetry"
 
       - name: Install poetry
         run: |
