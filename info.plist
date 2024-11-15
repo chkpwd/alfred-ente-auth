@@ -102,7 +102,7 @@
 				<key>runningsubtext</key>
 				<string>Getting code for query: "{query}"...</string>
 				<key>script</key>
-				<string>python3 main.py "{query}"</string>
+				<string>python3 main.py search "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
