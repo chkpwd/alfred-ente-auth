@@ -1,18 +1,18 @@
-import os
 import json
-import pyotp
 import logging
-
-from attrs.converters import to_bool
+import os
 from datetime import datetime, timedelta
 from urllib.parse import parse_qs, unquote, urlparse
 
+import pyotp
+from attrs.converters import to_bool
+
 from src.models import (
     AlfredOutput,
-    TotpAccount,
-    TotpAccounts,
     AlfredOutputItem,
     AlfredOutputItemIcon,
+    TotpAccount,
+    TotpAccounts,
 )
 
 logger = logging.getLogger(__name__)
@@ -50,9 +50,7 @@ def parse_secrets(file_path: str) -> TotpAccounts:
                             f"Unable to parse 'secret' parameter in: {line}"
                         )
 
-                    accounts[service_name] = TotpAccount(
-                        username=username, secret=secret
-                    )
+                    accounts[service_name] = TotpAccount(username, secret)
     return accounts
 
 

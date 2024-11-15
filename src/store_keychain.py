@@ -1,10 +1,11 @@
-import os
 import json
 import logging
+import os
+
 import keyring
 
-from src.secrets_manager import parse_secrets
 from src.models import AlfredOutput, AlfredOutputItem, TotpAccounts
+from src.secrets_manager import parse_secrets
 
 logger = logging.getLogger(__name__)
 

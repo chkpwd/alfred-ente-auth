@@ -1,14 +1,13 @@
+import logging
 import os
 import sys
-import logging
-
-from pathlib import Path
-from src.ente_auth import EnteAuth
-from attrs.converters import to_bool
 from difflib import get_close_matches
-from src.secrets_manager import parse_secrets, format_secrets_data
-from src.store_keychain import ente_export_to_keychain, import_secrets_from_keychain
 
+from attrs.converters import to_bool
+
+from src.ente_auth import EnteAuth
+from src.secrets_manager import format_secrets_data, parse_secrets
+from src.store_keychain import ente_export_to_keychain, import_secrets_from_keychain
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(

@@ -1,6 +1,5 @@
 import json
-
-from dataclasses import dataclass, asdict, field
+from dataclasses import asdict, dataclass
 
 
 # https://www.alfredapp.com/help/workflows/inputs/script-filter/json

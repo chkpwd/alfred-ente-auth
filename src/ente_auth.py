@@ -1,7 +1,6 @@
-import os
 import logging
+import os
 import subprocess
-
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +41,12 @@ class EnteAuth:
 
         logger.debug("Ente auth export file not found. Exporting...")
         try:
-            result = subprocess.run(["ente", "export"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            result = subprocess.run(
+                ["ente", "export"],
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
 
             # When export directory doesn't exist, Ente CLI still returns rc0 but prints an error to stderr.
             # If this happens, we'll create the path and retry.
