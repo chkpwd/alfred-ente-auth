@@ -5,11 +5,11 @@ import os
 import keyring
 
 from src.models import AlfredOutput, AlfredOutputItem, TotpAccounts
-from src.secrets_manager import parse_secrets
+from src.totp_accounts_manager import parse_ente_export
 
 logger = logging.getLogger(__name__)
 
-# Keychain service and account for storing the secrets
+# Keychain service and account for storing the TOTP accounts
 KEYCHAIN_SERVICE = "ente-totp-alfred-workflow"
 KEYCHAIN_ACCOUNT = "totp_secrets"
 
@@ -17,34 +17,34 @@ KEYCHAIN_ACCOUNT = "totp_secrets"
 CACHE_ENV_VAR = "TOTP_CACHE"
 
 
-def import_secrets_from_keychain() -> TotpAccounts:
-    """Load secrets from the environment variable or keychain."""
-    cached_secrets = os.getenv(CACHE_ENV_VAR)
+def import_accounts_from_keychain() -> TotpAccounts:
+    """Load TOTP accounts from the environment variable or keychain."""
+    cached_accounts = os.getenv(CACHE_ENV_VAR)
 
-    if cached_secrets:
-        logger.info("Loading secrets from environment variable cache.")
-        return json.loads(cached_secrets)
+    if cached_accounts:
+        logger.info("Loading TOTP accounts from environment variable cache.")
+        return json.loads(cached_accounts)
 
     # If not cached, load from the keychain
-    logger.info("Loading secrets from keychain.")
-    secrets_json = keyring.get_password(
+    logger.info("Loading TOTP accounts from keychain.")
+    accounts_json = keyring.get_password(
         service_name=KEYCHAIN_SERVICE, username=KEYCHAIN_ACCOUNT
     )
 
-    if secrets_json is None:
-        raise Exception("No secrets found in keychain.")
+    if accounts_json is None:
+        raise Exception("No TOTP accounts found in keychain.")
 
-    accounts = TotpAccounts().from_json(secrets_json)
+    accounts = TotpAccounts().from_json(accounts_json)
 
     return accounts
 
 
 def ente_export_to_keychain(file: str) -> None:
-    """Import secrets from an Ente export file and store them in the keychain."""
+    """Import TOTP accounts from an Ente export file and store them in the keychain."""
     try:
         logger.debug(f"import_file: {file}")
 
-        accounts = parse_secrets(file)
+        accounts = parse_ente_export(file)
         accounts_json = accounts.to_json()
 
         if accounts:

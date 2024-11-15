@@ -4,8 +4,8 @@ import sys
 from difflib import get_close_matches
 
 from src.ente_auth import EnteAuth
-from src.secrets_manager import format_secrets_data, parse_secrets
-from src.store_keychain import ente_export_to_keychain, import_secrets_from_keychain
+from src.totp_accounts_manager import format_totp_result, parse_ente_export
+from src.store_keychain import ente_export_to_keychain, import_accounts_from_keychain
 from src.utils import str_to_bool
 
 logger = logging.getLogger(__name__)
@@ -51,15 +51,15 @@ if __name__ == "__main__":
         ente_auth = EnteAuth()
 
         try:
-            ente_auth.export_ente_auth_secrets(ente_export_path, overwrite_export)
-            logger.info("Exported ente auth secrets to file.")
+            ente_auth.export_ente_auth_accounts(ente_export_path, overwrite_export)
+            logger.info("Exported ente auth TOTP data to file.")
         except Exception as e:
-            logger.error(f"Failed to export ente auth secrets: {e}")
+            logger.error(f"Failed to export ente auth TOTP data: {e}")
         else:
             try:
                 ente_export_to_keychain(ente_export_path)
             except Exception as e:
-                logger.error(f"Failed to import secrets from file: {e}")
+                logger.error(f"Failed to import TOTP data from file: {e}")
 
             ente_auth.delete_ente_export(ente_export_path)
 
@@ -68,10 +68,10 @@ if __name__ == "__main__":
             raise ValueError("No search string found")
 
         try:
-            secrets = import_secrets_from_keychain()
-            logger.info("Loaded secrets from keychain.")
+            accounts = import_accounts_from_keychain()
+            logger.info("Loaded TOTP accounts from keychain.")
         except Exception as e:
-            logger.exception(f"Failed to load secrets from keychain: {e}", e)
+            logger.exception(f"Failed to load TOTP accounts from keychain: {e}", e)
 
         else:
             search_string = sys.argv[2]

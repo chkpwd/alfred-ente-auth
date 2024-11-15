@@ -22,18 +22,18 @@ USERNAME_IN_TITLE = str_to_bool(os.getenv("username_in_title", "False"))
 USERNAME_IN_SUBTITLE = str_to_bool(os.getenv("username_in_subtitle", "False"))
 
 
-def parse_secrets(file_path: str) -> TotpAccounts:
+def parse_ente_export(file_path: str) -> TotpAccounts:
     accounts = TotpAccounts()
 
-    with open(file_path, "r") as secrets_file:
-        for line in secrets_file:
+    with open(file_path, "r") as ente_export_file:
+        for line in ente_export_file:
             line = line.strip()
             if line:
                 line = line.replace("=sha1", "=SHA1")
                 if "codeDisplay" in line:
                     line = line.split("codeDisplay")[0][:-1]
 
-                # Manually parse the secrets without pyotp
+                # Manually parse the otpauth URI without pyotp
                 # https://github.com/pyauth/pyotp/issues/171
                 parsed_uri = urlparse(line)
                 if parsed_uri.scheme == "otpauth":
@@ -55,12 +55,12 @@ def parse_secrets(file_path: str) -> TotpAccounts:
     return accounts
 
 
-def format_secrets_data(secrets: TotpAccounts) -> AlfredOutput:
-    """Format the secrets data."""
+def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
+    """Format TOTP accounts for Alfred."""
     try:
         items: list[AlfredOutputItem] = []
 
-        for service_name, service_data in secrets.items():
+        for service_name, service_data in accounts.items():
             current_totp = pyotp.TOTP(service_data.secret).now()
             next_time = datetime.now() + timedelta(seconds=30)
             next_totp = pyotp.TOTP(service_data.secret).at(next_time)
@@ -101,7 +101,7 @@ def format_secrets_data(secrets: TotpAccounts) -> AlfredOutput:
         return AlfredOutput(
             [
                 AlfredOutputItem(
-                    title="Unexpected error in format_secrets_data function."
+                    title="Unexpected error in format_totp_result function."
                 )
             ]
         )

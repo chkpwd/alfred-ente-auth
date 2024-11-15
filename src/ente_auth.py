@@ -29,7 +29,7 @@ class EnteAuth:
             os.makedirs(path)
             logger.info(f"Ente folder created at: {path}")
 
-    def export_ente_auth_secrets(self, export_path: str, overwrite: bool) -> None:
+    def export_ente_auth_accounts(self, export_path: str, overwrite: bool) -> None:
         path_exists = os.path.exists(export_path)
 
         if path_exists and overwrite:
@@ -55,7 +55,7 @@ class EnteAuth:
                 logger.info(f"Export directory does not exist. Creating: {export_dir}")
                 self.create_ente_path(export_dir)
                 logger.info("Retrying export...")
-                self.export_ente_auth_secrets(export_path, overwrite)
+                self.export_ente_auth_accounts(export_path, overwrite)
 
         except subprocess.CalledProcessError as e:
             logger.exception("Export failed", e)
