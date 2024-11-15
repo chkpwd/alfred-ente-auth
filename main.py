@@ -3,9 +3,9 @@ import os
 import sys
 
 from src.ente_auth import EnteAuth
-from src.totp_accounts_manager import format_totp_result
 from src.store_keychain import ente_export_to_keychain, import_accounts_from_keychain
-from src.utils import fuzzy_search_accounts, str_to_bool
+from src.totp_accounts_manager import format_totp_result
+from src.utils import fuzzy_search_accounts, output_alfred_message, str_to_bool
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -28,8 +28,6 @@ TODO:
 - [] Add testing
 - [] Redo deps in a better way (poetry, maybe?)
 - [] Check lowercase
-- [] implement fuzzy search
-- [] Improve logging/error handling. Need a consistent way of handling and returning errors. Always to Alfred? Probably not. Categorise by whether it should go to the user/Alfred or not, maybe helper functions ¯\\_(ツ)_/¯
 """
 
 if __name__ == "__main__":
@@ -54,11 +52,13 @@ if __name__ == "__main__":
             logger.info("Exported ente auth TOTP data to file.")
         except Exception as e:
             logger.exception(f"Failed to export ente auth TOTP data: {e}", e)
+            output_alfred_message("Failed to export TOTP data", str(e))
         else:
             try:
                 ente_export_to_keychain(ente_export_path)
             except Exception as e:
-                logger.exception(f"Failed to import TOTP data from file: {e}", e)
+                logger.exception(f"Failed to populate TOTP data in keychain from file: {e}", e)
+                output_alfred_message("Failed to import TOTP data", str(e))
 
             ente_auth.delete_ente_export(ente_export_path)
 
@@ -71,6 +71,7 @@ if __name__ == "__main__":
             logger.info("Loaded TOTP accounts from keychain.")
         except Exception as e:
             logger.exception(f"Failed to load TOTP accounts from keychain: {e}", e)
+            output_alfred_message("Failed to load TOTP accounts", str(e))
 
         else:
             search_string = sys.argv[2]

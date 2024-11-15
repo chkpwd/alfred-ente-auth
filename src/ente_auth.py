@@ -58,11 +58,11 @@ class EnteAuth:
                 self.export_ente_auth_accounts(export_path, overwrite)
 
         except subprocess.CalledProcessError as e:
-            logger.exception("Export failed", e)
+            logger.error("Export failed", e)
             raise e
 
         if not os.path.exists(export_path):
-            raise Exception(
+            raise OSError(
                 "Export appeared to succeed, but the export file was not found."
             )
 
@@ -71,7 +71,7 @@ class EnteAuth:
             os.remove(export_path)
             logger.info("Ente export file deleted")
         except OSError as e:
-            logger.exception("Error during removal", e)
+            logger.error("Error during removal", e)
             raise e
 
     @staticmethod

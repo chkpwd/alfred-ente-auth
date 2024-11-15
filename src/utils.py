@@ -1,4 +1,4 @@
-from src.models import TotpAccounts
+from src.models import AlfredOutput, AlfredOutputItem, TotpAccounts
 
 
 def str_to_bool(val):
@@ -45,3 +45,14 @@ def fuzzy_search_accounts(search_string: str, values: TotpAccounts) -> TotpAccou
     )
 
     return matched_accounts
+
+
+def output_alfred_message(title, subtitle):
+    AlfredOutput(
+        [
+            AlfredOutputItem(
+                title=title,
+                subtitle=subtitle,
+            )
+        ]
+    ).print_json()
