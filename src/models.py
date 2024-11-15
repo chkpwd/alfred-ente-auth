@@ -1,5 +1,7 @@
 import json
+import sys
 from dataclasses import asdict, dataclass
+from typing import Any
 
 
 # https://www.alfredapp.com/help/workflows/inputs/script-filter/json
@@ -19,9 +21,13 @@ class AlfredOutputItem:
     subtitle: str | None = None
     arg: str | list[str] | None = None
     icon: AlfredOutputItemIcon | None = None
+    variables: dict[str, Any] | None = None
 
     def to_dict(self):
-        return {k: v for k, v in asdict(self).items() if v is not None}
+        result = {k: v for k, v in asdict(self).items() if v is not None}
+        if self.icon is not None:
+            result["icon"] = self.icon.to_dict()
+        return result
 
 
 @dataclass
@@ -29,13 +35,19 @@ class AlfredOutput:
     items: list[AlfredOutputItem]
 
     def to_dict(self):
-        return asdict(self)
+        return {"items": [item.to_dict() for item in self.items]}
 
     def to_json(self):
         return json.dumps(self.to_dict(), separators=(",", ":"))
 
     def print_json(self):
-        print(self.to_json())
+        sys.stdout.write(self.to_json())
+
+
+@dataclass
+class ImportResult:
+    count: int
+    variables: dict[str, str]
 
 
 @dataclass
