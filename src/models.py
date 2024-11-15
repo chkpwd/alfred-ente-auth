@@ -51,4 +51,4 @@ class TotpAccounts(dict[str, TotpAccount]):
 
     def from_json(self, json_str: str) -> "TotpAccounts":
         data = json.loads(json_str)
-        return TotpAccounts(**{k: TotpAccount(*v) for k, v in data.items()})
+        return TotpAccounts({k: TotpAccount(**v) for k, v in data.items()})
