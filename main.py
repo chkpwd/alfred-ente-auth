@@ -3,7 +3,7 @@ import os
 import sys
 
 from src.ente_auth import EnteAuth
-from src.totp_accounts_manager import format_totp_result, parse_ente_export
+from src.totp_accounts_manager import format_totp_result
 from src.store_keychain import ente_export_to_keychain, import_accounts_from_keychain
 from src.utils import fuzzy_search_accounts, str_to_bool
 
@@ -75,7 +75,7 @@ if __name__ == "__main__":
         else:
             search_string = sys.argv[2]
             matched_accounts = fuzzy_search_accounts(search_string, accounts)
-            formatted_account_data = format_secrets_data(matched_accounts)
+            formatted_account_data = format_totp_result(matched_accounts)
             print(formatted_account_data)
 
     else:
