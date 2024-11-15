@@ -72,9 +72,9 @@ def zip_workflow(filename: str):
     zip_exlude = ["__pycache__"]
 
     def should_include(path):
-        exclude_test = any(excluded in path for excluded in zip_exlude)
-        include_test = any(included in path for included in zip_contents)
-        return not exclude_test and include_test
+        exclude_paths = any(excluded in path for excluded in zip_exlude)
+        include_paths = any(included in path for included in zip_contents)
+        return not exclude_paths and include_paths
 
     with ZipFile(filename, "w", ZIP_STORED, strict_timestamps=False) as zip:
         for root, _, files in os.walk(basepath):
@@ -94,6 +94,8 @@ def main():
 
     if workflow_version != pyproject_version:
         update_version(pyproject_version)
+    else:
+        print("Workflow version matches PyProject version. Should this be updated?")
 
     zip_name = f"{workflow_name}-{workflow_version}.zip"
     zip_workflow(zip_name)
