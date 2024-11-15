@@ -64,7 +64,7 @@ if __name__ == "__main__":
             ente_auth.delete_ente_export(ente_export_path)
 
     elif sys.argv[1] == "search":
-        if not sys.argv[2]:
+        if len(sys.argv) < 3:
             raise ValueError("No search string found")
 
         try:
