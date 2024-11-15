@@ -15,12 +15,7 @@ jobs:
       - name: Build Alfred workflow
         id: builder
         run: |
-          cd ente-totp
-          python -m venv .venv
-          source .venv/bin/activate
-          ./build.sh
-        env:
-          WORKFLOW_VERSION: ${{ github.ref_name }}
+          python3 build_tools.py
 
       - name: Release
         uses: softprops/action-gh-release@v1
