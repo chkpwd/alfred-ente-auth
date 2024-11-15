@@ -1,6 +1,5 @@
 import json
-
-from dataclasses import dataclass, asdict, field
+from dataclasses import asdict, dataclass
 
 
 # https://www.alfredapp.com/help/workflows/inputs/script-filter/json
@@ -52,4 +51,4 @@ class TotpAccounts(dict[str, TotpAccount]):
 
     def from_json(self, json_str: str) -> "TotpAccounts":
         data = json.loads(json_str)
-        return TotpAccounts(**{k: TotpAccount(*v) for k, v in data.items()})
+        return TotpAccounts({k: TotpAccount(**v) for k, v in data.items()})

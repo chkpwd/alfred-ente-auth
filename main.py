@@ -1,14 +1,11 @@
+import logging
 import os
 import sys
-import logging
 
-from pathlib import Path
 from src.ente_auth import EnteAuth
-from attrs.converters import to_bool
-from difflib import get_close_matches
-from src.secrets_manager import parse_secrets, format_secrets_data
-from src.store_keychain import ente_export_to_keychain, import_secrets_from_keychain
-
+from src.store_keychain import ente_export_to_keychain, import_accounts_from_keychain
+from src.totp_accounts_manager import format_totp_result
+from src.utils import fuzzy_search_accounts, output_alfred_message, str_to_bool
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -31,12 +28,10 @@ TODO:
 - [] Add testing
 - [] Redo deps in a better way (poetry, maybe?)
 - [] Check lowercase
-- [] implement fuzzy search
-- [] Improve logging/error handling. Need a consistent way of handling and returning errors. Always to Alfred? Probably not. Categorise by whether it should go to the user/Alfred or not, maybe helper functions ¯\\_(ツ)_/¯
 """
 
 if __name__ == "__main__":
-    if not sys.argv[1]:
+    if len(sys.argv) < 2:
         raise ValueError("No subcommand found. Use one of: import, search")
 
     elif sys.argv[1] == "import":
@@ -48,40 +43,41 @@ if __name__ == "__main__":
             os.path.expanduser(ente_export_dir), "ente_auth.txt"
         )
 
-        overwrite_export = to_bool(os.getenv("OVERWRITE_EXPORT", "True"))
+        overwrite_export = str_to_bool(os.getenv("OVERWRITE_EXPORT", "True"))
 
         ente_auth = EnteAuth()
 
         try:
-            ente_auth.export_ente_auth_secrets(ente_export_path, overwrite_export)
-            logger.info("Exported ente auth secrets to file.")
+            ente_auth.export_ente_auth_accounts(ente_export_path, overwrite_export)
+            logger.info("Exported ente auth TOTP data to file.")
         except Exception as e:
-            logger.error(f"Failed to export ente auth secrets: {e}")
+            logger.exception(f"Failed to export ente auth TOTP data: {e}", e)
+            output_alfred_message("Failed to export TOTP data", str(e))
         else:
             try:
                 ente_export_to_keychain(ente_export_path)
             except Exception as e:
-                logger.error(f"Failed to import secrets from file: {e}")
+                logger.exception(f"Failed to populate TOTP data in keychain from file: {e}", e)
+                output_alfred_message("Failed to import TOTP data", str(e))
 
             ente_auth.delete_ente_export(ente_export_path)
 
     elif sys.argv[1] == "search":
-        if not sys.argv[2]:
+        if len(sys.argv) < 3:
             raise ValueError("No search string found")
 
         try:
-            secrets = import_secrets_from_keychain()
-            logger.info("Loaded secrets from keychain.")
+            accounts = import_accounts_from_keychain()
+            logger.info("Loaded TOTP accounts from keychain.")
         except Exception as e:
-            logger.exception(f"Failed to load secrets from keychain: {e}", e)
+            logger.exception(f"Failed to load TOTP accounts from keychain: {e}", e)
+            output_alfred_message("Failed to load TOTP accounts", str(e))
 
         else:
             search_string = sys.argv[2]
-            # matches = get_close_matches(search_string, secrets.keys())
-            print(secrets.to_json())
-            # for service_name, username, secret in secrets:
-            #     if service_name in secrets:
-            #         current_totp = secrets[service_name][0]
+            matched_accounts = fuzzy_search_accounts(search_string, accounts)
+            formatted_account_data = format_totp_result(matched_accounts)
+            print(formatted_account_data)
 
     else:
         raise ValueError(f"Unrecognized subcommand: {sys.argv[1]}")

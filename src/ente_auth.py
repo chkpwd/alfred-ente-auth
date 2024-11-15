@@ -1,7 +1,6 @@
-import os
 import logging
+import os
 import subprocess
-
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +29,7 @@ class EnteAuth:
             os.makedirs(path)
             logger.info(f"Ente folder created at: {path}")
 
-    def export_ente_auth_secrets(self, export_path: str, overwrite: bool) -> None:
+    def export_ente_auth_accounts(self, export_path: str, overwrite: bool) -> None:
         path_exists = os.path.exists(export_path)
 
         if path_exists and overwrite:
@@ -42,7 +41,12 @@ class EnteAuth:
 
         logger.debug("Ente auth export file not found. Exporting...")
         try:
-            result = subprocess.run(["ente", "export"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            result = subprocess.run(
+                ["ente", "export"],
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
 
             # When export directory doesn't exist, Ente CLI still returns rc0 but prints an error to stderr.
             # If this happens, we'll create the path and retry.
@@ -51,14 +55,14 @@ class EnteAuth:
                 logger.info(f"Export directory does not exist. Creating: {export_dir}")
                 self.create_ente_path(export_dir)
                 logger.info("Retrying export...")
-                self.export_ente_auth_secrets(export_path, overwrite)
+                self.export_ente_auth_accounts(export_path, overwrite)
 
         except subprocess.CalledProcessError as e:
-            logger.exception("Export failed", e)
+            logger.error("Export failed", e)
             raise e
 
         if not os.path.exists(export_path):
-            raise Exception(
+            raise OSError(
                 "Export appeared to succeed, but the export file was not found."
             )
 
@@ -67,7 +71,7 @@ class EnteAuth:
             os.remove(export_path)
             logger.info("Ente export file deleted")
         except OSError as e:
-            logger.exception("Error during removal", e)
+            logger.error("Error during removal", e)
             raise e
 
     @staticmethod
