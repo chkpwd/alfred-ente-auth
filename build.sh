@@ -44,6 +44,7 @@ echo "Updating version in info.plist..."
 python3 build_tools.py --set-version "${VERSION}"
 echo "Packaging the workflow..."
 zip_dir
+
 # if in github action, write build file path to GITHUB_OUTPUT
 [[ -n "$GITHUB_OUTPUT" ]] && echo "OUTPUT_FILE=${PWD}/${OUTPUT_FILE}" >> "$GITHUB_OUTPUT"
 echo "Packaged $OUTPUT_FILE successfully!"
