@@ -15,7 +15,7 @@ jobs:
       - name: Build Alfred workflow
         id: builder
         run: |
-          python3 build_tools.py
+          python3 build.py
 
       - name: Release
         uses: softprops/action-gh-release@v1
