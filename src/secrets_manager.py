@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 from urllib.parse import parse_qs, unquote, urlparse
 
 import pyotp
-from attrs.converters import to_bool
 
 from src.models import (
     AlfredOutput,
@@ -14,11 +13,13 @@ from src.models import (
     TotpAccount,
     TotpAccounts,
 )
+from src.utils import str_to_bool
 
 logger = logging.getLogger(__name__)
 
-USERNAME_IN_TITLE = to_bool(os.getenv("username_in_title", "False"))
-USERNAME_IN_SUBTITLE = to_bool(os.getenv("username_in_subtitle", "False"))
+
+USERNAME_IN_TITLE = str_to_bool(os.getenv("username_in_title", "False"))
+USERNAME_IN_SUBTITLE = str_to_bool(os.getenv("username_in_subtitle", "False"))
 
 
 def parse_secrets(file_path: str) -> TotpAccounts:

@@ -3,11 +3,10 @@ import os
 import sys
 from difflib import get_close_matches
 
-from attrs.converters import to_bool
-
 from src.ente_auth import EnteAuth
 from src.secrets_manager import format_secrets_data, parse_secrets
 from src.store_keychain import ente_export_to_keychain, import_secrets_from_keychain
+from src.utils import str_to_bool
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -47,7 +46,7 @@ if __name__ == "__main__":
             os.path.expanduser(ente_export_dir), "ente_auth.txt"
         )
 
-        overwrite_export = to_bool(os.getenv("OVERWRITE_EXPORT", "True"))
+        overwrite_export = str_to_bool(os.getenv("OVERWRITE_EXPORT", "True"))
 
         ente_auth = EnteAuth()
 
