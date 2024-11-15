@@ -4,7 +4,7 @@ import os
 
 import keyring
 
-from src.models import AlfredOutput, AlfredOutputItem, TotpAccounts
+from src.models import AlfredOutput, AlfredOutputItem, ImportResult, TotpAccounts
 from src.totp_accounts_manager import parse_ente_export
 
 logger = logging.getLogger(__name__)
@@ -39,8 +39,10 @@ def import_accounts_from_keychain() -> TotpAccounts:
     return accounts
 
 
-def ente_export_to_keychain(file: str) -> None:
+def ente_export_to_keychain(file: str) -> ImportResult:
     """Import TOTP accounts from an Ente export file and store them in the keychain."""
+    result = ImportResult(0, {})
+
     try:
         logger.debug(f"import_file: {file}")
 
@@ -54,17 +56,12 @@ def ente_export_to_keychain(file: str) -> None:
                 password=accounts_json,
             )
 
-        logger.info(
-            f"Keychain database created with {sum(len(k) for k in accounts.items())} entries."
-        )
+        secrets_imported_count = sum(len(k) for k in accounts.items())
 
-        output = {
-            "variables": {
-                CACHE_ENV_VAR: accounts_json  # Set the TOTP_CACHE environment variable for Alfred
-            },
-        }
+        logger.info(f"Keychain database created with {secrets_imported_count} entries.")
 
-        logger.debug(json.dumps(output))
+        result.count = secrets_imported_count
+        result.variables = {CACHE_ENV_VAR: accounts_json}
 
     except FileNotFoundError:
         error_message = f"File not found: {file}"
@@ -89,3 +86,5 @@ def ente_export_to_keychain(file: str) -> None:
                 )
             ]
         ).print_json()
+
+    return result
