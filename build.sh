@@ -20,22 +20,22 @@ OUTPUT_FILE="${WORKFLOW_NAME}-${VERSION}.alfredworkflow"
 
 # Clean up any previous builds
 clean() {
-	rm -f "$OUTPUT_FILE"
+    rm -f "$OUTPUT_FILE"
 }
 
 # Function to package the directory
 zip_dir() {
     find . \
-        -path "./.*" -prune -o \
-        -type f \
-        -not -name "*.md" \
-        -not -name "*.log" \
-        -not -name "*.alfredworkflow" \
-        -not -name "requirements.*" \
-        -not -name "*.pyc" \
-        -not -path "*/__pycache__/*" \
-        -not -path "./build*" \
-        -print | zip --symlinks -@ "$OUTPUT_FILE"
+    -path "./.*" -prune -o \
+    -type f \
+    -not -name "*.md" \
+    -not -name "*.log" \
+    -not -name "*.alfredworkflow" \
+    -not -name "requirements.*" \
+    -not -name "*.pyc" \
+    -not -path "*/__pycache__/*" \
+    -not -path "./build*" \
+    -print | zip --symlinks -@ "$OUTPUT_FILE"
 }
 
 # Main execution
