@@ -17,8 +17,8 @@ from src.utils import str_to_bool
 logger = logging.getLogger(__name__)
 
 
-USERNAME_IN_TITLE = str_to_bool(os.getenv("username_in_title", "False"))
-USERNAME_IN_SUBTITLE = str_to_bool(os.getenv("username_in_subtitle", "False"))
+USERNAME_IN_TITLE = str_to_bool(os.getenv("USERNAME_IN_TITLE", "False"))
+USERNAME_IN_SUBTITLE = str_to_bool(os.getenv("USERNAME_IN_SUBTITLE", "False"))
 
 
 def parse_ente_export(file_path: str) -> TotpAccounts:
