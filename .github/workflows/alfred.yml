@@ -4,25 +4,57 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    outputs:
+      OUTPUT_FILE: ${{ steps.builder.outputs.OUTPUT_FILE }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Build Alfred workflow
         id: builder
         run: |
-          cd ente-totp
-          python -m venv .venv
-          source .venv/bin/activate
-          ./build.sh
-        env:
-          WORKFLOW_VERSION: ${{ github.ref_name }}
+          python3 build.py
 
-      - name: Release
-        uses: softprops/action-gh-release@v1
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Parse tags
+        id: parse_tags
+        run: |
+          git fetch -a
+          echo "tag_count=$(git tag -l | wc -l)" >> $GITHUB_OUTPUT
+
+      - name: Update CHANGELOG
+        continue-on-error: ${{ steps.parse_tags.outputs.tag_count == '1' }}
+        id: changelog
+        uses: requarks/changelog-action@v1
         with:
-          files: ${{ steps.builder.outputs.OUTPUT_FILE }}
+          token: ${{ github.token }}
+          tag: ${{ github.ref_name }}
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          draft: false
+          makeLatest: true
+          name: ${{ github.ref_name }}
+          body: ${{ steps.changelog.outputs.changes }}
+          token: ${{ github.token }}
+          artifacts: ${{ needs.build.outputs.OUTPUT_FILE }}
+
+      - name: Commit CHANGELOG.md
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: main
+          commit_message: 'docs: update CHANGELOG.md for ${{ github.ref_name }}'
+          file_pattern: CHANGELOG.md
