@@ -5,7 +5,7 @@ from dataclasses import asdict, dataclass
 # https://www.alfredapp.com/help/workflows/inputs/script-filter/json
 @dataclass
 class AlfredOutputItemIcon:
-    path: str
+    path: str = "icon.png"
     type: str | None = None
 
     def to_dict(self):

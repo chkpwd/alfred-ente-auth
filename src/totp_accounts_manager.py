@@ -8,7 +8,6 @@ import pyotp
 from src.models import (
     AlfredOutput,
     AlfredOutputItem,
-    AlfredOutputItemIcon,
     TotpAccount,
     TotpAccounts,
 )
@@ -80,7 +79,6 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
                     title=service_name,
                     subtitle=subtitle,
                     arg=current_totp,
-                    icon=AlfredOutputItemIcon(path="../icon.png"),
                 )
             )
 
