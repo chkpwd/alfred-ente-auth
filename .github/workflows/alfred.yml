@@ -18,6 +18,10 @@ jobs:
         with:
           python-version: '3.13'
 
+      - name: Install poetry
+        run: |
+          pipx install poetry
+
       - name: Build Alfred workflow
         id: builder
         run: |
