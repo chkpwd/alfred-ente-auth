@@ -1,12 +1,11 @@
 import logging
 import os
 import sys
-from difflib import get_close_matches
 
 from src.ente_auth import EnteAuth
 from src.totp_accounts_manager import format_totp_result, parse_ente_export
 from src.store_keychain import ente_export_to_keychain, import_accounts_from_keychain
-from src.utils import str_to_bool
+from src.utils import fuzzy_search_accounts, str_to_bool
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -75,11 +74,9 @@ if __name__ == "__main__":
 
         else:
             search_string = sys.argv[2]
-            # matches = get_close_matches(search_string, secrets.keys())
-            print(secrets.to_json())
-            # for service_name, username, secret in secrets:
-            #     if service_name in secrets:
-            #         current_totp = secrets[service_name][0]
+            matched_accounts = fuzzy_search_accounts(search_string, accounts)
+            formatted_account_data = format_secrets_data(matched_accounts)
+            print(formatted_account_data)
 
     else:
         raise ValueError(f"Unrecognized subcommand: {sys.argv[1]}")
