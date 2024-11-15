@@ -33,7 +33,7 @@ TODO:
 """
 
 if __name__ == "__main__":
-    if not sys.argv[1]:
+    if len(sys.argv) < 2:
         raise ValueError("No subcommand found. Use one of: import, search")
 
     elif sys.argv[1] == "import":
