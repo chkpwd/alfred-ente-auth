@@ -15,21 +15,6 @@ logging.basicConfig(
 # Add the vendor directory to the path
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "vendor"))
 
-
-"""
-TODO:
-- [x] Add import
-- [x] Add export
-- [x] Add parsing
-- [x] Check keyring for secrets
-- [x] Add error handling
-- [x] Check caching works correctly
-- [x] Check if ente is installed
-- [] Add testing
-- [] Redo deps in a better way (poetry, maybe?)
-- [] Check lowercase
-"""
-
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         raise ValueError("No subcommand found. Use one of: import, search")
