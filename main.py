@@ -2,6 +2,13 @@ import logging
 import os
 import sys
 
+# Add the venv directory to the path
+sys.path.append(
+    os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), ".venv/lib/python3.11/site-packages"
+    )
+)
+
 from src.ente_auth import EnteAuth
 from src.store_keychain import ente_export_to_keychain, import_accounts_from_keychain
 from src.totp_accounts_manager import format_totp_result
@@ -11,9 +18,6 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
-
-# Add the venv directory to the path
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".venv"))
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -42,7 +46,9 @@ if __name__ == "__main__":
             try:
                 ente_export_to_keychain(ente_export_path)
             except Exception as e:
-                logger.exception(f"Failed to populate TOTP data in keychain from file: {e}", e)
+                logger.exception(
+                    f"Failed to populate TOTP data in keychain from file: {e}", e
+                )
                 output_alfred_message("Failed to import TOTP data", str(e))
 
             ente_auth.delete_ente_export(ente_export_path)
