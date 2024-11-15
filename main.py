@@ -44,7 +44,12 @@ if __name__ == "__main__":
             output_alfred_message("Failed to export TOTP data", str(e))
         else:
             try:
-                ente_export_to_keychain(ente_export_path)
+                import_result = ente_export_to_keychain(ente_export_path)
+                output_alfred_message(
+                    "Imported TOTP data",
+                    f"Successfully imported {import_result.count} TOTP accounts to keychain and Alfred cache.",
+                    import_result.variables,
+                )
             except Exception as e:
                 logger.exception(
                     f"Failed to populate TOTP data in keychain from file: {e}", e
@@ -68,7 +73,4 @@ if __name__ == "__main__":
             search_string = sys.argv[2]
             matched_accounts = fuzzy_search_accounts(search_string, accounts)
             formatted_account_data = format_totp_result(matched_accounts)
-            print(formatted_account_data)
-
-    else:
-        raise ValueError(f"Unrecognized subcommand: {sys.argv[1]}")
+            formatted_account_data.print_json()
