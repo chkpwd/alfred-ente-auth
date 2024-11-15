@@ -4,6 +4,13 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      push:
+        description: 'Push the release'
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   build:
