@@ -77,7 +77,12 @@ class EnteAuth:
     @staticmethod
     def check_ente_binary(path) -> bool:
         try:
-            subprocess.run([f"{path}", "version"], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(
+                [f"{path}", "version"],
+                check=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
             return True
         except subprocess.CalledProcessError:
             logger.error(
