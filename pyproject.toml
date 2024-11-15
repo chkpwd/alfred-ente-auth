@@ -5,6 +5,7 @@ authors = ["Bryan Jones <unix.chkpwd@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 package-mode = false
+version = "2.0.0"
 
 [tool.poetry.dependencies]
 python = "^3.11"
