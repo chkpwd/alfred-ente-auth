@@ -55,9 +55,8 @@ def parse_ente_export(file_path: str) -> TotpAccounts:
 
 def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
     """Format TOTP accounts for Alfred."""
+    result = AlfredOutput([])
     try:
-        items: list[AlfredOutputItem] = []
-
         for service_name, service_data in accounts.items():
             current_totp = pyotp.TOTP(service_data.secret).now()
             next_time = datetime.now() + timedelta(seconds=30)
@@ -74,7 +73,7 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
                 else ""
             )
 
-            items.append(
+            result.items.append(
                 AlfredOutputItem(
                     title=service_name,
                     subtitle=subtitle,
@@ -82,17 +81,13 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
                 )
             )
 
-        if items:
-            output = AlfredOutput(items)
-        else:
-            output = AlfredOutput(
-                [AlfredOutputItem(title="No matching services found.")]
-            )
-
-        return output
+        if not result.items:
+            result.items = [AlfredOutputItem(title="No matching services found.")]
 
     except Exception as e:
         logging.exception(f"Error: {str(e)}")
-        return AlfredOutput(
-            [AlfredOutputItem(title="Unexpected error in format_totp_result function.")]
-        )
+        result.items = [
+            AlfredOutputItem(title="Unexpected error in format_totp_result function.")
+        ]
+
+    return result
