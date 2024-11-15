@@ -94,7 +94,7 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
         return output
 
     except Exception as e:
-        logging.error(f"Error: {str(e)}")
+        logging.exception(f"Error: {str(e)}")
         return AlfredOutput(
             [
                 AlfredOutputItem(

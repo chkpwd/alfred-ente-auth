@@ -54,12 +54,12 @@ if __name__ == "__main__":
             ente_auth.export_ente_auth_accounts(ente_export_path, overwrite_export)
             logger.info("Exported ente auth TOTP data to file.")
         except Exception as e:
-            logger.error(f"Failed to export ente auth TOTP data: {e}")
+            logger.exception(f"Failed to export ente auth TOTP data: {e}", e)
         else:
             try:
                 ente_export_to_keychain(ente_export_path)
             except Exception as e:
-                logger.error(f"Failed to import TOTP data from file: {e}")
+                logger.exception(f"Failed to import TOTP data from file: {e}", e)
 
             ente_auth.delete_ente_export(ente_export_path)
 
