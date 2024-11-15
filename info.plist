@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string></string>
+	<string>com.chkpwd.ente.auth</string>
+	<key>category</key>
+	<string>Tools</string>
 	<key>connections</key>
 	<dict>
 		<key>548A4F34-31FF-4E4B-AD7C-1CA4D8391AAA</key>
@@ -31,18 +33,47 @@
 				<key>vitoclose</key>
 				<false/>
 			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>C0A73A1A-5538-4219-BB30-444166AA3F26</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
 		</array>
 	</dict>
 	<key>createdby</key>
 	<string>chkpwd</string>
 	<key>description</key>
-	<string></string>
+	<string>Get TOTP Codes from Ente Auth</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>Ente TOTP Codes</string>
+	<string>Ente Auth</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<true/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>89FF22C4-362B-4675-AEFA-B15E67898E1B</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -71,13 +102,13 @@
 				<key>runningsubtext</key>
 				<string>Getting code for query: "{query}"...</string>
 				<key>script</key>
-				<string>python3 main.py get -o alfred "{query}"</string>
+				<string>python3 main.py "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
 				<string></string>
 				<key>subtext</key>
-				<string>Get TOTP Codes from Ente Auth Database</string>
+				<string>Get TOTP Codes from Ente Auth</string>
 				<key>title</key>
 				<string>{const:alfred_workflow_name}</string>
 				<key>type</key>
@@ -95,25 +126,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>autopaste</key>
-				<true/>
-				<key>clipboardtext</key>
-				<string>{query}</string>
-				<key>ignoredynamicplaceholders</key>
-				<false/>
-				<key>transient</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
-			<key>uid</key>
-			<string>89FF22C4-362B-4675-AEFA-B15E67898E1B</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>action</key>
 				<integer>0</integer>
 				<key>argument</key>
@@ -123,11 +135,9 @@
 				<key>focusedappvariablename</key>
 				<string></string>
 				<key>hotkey</key>
-				<integer>14</integer>
+				<integer>0</integer>
 				<key>hotmod</key>
-				<integer>1703936</integer>
-				<key>hotstring</key>
-				<string>E</string>
+				<integer>0</integer>
 				<key>leftcursor</key>
 				<false/>
 				<key>modsmode</key>
@@ -154,7 +164,7 @@
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
-				<integer>1</integer>
+				<integer>2</integer>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
@@ -170,7 +180,7 @@
 				<key>runningsubtext</key>
 				<string>importing....</string>
 				<key>script</key>
-				<string>python3 main.py import $export_file_path</string>
+				<string>python3 main.py import</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -178,11 +188,11 @@
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>import your ente data</string>
+				<string>Import Ente Secrets</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
@@ -191,18 +201,58 @@
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>C0A73A1A-5538-4219-BB30-444166AA3F26</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
 	</array>
 	<key>readme</key>
-	<string>An Alfred Workflow that uses your Ente Exports
-Ente Auth CLI does not support exporting TOTP codes. To use this project, please export from the Ente app and then import them into the workflow's database by choosing the export file using the "Configure Workflow" button in the workflow setup and then import using the 'ente import' Alfred command.
+	<string># An Alfred Workflow that uses your Ente Exports
 
-The file can be deleted once imported.</string>
+&gt; [!WARNING]
+&gt; This workflow exports secrets from the Ente Auth CLI. Please exercise caution when using it.
+
+## Setup
+
+1. Install workflow from releases
+2. Follow instructions below to create the database
+
+## Instructions
+
+1. Open Alfred
+2. Go to Workflows.
+3. Click the "Ente Auth" workflow and click the Configure Workflow button.
+4. Next, configure the settings (NOTE: the export path is what you configured when adding your ente account).
+5. Finally, run the Alfred command `ente import`.
+
+## Local Development
+
+### Install/Update dependencies
+poetry install --only=main
+
+### Build alfred workflow file
+python3 build.py</string>
 	<key>uidata</key>
 	<dict>
 		<key>3101A957-02C3-4D0C-8B13-1C3721459261</key>
 		<dict>
 			<key>xpos</key>
-			<real>250.0</real>
+			<real>245.0</real>
 			<key>ypos</key>
 			<real>330.0</real>
 		</dict>
@@ -216,16 +266,23 @@ The file can be deleted once imported.</string>
 		<key>61342121-5F6E-4340-A89B-F4DC5D5A7965</key>
 		<dict>
 			<key>xpos</key>
-			<real>240.0</real>
+			<real>245.0</real>
 			<key>ypos</key>
-			<real>105.0</real>
+			<real>195.0</real>
 		</dict>
 		<key>89FF22C4-362B-4675-AEFA-B15E67898E1B</key>
 		<dict>
 			<key>xpos</key>
-			<real>495.0</real>
+			<real>465.0</real>
 			<key>ypos</key>
-			<real>140.0</real>
+			<real>195.0</real>
+		</dict>
+		<key>C0A73A1A-5538-4219-BB30-444166AA3F26</key>
+		<dict>
+			<key>xpos</key>
+			<real>465.0</real>
+			<key>ypos</key>
+			<real>340.0</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
@@ -234,7 +291,7 @@ The file can be deleted once imported.</string>
 			<key>config</key>
 			<dict>
 				<key>default</key>
-				<string>code||totp||en||ea</string>
+				<string>code||totp||ente</string>
 				<key>placeholder</key>
 				<string>en</string>
 				<key>required</key>
@@ -255,22 +312,43 @@ The file can be deleted once imported.</string>
 			<key>config</key>
 			<dict>
 				<key>default</key>
-				<string></string>
-				<key>filtermode</key>
-				<integer>2</integer>
+				<string>/usr/local/bin/ente</string>
 				<key>placeholder</key>
-				<string>plain text Ente Auth export</string>
+				<string>/usr/local/bin/ente</string>
+				<key>required</key>
+				<true/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>Ente CLI Binary Path</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>ENTE_AUTH_BINARY_PATH</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>~/Documents/ente</string>
+				<key>filtermode</key>
+				<integer>1</integer>
+				<key>placeholder</key>
+				<string>Export Directory Path</string>
 				<key>required</key>
 				<true/>
 			</dict>
 			<key>description</key>
 			<string>Point this to the plain text export file from Ente Auth containing your 2FA data. It can be deleted after initial import.</string>
 			<key>label</key>
-			<string>Ente Export File</string>
+			<string>Ente Export Directory</string>
 			<key>type</key>
 			<string>filepicker</string>
 			<key>variable</key>
-			<string>export_file_path</string>
+			<string>ENTE_EXPORT_DIR</string>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -289,7 +367,7 @@ The file can be deleted once imported.</string>
 			<key>type</key>
 			<string>checkbox</string>
 			<key>variable</key>
-			<string>username_in_title</string>
+			<string>USERNAME_IN_TITLE</string>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -308,14 +386,33 @@ The file can be deleted once imported.</string>
 			<key>type</key>
 			<string>checkbox</string>
 			<key>variable</key>
-			<string>username_in_subtitle</string>
+			<string>USERNAME_IN_SUBTITLE</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<true/>
+				<key>required</key>
+				<false/>
+				<key>text</key>
+				<string></string>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>Overwrite current export</string>
+			<key>type</key>
+			<string>checkbox</string>
+			<key>variable</key>
+			<string>OVERWRITE_EXPORT</string>
 		</dict>
 	</array>
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string>1.0.0</string>
+	<string>2.0.0</string>
 	<key>webaddress</key>
-	<string>https://github.com/chkpwd/alfred-workflows/main/tree/ente-totp</string>
+	<string>https://github.com/chkpwd/alfred-ente-auth</string>
 </dict>
 </plist>
