@@ -4,15 +4,13 @@
 <dict>
 	<key>bundleid</key>
 	<string>com.chkpwd.ente.auth</string>
-	<key>category</key>
-	<string>Tools</string>
 	<key>connections</key>
 	<dict>
-		<key>548A4F34-31FF-4E4B-AD7C-1CA4D8391AAA</key>
+		<key>4C82069F-5857-4F72-9807-0A05DACC1F7C</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>61342121-5F6E-4340-A89B-F4DC5D5A7965</string>
+				<string>F80F0C10-7220-4984-8EED-67425751FBC3</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -21,11 +19,11 @@
 				<false/>
 			</dict>
 		</array>
-		<key>61342121-5F6E-4340-A89B-F4DC5D5A7965</key>
+		<key>4D86E603-A8EB-4EE2-BB90-12BECBE1D574</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>89FF22C4-362B-4675-AEFA-B15E67898E1B</string>
+				<string>7F4B5FD3-5072-47C9-8129-E130EF0D2E59</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -33,11 +31,83 @@
 				<key>vitoclose</key>
 				<false/>
 			</dict>
+		</array>
+		<key>7F6F4EBD-9981-4B82-B039-7183EA9EEB15</key>
+		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>C0A73A1A-5538-4219-BB30-444166AA3F26</string>
+				<string>046A5FD1-F7FF-430A-A92C-62D5AC3C5328</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>A8D008AC-C61A-4037-A423-E33492A4CC62</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>C7B89588-34B4-49B4-9848-43975E80F16B</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>C7B89588-34B4-49B4-9848-43975E80F16B</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>4D86E603-A8EB-4EE2-BB90-12BECBE1D574</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string>Copy current code</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>7F6F4EBD-9981-4B82-B039-7183EA9EEB15</string>
 				<key>modifiers</key>
 				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string>Paste current code</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>4C82069F-5857-4F72-9807-0A05DACC1F7C</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Copy next code</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>ECD812F2-4D1E-41CA-B344-81B25B4A6357</string>
+				<key>modifiers</key>
+				<integer>1572864</integer>
+				<key>modifiersubtext</key>
+				<string>Paste next code</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>ECD812F2-4D1E-41CA-B344-81B25B4A6357</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>5B0C442D-7335-4973-A2EE-E58281C60266</string>
+				<key>modifiers</key>
+				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
 				<key>vitoclose</key>
@@ -59,9 +129,9 @@
 			<key>config</key>
 			<dict>
 				<key>autopaste</key>
-				<true/>
+				<false/>
 				<key>clipboardtext</key>
-				<string>{query}</string>
+				<string>{var:split1}</string>
 				<key>ignoredynamicplaceholders</key>
 				<false/>
 				<key>transient</key>
@@ -70,7 +140,99 @@
 			<key>type</key>
 			<string>alfred.workflow.output.clipboard</string>
 			<key>uid</key>
-			<string>89FF22C4-362B-4675-AEFA-B15E67898E1B</string>
+			<string>7F4B5FD3-5072-47C9-8129-E130EF0D2E59</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>delimiter</key>
+				<string>,</string>
+				<key>discardemptyarguments</key>
+				<false/>
+				<key>outputas</key>
+				<integer>0</integer>
+				<key>trimarguments</key>
+				<true/>
+				<key>variableprefix</key>
+				<string>split</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.split</string>
+			<key>uid</key>
+			<string>4D86E603-A8EB-4EE2-BB90-12BECBE1D574</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>delimiter</key>
+				<string>,</string>
+				<key>discardemptyarguments</key>
+				<false/>
+				<key>outputas</key>
+				<integer>0</integer>
+				<key>trimarguments</key>
+				<true/>
+				<key>variableprefix</key>
+				<string>split</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.split</string>
+			<key>uid</key>
+			<string>7F6F4EBD-9981-4B82-B039-7183EA9EEB15</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>64</integer>
+				<key>hotmod</key>
+				<integer>9437184</integer>
+				<key>hotstring</key>
+				<string>F17</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>A8D008AC-C61A-4037-A423-E33492A4CC62</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<true/>
+				<key>clipboardtext</key>
+				<string>{var:split1}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>046A5FD1-F7FF-430A-A92C-62D5AC3C5328</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
@@ -94,11 +256,11 @@
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
-				<true/>
+				<false/>
 				<key>queuedelaymode</key>
 				<integer>0</integer>
 				<key>queuemode</key>
-				<integer>1</integer>
+				<integer>2</integer>
 				<key>runningsubtext</key>
 				<string>Getting code for query: "{query}"...</string>
 				<key>script</key>
@@ -108,7 +270,7 @@
 				<key>scriptfile</key>
 				<string></string>
 				<key>subtext</key>
-				<string>Get TOTP Codes from Ente Auth</string>
+				<string>What service do you need a code for?</string>
 				<key>title</key>
 				<string>{const:alfred_workflow_name}</string>
 				<key>type</key>
@@ -119,38 +281,70 @@
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>61342121-5F6E-4340-A89B-F4DC5D5A7965</string>
+			<string>C7B89588-34B4-49B4-9848-43975E80F16B</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>action</key>
-				<integer>0</integer>
-				<key>argument</key>
-				<integer>0</integer>
-				<key>focusedappvariable</key>
+				<key>delimiter</key>
+				<string>,</string>
+				<key>discardemptyarguments</key>
 				<false/>
-				<key>focusedappvariablename</key>
-				<string></string>
-				<key>hotkey</key>
+				<key>outputas</key>
 				<integer>0</integer>
-				<key>hotmod</key>
-				<integer>0</integer>
-				<key>leftcursor</key>
-				<false/>
-				<key>modsmode</key>
-				<integer>0</integer>
-				<key>relatedAppsMode</key>
-				<integer>0</integer>
+				<key>trimarguments</key>
+				<true/>
+				<key>variableprefix</key>
+				<string>split</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.trigger.hotkey</string>
+			<string>alfred.workflow.utility.split</string>
 			<key>uid</key>
-			<string>548A4F34-31FF-4E4B-AD7C-1CA4D8391AAA</string>
+			<string>4C82069F-5857-4F72-9807-0A05DACC1F7C</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>delimiter</key>
+				<string>,</string>
+				<key>discardemptyarguments</key>
+				<false/>
+				<key>outputas</key>
+				<integer>0</integer>
+				<key>trimarguments</key>
+				<true/>
+				<key>variableprefix</key>
+				<string>split</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.split</string>
+			<key>uid</key>
+			<string>ECD812F2-4D1E-41CA-B344-81B25B4A6357</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{var:split2}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>F80F0C10-7220-4984-8EED-67425751FBC3</string>
+			<key>version</key>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -205,9 +399,9 @@
 			<key>config</key>
 			<dict>
 				<key>autopaste</key>
-				<false/>
+				<true/>
 				<key>clipboardtext</key>
-				<string>{query}</string>
+				<string>{var:split2}</string>
 				<key>ignoredynamicplaceholders</key>
 				<false/>
 				<key>transient</key>
@@ -216,7 +410,7 @@
 			<key>type</key>
 			<string>alfred.workflow.output.clipboard</string>
 			<key>uid</key>
-			<string>C0A73A1A-5538-4219-BB30-444166AA3F26</string>
+			<string>5B0C442D-7335-4973-A2EE-E58281C60266</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
@@ -249,40 +443,82 @@ poetry install --only=main
 python3 build.py</string>
 	<key>uidata</key>
 	<dict>
+		<key>046A5FD1-F7FF-430A-A92C-62D5AC3C5328</key>
+		<dict>
+			<key>xpos</key>
+			<real>965</real>
+			<key>ypos</key>
+			<real>445</real>
+		</dict>
 		<key>3101A957-02C3-4D0C-8B13-1C3721459261</key>
 		<dict>
 			<key>xpos</key>
-			<real>245.0</real>
+			<real>280</real>
 			<key>ypos</key>
-			<real>330.0</real>
+			<real>650</real>
 		</dict>
-		<key>548A4F34-31FF-4E4B-AD7C-1CA4D8391AAA</key>
+		<key>4C82069F-5857-4F72-9807-0A05DACC1F7C</key>
 		<dict>
 			<key>xpos</key>
-			<real>30.0</real>
+			<real>540</real>
 			<key>ypos</key>
-			<real>305.0</real>
+			<real>505</real>
 		</dict>
-		<key>61342121-5F6E-4340-A89B-F4DC5D5A7965</key>
+		<key>4D86E603-A8EB-4EE2-BB90-12BECBE1D574</key>
 		<dict>
 			<key>xpos</key>
-			<real>245.0</real>
+			<real>540</real>
 			<key>ypos</key>
-			<real>195.0</real>
+			<real>380</real>
 		</dict>
-		<key>89FF22C4-362B-4675-AEFA-B15E67898E1B</key>
+		<key>5B0C442D-7335-4973-A2EE-E58281C60266</key>
 		<dict>
 			<key>xpos</key>
-			<real>465.0</real>
+			<real>965</real>
 			<key>ypos</key>
-			<real>195.0</real>
+			<real>710</real>
 		</dict>
-		<key>C0A73A1A-5538-4219-BB30-444166AA3F26</key>
+		<key>7F4B5FD3-5072-47C9-8129-E130EF0D2E59</key>
 		<dict>
 			<key>xpos</key>
-			<real>465.0</real>
+			<real>960</real>
 			<key>ypos</key>
-			<real>340.0</real>
+			<real>305</real>
+		</dict>
+		<key>7F6F4EBD-9981-4B82-B039-7183EA9EEB15</key>
+		<dict>
+			<key>xpos</key>
+			<real>540</real>
+			<key>ypos</key>
+			<real>435</real>
+		</dict>
+		<key>A8D008AC-C61A-4037-A423-E33492A4CC62</key>
+		<dict>
+			<key>xpos</key>
+			<real>40</real>
+			<key>ypos</key>
+			<real>440</real>
+		</dict>
+		<key>C7B89588-34B4-49B4-9848-43975E80F16B</key>
+		<dict>
+			<key>xpos</key>
+			<real>260</real>
+			<key>ypos</key>
+			<real>450</real>
+		</dict>
+		<key>ECD812F2-4D1E-41CA-B344-81B25B4A6357</key>
+		<dict>
+			<key>xpos</key>
+			<real>540</real>
+			<key>ypos</key>
+			<real>565</real>
+		</dict>
+		<key>F80F0C10-7220-4984-8EED-67425751FBC3</key>
+		<dict>
+			<key>xpos</key>
+			<real>960</real>
+			<key>ypos</key>
+			<real>585</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
