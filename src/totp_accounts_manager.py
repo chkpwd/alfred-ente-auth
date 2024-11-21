@@ -5,9 +5,11 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 import pyotp
 
+from src.icon_downloader import get_icon_path
 from src.models import (
     AlfredOutput,
     AlfredOutputItem,
+    AlfredOutputItemIcon,
     TotpAccount,
     TotpAccounts,
 )
@@ -73,11 +75,15 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
                 else ""
             )
 
+            # Add icon dynamically for each item
+            icon_path = get_icon_path(service_name)
+
             result.items.append(
                 AlfredOutputItem(
                     title=service_name,
                     subtitle=subtitle,
                     arg=current_totp,
+                    icon=AlfredOutputItemIcon(path=icon_path),  # Add the icon here
                 )
             )
 
