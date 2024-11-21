@@ -10,7 +10,7 @@ ICONS_FOLDER = pathlib.Path.home() / ".local/share/ente-totp/icons"
 
 
 def sanitize_service_name(service_name):
-    return service_name.split("-")[0].strip()
+    return service_name.split("-")[0].strip().replace(" ", "")
 
 
 def download_icon(service_name):
