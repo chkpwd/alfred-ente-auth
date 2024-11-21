@@ -13,7 +13,7 @@ from src.models import (
     TotpAccount,
     TotpAccounts,
 )
-from src.utils import str_to_bool
+from src.utils import calculate_time_remaining, str_to_bool
 
 logger = logging.getLogger(__name__)
 
@@ -60,27 +60,38 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
     result = AlfredOutput([])
     try:
         for service_name, service_data in accounts.items():
-            current_totp = pyotp.TOTP(service_data.secret).now()
-            next_time = datetime.now() + timedelta(seconds=30)
-            next_totp = pyotp.TOTP(service_data.secret).at(next_time)
+            # Generate TOTP
+            totp = pyotp.TOTP(service_data.secret)
+            current_totp = totp.now()
+            next_totp = totp.at(datetime.now() + timedelta(seconds=30))
 
-            service_name = (
-                f"{service_name} - {service_data.username}"
+            # Calculate remaining time using the utility
+            time_remaining = calculate_time_remaining()
+
+            # Sanitize service name for display and icons
+            sanitized_service_name = service_name.strip()
+
+            # Update title and subtitle
+            title = (
+                f"{sanitized_service_name} - {service_data.username}"
                 if service_data.username and USERNAME_IN_TITLE
-                else service_name
+                else sanitized_service_name
             )
-            subtitle = f"Current TOTP: {current_totp} | Next TOTP: {next_totp}" + (
-                f" - {service_data.username}"
-                if service_data.username and USERNAME_IN_SUBTITLE
-                else ""
+            subtitle = (
+                f"Current TOTP: {current_totp} | Next TOTP: {next_totp}, {time_remaining} seconds left"
+                + (
+                    f" - {service_data.username}"
+                    if service_data.username and USERNAME_IN_SUBTITLE
+                    else ""
+                )
             )
 
             # Add icon dynamically for each item
-            icon_path = get_icon_path(service_name)
+            icon_path = get_icon_path(sanitized_service_name)
 
             result.items.append(
                 AlfredOutputItem(
-                    title=service_name,
+                    title=title,
                     subtitle=subtitle,
                     arg=current_totp,
                     icon=AlfredOutputItemIcon(path=icon_path),  # Add the icon here

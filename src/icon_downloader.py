@@ -14,12 +14,8 @@ def sanitize_service_name(service_name):
 
 
 def download_icon(service_name):
-    """
-    Downloads an icon for a given service name.
+    # Downloads an icon for a given service name.
 
-    Returns:
-        str: Path to the downloaded icon, or the default icon if download fails.
-    """
     sanitized_name = sanitize_service_name(service_name)
 
     if not LOGO_DEV_API_KEY:
@@ -67,12 +63,7 @@ def download_icon(service_name):
 
 
 def get_icon_path(service_name):
-    """
-    Gets the path to the icon for a given service, downloading it if necessary.
-
-    Returns:
-        str: Path to the icon file.
-    """
+    # Gets the path to the icon for a given service, downloading it if necessary.
     sanitized_name = sanitize_service_name(service_name)
     sanitized_service_name = sanitized_name.replace(" ", "").lower()
     icon_path = ICONS_FOLDER / f"{sanitized_service_name}.png"

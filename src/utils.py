@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from src.models import AlfredOutput, AlfredOutputItem, TotpAccounts
 
 
@@ -10,6 +12,13 @@ def str_to_bool(val):
         return False
     msg = f"Cannot convert value to bool: {val!r}"
     raise ValueError(msg)
+
+
+def calculate_time_remaining(time_step=30):
+    # Calculate the time remaining until the next TOTP period.
+
+    current_time = datetime.now().timestamp()
+    return int(time_step - (current_time % time_step))
 
 
 def fuzzy_search_accounts(search_string: str, values: TotpAccounts) -> TotpAccounts:
