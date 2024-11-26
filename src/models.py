@@ -3,7 +3,7 @@ import sys
 from dataclasses import asdict, dataclass
 from typing import Any
 
-from src.icon_downloader import get_icon_path
+from src.constants import ICONS_FOLDER
 
 
 # https://www.alfredapp.com/help/workflows/inputs/script-filter/json
@@ -23,8 +23,10 @@ class AlfredOutputItemIcon:
         Returns:
             AlfredOutputItemIcon: An instance with the correct icon path.
         """
-        icon_path = get_icon_path(service_name)
-        return cls(path=icon_path)
+        icon_path = ICONS_FOLDER / f"{service_name}.svg"
+        if icon_path.exists():
+            return cls(path=str(icon_path))
+        return cls()
 
     def to_dict(self):
         return {k: v for k, v in asdict(self).items() if v is not None}

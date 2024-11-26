@@ -5,7 +5,6 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 import pyotp
 
-from src.icon_downloader import get_icon_path
 from src.models import (
     AlfredOutput,
     AlfredOutputItem,
@@ -16,10 +15,6 @@ from src.models import (
 from src.utils import calculate_time_remaining, str_to_bool
 
 logger = logging.getLogger(__name__)
-
-
-USERNAME_IN_TITLE = str_to_bool(os.getenv("USERNAME_IN_TITLE", "False"))
-USERNAME_IN_SUBTITLE = str_to_bool(os.getenv("USERNAME_IN_SUBTITLE", "False"))
 
 
 def parse_ente_export(file_path: str) -> TotpAccounts:
@@ -58,6 +53,10 @@ def parse_ente_export(file_path: str) -> TotpAccounts:
 def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
     """Format TOTP accounts for Alfred."""
     result = AlfredOutput([])
+
+    username_in_title = str_to_bool(os.getenv("USERNAME_IN_TITLE", "False"))
+    username_in_subtitle = str_to_bool(os.getenv("USERNAME_IN_SUBTITLE", "False"))
+
     try:
         for service_name, service_data in accounts.items():
             # Generate TOTP
@@ -74,37 +73,33 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
             # Update title and subtitle
             title = (
                 f"{sanitized_service_name} - {service_data.username}"
-                if service_data.username and USERNAME_IN_TITLE
+                if service_data.username and username_in_title
                 else sanitized_service_name
             )
             subtitle = (
                 f"Current TOTP: {current_totp} | Next TOTP: {next_totp}, {time_remaining} seconds left"
                 + (
                     f" - {service_data.username}"
-                    if service_data.username and USERNAME_IN_SUBTITLE
+                    if service_data.username and username_in_subtitle
                     else ""
                 )
             )
-
-            # Add icon dynamically for each item
-            icon_path = get_icon_path(sanitized_service_name)
 
             result.items.append(
                 AlfredOutputItem(
                     title=title,
                     subtitle=subtitle,
                     arg=current_totp,
-                    icon=AlfredOutputItemIcon(path=icon_path),  # Add the icon here
+                    icon=AlfredOutputItemIcon.from_service(sanitized_service_name),
                 )
             )
 
-        if not result.items:
-            result.items = [AlfredOutputItem(title="No matching services found.")]
+            if not result.items:
+                result.items = [AlfredOutputItem(title="No matching services found.")]
 
     except Exception as e:
         logging.exception(f"Error: {str(e)}")
         result.items = [
             AlfredOutputItem(title="Unexpected error in format_totp_result function.")
         ]
-
     return result

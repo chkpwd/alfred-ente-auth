@@ -491,6 +491,16 @@ cryptography = ">=2.0"
 jeepney = ">=0.6"
 
 [[package]]
+name = "simplepycons"
+version = "1!13.18.0"
+description = "Python Wrapper for the simpleicons (https://simpleicons.org) library"
+optional = false
+python-versions = ">=3.10"
+files = [
+    {file = "simplepycons-1!13.18.0-py3-none-any.whl", hash = "sha256:66c88e69a6e5fd72e521cd24f3cd6e8d83201264ffb5684f3e95b822d5c0dc17"},
+]
+
+[[package]]
 name = "urllib3"
 version = "2.2.3"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
@@ -529,4 +539,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "37a61e51ac29f4f9991786b869811a37415caa5e79f496da1ed9436ed49fae82"
+content-hash = "2b374d8c39c2c84430788d7efcd1fd12267a5d536aaf3485f94405c57ff36c46"

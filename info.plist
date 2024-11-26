@@ -372,7 +372,7 @@
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string>importing....</string>
+				<string>Importing TOTP accounts and downloading icons....</string>
 				<key>script</key>
 				<string>python3 main.py import</string>
 				<key>scriptargtype</key>
@@ -446,79 +446,79 @@ python3 build.py</string>
 		<key>046A5FD1-F7FF-430A-A92C-62D5AC3C5328</key>
 		<dict>
 			<key>xpos</key>
-			<real>965</real>
+			<real>965.0</real>
 			<key>ypos</key>
-			<real>445</real>
+			<real>445.0</real>
 		</dict>
 		<key>3101A957-02C3-4D0C-8B13-1C3721459261</key>
 		<dict>
 			<key>xpos</key>
-			<real>280</real>
+			<real>280.0</real>
 			<key>ypos</key>
-			<real>650</real>
+			<real>650.0</real>
 		</dict>
 		<key>4C82069F-5857-4F72-9807-0A05DACC1F7C</key>
 		<dict>
 			<key>xpos</key>
-			<real>540</real>
+			<real>540.0</real>
 			<key>ypos</key>
-			<real>505</real>
+			<real>505.0</real>
 		</dict>
 		<key>4D86E603-A8EB-4EE2-BB90-12BECBE1D574</key>
 		<dict>
 			<key>xpos</key>
-			<real>540</real>
+			<real>540.0</real>
 			<key>ypos</key>
-			<real>380</real>
+			<real>380.0</real>
 		</dict>
 		<key>5B0C442D-7335-4973-A2EE-E58281C60266</key>
 		<dict>
 			<key>xpos</key>
-			<real>965</real>
+			<real>965.0</real>
 			<key>ypos</key>
-			<real>710</real>
+			<real>710.0</real>
 		</dict>
 		<key>7F4B5FD3-5072-47C9-8129-E130EF0D2E59</key>
 		<dict>
 			<key>xpos</key>
-			<real>960</real>
+			<real>960.0</real>
 			<key>ypos</key>
-			<real>305</real>
+			<real>305.0</real>
 		</dict>
 		<key>7F6F4EBD-9981-4B82-B039-7183EA9EEB15</key>
 		<dict>
 			<key>xpos</key>
-			<real>540</real>
+			<real>540.0</real>
 			<key>ypos</key>
-			<real>435</real>
+			<real>435.0</real>
 		</dict>
 		<key>A8D008AC-C61A-4037-A423-E33492A4CC62</key>
 		<dict>
 			<key>xpos</key>
-			<real>40</real>
+			<real>40.0</real>
 			<key>ypos</key>
-			<real>440</real>
+			<real>440.0</real>
 		</dict>
 		<key>C7B89588-34B4-49B4-9848-43975E80F16B</key>
 		<dict>
 			<key>xpos</key>
-			<real>260</real>
+			<real>260.0</real>
 			<key>ypos</key>
-			<real>450</real>
+			<real>450.0</real>
 		</dict>
 		<key>ECD812F2-4D1E-41CA-B344-81B25B4A6357</key>
 		<dict>
 			<key>xpos</key>
-			<real>540</real>
+			<real>540.0</real>
 			<key>ypos</key>
-			<real>565</real>
+			<real>565.0</real>
 		</dict>
 		<key>F80F0C10-7220-4984-8EED-67425751FBC3</key>
 		<dict>
 			<key>xpos</key>
-			<real>960</real>
+			<real>960.0</real>
 			<key>ypos</key>
-			<real>585</real>
+			<real>585.0</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
@@ -647,7 +647,7 @@ python3 build.py</string>
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string>2.0.0</string>
+	<string>2.1.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/chkpwd/alfred-ente-auth</string>
 </dict>
