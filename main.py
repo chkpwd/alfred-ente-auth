@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import sys
@@ -18,9 +19,18 @@ from src.store_keychain import (  # noqa: E402
 from src.totp_accounts_manager import format_totp_result  # noqa: E402
 from src.utils import (  # noqa: E402
     fuzzy_search_accounts,
+    sanitize_service_name,
     output_alfred_message,
     str_to_bool,
 )
+
+from src.constants import (  # noqa: E402
+    CACHE_ENV_VAR,
+    ICONS_FOLDER,
+)
+
+from src.icon_downloader import get_icon  # noqa: E402
+
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
