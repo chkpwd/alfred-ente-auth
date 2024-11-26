@@ -3,6 +3,10 @@ from datetime import datetime
 from src.models import AlfredOutput, AlfredOutputItem, TotpAccounts
 
 
+def sanitize_service_name(service_name):
+    return service_name.split("-")[0].strip().replace(" ", "").lower()
+
+
 def str_to_bool(val):
     if isinstance(val, str):
         val = val.lower()
