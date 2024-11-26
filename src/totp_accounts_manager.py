@@ -94,11 +94,12 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
                 )
             )
 
-        if not result.items:
-            result.items = [AlfredOutputItem(title="No matching services found.")]
+            if not result.items:
+                result.items = [AlfredOutputItem(title="No matching services found.")]
 
     except Exception as e:
         logging.exception(f"Error: {str(e)}")
         result.items = [
             AlfredOutputItem(title="Unexpected error in format_totp_result function.")
         ]
+    return result
