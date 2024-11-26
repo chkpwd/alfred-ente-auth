@@ -52,7 +52,18 @@ if __name__ == "__main__":
             output_alfred_message("Failed to export TOTP data", str(e))
         else:
             try:
-                import_result = ente_export_to_keychain(ente_export_path)
+                service_names_list: list[str] = []
+                result = ente_export_to_keychain(ente_export_path)
+
+                variables = result.variables
+                totp_accounts = json.loads(variables[CACHE_ENV_VAR])
+
+                for k, _ in totp_accounts.items():
+                    try:
+                        get_icon(sanitize_service_name(k), ICONS_FOLDER)
+                    except Exception as e:
+                        logger.warning(f"Failed to download icon: {e}")
+
                 output_alfred_message(
                     "Imported TOTP data",
                     f"Successfully imported {import_result.count} TOTP accounts to keychain and Alfred cache.",
