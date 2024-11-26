@@ -3,7 +3,7 @@ import sys
 from dataclasses import asdict, dataclass
 from typing import Any
 
-from src.icon_downloader import get_icon_path
+from src.constants import ICONS_FOLDER
 
 
 # https://www.alfredapp.com/help/workflows/inputs/script-filter/json
