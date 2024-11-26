@@ -1,82 +1,77 @@
 import logging
-import os
-import pathlib
+from pathlib import Path
+from urllib.parse import urljoin
 
 import requests
+from simplepycons import all_icons
 
-LOGO_DEV_API_URL = "https://img.logo.dev/{domain}?token={api_key}"
-LOGO_DEV_API_KEY = "pk_T0ZUG4poQGqfGcFoeCpRww"
-ICONS_FOLDER = pathlib.Path.home() / ".local/share/ente-totp/icons"
-
-
-def sanitize_service_name(service_name):
-    return service_name.split("-")[0].strip().replace(" ", "")
+logger = logging.getLogger(__name__)
 
 
-def download_icon(service_name):
-    # Downloads an icon for a given service name.
+def get_ente_custom_icon(name: str):
+    icons_database_url = "https://raw.githubusercontent.com/ente-io/ente/refs/heads/main/auth/assets/custom-icons/_data/custom-icons.json"
+    ente_custom_icons_db = "https://raw.githubusercontent.com/ente-io/ente/refs/heads/main/auth/assets/custom-icons/icons/"
 
-    sanitized_name = sanitize_service_name(service_name)
+    try:
+        response = requests.get(icons_database_url)
 
-    if not LOGO_DEV_API_KEY:
-        logging.warning("LOGO_DEV_API_KEY is not set. Skipping icon download.")
-        return "icon.png"
+        if response.status_code == 200:
+            ente_custom_icons = response.json()
+            matching_icon = [
+                icon["slug"] if icon.get("slug") else icon["title"].lower()
+                for icon in ente_custom_icons.get("icons", [])
+                if name.lower()
+                in [
+                    icon["title"].lower(),
+                    icon.get("slug", "").lower(),
+                    *[name.lower() for name in icon.get("altNames", [])],
+                ]
+            ]
+            # matching_icon: next(icon["slug"] for icon in iter(ente_custom_icons) if name.lower() in )
+            if matching_icon:
+                response = requests.get(
+                    urljoin(ente_custom_icons_db, f"{matching_icon[0]}.svg")
+                )
+                response.raise_for_status()
+                return response.text
+        else:
+            logger.error(f"Failed to fetch custom icons: {response.status_code}")
+    except requests.RequestException as e:
+        logger.error(f"Error while fetching custom icons: {e}")
 
-    # Determine the domain for the icon service
-    domain = (
-        sanitized_name.lower()
-        if "." in sanitized_name
-        else f"{sanitized_name.lower()}.com"
+
+def get_simplepycons_icon(name: str):
+    """
+    Gets an icon for a given service name.
+
+    Returns:
+        str: Path to the icon, or the default icon if retrieving the object fails.
+    """
+
+    try:
+        simplepycons_icon = all_icons[name].raw_svg  # type: ignore
+        return str(simplepycons_icon)
+
+    except KeyError:
+        logger.warning(f"Icon for '{name}' not found in Simplepycons.")
+
+
+def get_icon(service: str, icons_dir: Path):
+    icons_dir.mkdir(parents=True, exist_ok=True)
+    icon_path = icons_dir / f"{service}.svg"
+
+    ente_custom_icon_url = get_ente_custom_icon(service)
+    simplepycons_icon = get_simplepycons_icon(service)
+
+    icon = (
+        ente_custom_icon_url
+        if ente_custom_icon_url
+        else simplepycons_icon
+        if simplepycons_icon
+        else None
     )
-    icon_url = LOGO_DEV_API_URL.format(domain=domain, api_key=LOGO_DEV_API_KEY)
-    icon_path = ICONS_FOLDER / f"{sanitized_name.replace('.', '_').lower()}.png"
 
-    if not icon_path.exists():
-        try:
-            logging.warning(
-                f"Attempting to download icon for {sanitized_name} from {icon_url}"
-            )
-            response = requests.get(icon_url, timeout=5)
-            logging.warning(
-                f"Response status for {sanitized_name}: {response.status_code}"
-            )
-
-            if response.status_code == 200:
-                ICONS_FOLDER.mkdir(parents=True, exist_ok=True)
-                with open(icon_path, "wb") as icon_file:
-                    icon_file.write(response.content)
-                logging.warning(
-                    f"Icon downloaded successfully for {sanitized_name} at {icon_path}"
-                )
-            else:
-                logging.warning(
-                    f"Failed to download icon for {sanitized_name}. Status code: {response.status_code}"
-                )
-                return "icon.png"
-        except requests.RequestException as e:
-            logging.warning(f"Request failed for {sanitized_name}: {e}")
-            return "icon.png"
-    else:
-        logging.warning(f"Icon already exists for {sanitized_name} at {icon_path}")
-
-    return str(icon_path)
-
-
-def get_icon_path(service_name):
-    # Gets the path to the icon for a given service, downloading it if necessary.
-    sanitized_name = sanitize_service_name(service_name)
-    sanitized_service_name = sanitized_name.replace(" ", "").lower()
-    icon_path = ICONS_FOLDER / f"{sanitized_service_name}.png"
-
-    if icon_path.exists():
-        logging.warning(f"Using downloaded icon for {sanitized_name}")
-        return str(icon_path)
-
-    logging.warning(f"No icon found for {sanitized_name}, attempting to download.")
-    return download_icon(sanitized_name)
-
-
-def download_icons(services):
-    ICONS_FOLDER.mkdir(parents=True, exist_ok=True)
-    for service in services:
-        download_icon(service)
+    if icon:
+        with open(icon_path, mode="w") as icon_file:
+            icon_file.write(icon)
+        logger.debug(f"Icon imported successfully for {service} at {icon_path}")
