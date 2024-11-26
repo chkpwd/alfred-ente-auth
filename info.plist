@@ -372,7 +372,7 @@
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string>importing....</string>
+				<string>Importing TOTP accounts and downloading icons....</string>
 				<key>script</key>
 				<string>python3 main.py import</string>
 				<key>scriptargtype</key>
