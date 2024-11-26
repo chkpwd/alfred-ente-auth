@@ -76,8 +76,8 @@ if __name__ == "__main__":
 
                 output_alfred_message(
                     "Imported TOTP data",
-                    f"Successfully imported {import_result.count} TOTP accounts to keychain and Alfred cache.",
-                    import_result.variables,
+                    f"Successfully imported {result.count} TOTP accounts and downloaded icons.",
+                    variables=variables,
                 )
             except Exception as e:
                 logger.exception(
