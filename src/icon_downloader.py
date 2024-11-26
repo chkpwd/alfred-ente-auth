@@ -49,11 +49,12 @@ def get_simplepycons_icon(name: str):
     """
 
     try:
-        simplepycons_icon = all_icons[name].raw_svg  # type: ignore
-        return str(simplepycons_icon)
-
+        icon = all_icons[name]  # type: ignore
     except KeyError:
         logger.warning(f"Icon for '{name}' not found in Simplepycons.")
+    else:
+        icon = icon.customize_svg_as_str(fill=icon.primary_color)
+        return str(icon)
 
 
 def get_icon(service: str, icons_dir: Path):
