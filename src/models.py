@@ -23,8 +23,10 @@ class AlfredOutputItemIcon:
         Returns:
             AlfredOutputItemIcon: An instance with the correct icon path.
         """
-        icon_path = get_icon_path(service_name)
-        return cls(path=icon_path)
+        icon_path = ICONS_FOLDER / f"{service_name}.svg"
+        if icon_path.exists():
+            return cls(path=str(icon_path))
+        return cls()
 
     def to_dict(self):
         return {k: v for k, v in asdict(self).items() if v is not None}
