@@ -3,12 +3,28 @@ import sys
 from dataclasses import asdict, dataclass
 from typing import Any
 
+from src.icon_downloader import get_icon_path
+
 
 # https://www.alfredapp.com/help/workflows/inputs/script-filter/json
 @dataclass
 class AlfredOutputItemIcon:
     path: str = "icon.png"
     type: str | None = None
+
+    @classmethod
+    def from_service(cls, service_name: str):
+        """
+        Creates an icon for the AlfredOutputItem based on the service name.
+
+        Args:
+            service_name (str): The name of the service.
+
+        Returns:
+            AlfredOutputItemIcon: An instance with the correct icon path.
+        """
+        icon_path = get_icon_path(service_name)
+        return cls(path=icon_path)
 
     def to_dict(self):
         return {k: v for k, v in asdict(self).items() if v is not None}
@@ -22,6 +38,11 @@ class AlfredOutputItem:
     arg: str | list[str] | None = None
     icon: AlfredOutputItemIcon | None = None
     variables: dict[str, Any] | None = None
+
+    def __post_init__(self):
+        # Automatically fetch an icon based on the title if no icon is provided
+        if self.icon is None:
+            self.icon = AlfredOutputItemIcon.from_service(self.title)
 
     def to_dict(self):
         result = {k: v for k, v in asdict(self).items() if v is not None}
