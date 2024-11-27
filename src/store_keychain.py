@@ -17,7 +17,7 @@ KEYCHAIN_ACCOUNT = "totp_secrets"
 CACHE_ENV_VAR = "TOTP_CACHE"
 
 
-def import_accounts_from_keychain() -> TotpAccounts:
+def get_totp_accounts() -> TotpAccounts:
     """Load TOTP accounts from the environment variable or keychain."""
     cached_accounts = os.getenv(CACHE_ENV_VAR)
 

@@ -14,7 +14,7 @@ else:
 from src.ente_auth import EnteAuth  # noqa: E402, I001
 from src.store_keychain import (  # noqa: E402
     ente_export_to_keychain,
-    import_accounts_from_keychain,
+    get_totp_accounts,
 )
 from src.totp_accounts_manager import format_totp_result  # noqa: E402
 from src.utils import (  # noqa: E402
@@ -92,7 +92,7 @@ if __name__ == "__main__":
             raise ValueError("No search string found")
 
         try:
-            accounts = import_accounts_from_keychain()
+            accounts = get_totp_accounts()
             logger.info("Loaded TOTP accounts from keychain.")
         except Exception as e:
             logger.exception(f"Failed to load TOTP accounts from keychain: {e}", e)
