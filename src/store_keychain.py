@@ -4,18 +4,11 @@ import os
 
 import keyring
 
+from src.constants import CACHE_ENV_VAR, KEYCHAIN_ACCOUNT, KEYCHAIN_SERVICE
 from src.models import AlfredOutput, AlfredOutputItem, ImportResult, TotpAccounts
 from src.totp_accounts_manager import parse_ente_export
 
 logger = logging.getLogger(__name__)
-
-# Keychain service and account for storing the TOTP accounts
-KEYCHAIN_SERVICE = "ente-totp-alfred-workflow"
-KEYCHAIN_ACCOUNT = "totp_secrets"
-
-# Use an environment variable to cache the JSON data to reduce keychain calls
-CACHE_ENV_VAR = "TOTP_CACHE"
-
 
 def get_totp_accounts() -> TotpAccounts:
     """Load TOTP accounts from the environment variable or keychain."""
