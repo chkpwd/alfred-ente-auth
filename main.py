@@ -37,9 +37,21 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 
+def get_accounts(search_string: str | None = None):
+    try:
+        accounts = get_totp_accounts()
+        logger.info("Loaded TOTP accounts.")
+    except Exception as e:
+        logger.exception(f"Failed to load TOTP accounts: {e}", e)
+        output_alfred_message("Failed to load TOTP accounts", str(e))
+    else:
+        if search_string:
+            accounts = fuzzy_search_accounts(search_string, accounts)
+        return format_totp_result(accounts)
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        raise ValueError("No subcommand found. Use one of: import, search")
+        raise ValueError("No subcommand found. Use one of: import, search, get_accounts")
 
     elif sys.argv[1] == "import":
         ente_export_dir = os.getenv("ENTE_EXPORT_DIR")
@@ -91,15 +103,15 @@ if __name__ == "__main__":
         if len(sys.argv) < 3:
             raise ValueError("No search string found")
 
-        try:
-            accounts = get_totp_accounts()
-            logger.info("Loaded TOTP accounts from keychain.")
-        except Exception as e:
-            logger.exception(f"Failed to load TOTP accounts from keychain: {e}", e)
-            output_alfred_message("Failed to load TOTP accounts", str(e))
-
+        results = get_accounts(sys.argv[2])
+        if results:
+            results.print_json()
         else:
-            search_string = sys.argv[2]
-            matched_accounts = fuzzy_search_accounts(search_string, accounts)
-            formatted_account_data = format_totp_result(matched_accounts)
-            formatted_account_data.print_json()
+            output_alfred_message("No results found", "Try a different search term.")
+
+    elif sys.argv[1] == "get_accounts":
+        accounts = get_accounts()
+        if accounts:
+            accounts.print_json()
+        else:
+            output_alfred_message("No TOTP accounts found", "Try importing some accounts.")
