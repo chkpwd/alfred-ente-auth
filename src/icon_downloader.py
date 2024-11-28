@@ -29,7 +29,6 @@ def search_ente_custom_icons(name: str) -> str | None:
                     *[name.lower() for name in icon.get("altNames", [])],
                 ]
             ]
-            # matching_icon: next(icon["slug"] for icon in iter(ente_custom_icons) if name.lower() in )
             if matching_icon:
                 response = requests.get(
                     urljoin(ENTE_CUSTOM_ICONS_URL, f"{matching_icon[0]}.svg")
