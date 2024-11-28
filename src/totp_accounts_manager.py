@@ -102,6 +102,7 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
                     title=title,
                     subtitle=subtitle,
                     arg=current_totp,
+                    match=service_name,
                     icon=AlfredOutputItemIcon.from_service(sanitized_service_name),
                 )
             )

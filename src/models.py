@@ -47,6 +47,7 @@ class AlfredOutputItem:
     title: str
     uid: str | None = None
     subtitle: str | None = None
+    match: str | None = None
     arg: str | list[str] | None = None
     icon: AlfredOutputItemIcon | None = None
     variables: dict[str, Any] | None = None
