@@ -4,6 +4,8 @@
 <dict>
 	<key>bundleid</key>
 	<string>com.chkpwd.ente.auth</string>
+	<key>category</key>
+	<string>Tools</string>
 	<key>connections</key>
 	<dict>
 		<key>4C82069F-5857-4F72-9807-0A05DACC1F7C</key>
