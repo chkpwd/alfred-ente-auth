@@ -1,20 +1,19 @@
 # Ente Auth - Alfred Workflow for Ente Exports
 
-Easily integrate your **Ente Auth** with Alfred using this simple and powerful workflow to manage your Ente secrets and authentication.
+Easily integrate your **Ente Auth** with Alfred using this simple workflow to query your Ente Auth TOTP accounts.
+
+The workflow uses Ente CLI to export your secrets from Ente Auth and then stashes them securely into the macOS Keychain.
 
 ## 📸 Shots
 ![image1](./metadata/image.png)
 
 ## 🚀 Setup
 
-### 1. Install the Workflow
-Download and install the workflow from the latest [releases](https://github.com/chkpwd/alfred-ente-auth/releases) page.
-
-
 > [!NOTE]
-> Currently, Homebrew installation is not available for the Ente CLI due to an issue with the formula. When running brew test for the formula, the ente CLI fails with an error. As a result, the formula is not ready for installation via brew yet. Please use the manual installation steps outlined above. https://github.com/ente-io/ente/pull/4028
+> Currently, Homebrew installation is not available for the Ente CLI. A formula will be added pending a new release including a [required fix](https://github.com/ente-io/ente/pull/4028). For the time being, please use the manual installation steps outlined below.
 
-### 2. Download and Install the Ente CLI
+### 1. Download and Install the Ente CLI
+
 To use the **Ente Auth** workflow, you'll need the **Ente CLI**. Follow the steps below to install it:
 
 1. Visit the [Ente CLI releases page](https://github.com/ente-io/ente/releases?q=tag%3Acli-v0).
@@ -32,26 +31,37 @@ Once installed, verify that it's working by running the following command in you
 ente version
 ```
 
-### 3. Configure Your Database
-To configure the Ente CLI and ensure the workflow has access to your data, you'll need to set the **export path**. This path should be the same one you configured when adding your Ente account.
+### 2. Configure Ente CLI
+
+- Run `ente account add` to authenticate yourself with Ente CLI.
+- You'll first be prompted for the app type. Enter `auth`.
+- Next, you'll be asked for an export directory. You can choose any path you wish, but it must exist before you press return, else Ente CLI will not accept it.
+- Finally, you'll be prompted to provide your Ente login credentials.
+
+### 3. Install the Workflow
+
+Download and open the workflow file from the [latest release](https://github.com/chkpwd/alfred-ente-auth/releases/latest) page.
+
+> [!NOTE]
+> To ensure the workflow can import your accounts from Ente Auth, you'll need to define the "Ente Export Directory" when you add this extension to Alfred.  
+> This path should be the same one you configured when adding your Ente account.  
+> To show the Ente CLI's configured export path, run `ente account list` and refer to the `ExportDir` value.
 
 ---
 
-## 📖 Instructions
+## 📖 Usage Instructions
 
 1. **Launch Alfred**
-   - Open Alfred and navigate to the **Workflows** tab.
 
-2. **Select Ente Auth**
-   - Find the "Ente Auth" workflow in your list and click on it.
+2. **Import Your Data**
+   - To import your Ente Auth TOTP accounts, simply trigger the workflow by running **`ente import`** in Alfred.
 
-3. **Configure Workflow**
-   - Hit the **Configure Workflow** button to open the settings.
-   - Specify the **export path**—this should be the same path you configured when adding your Ente account.
-   - Configure any additional settings as needed (e.g., API keys, other preferences).
-
-4. **Import Your Data**
-   - To import your Ente secrets, simply trigger the workflow by running the command **Import Ente Secrets** in Alfred. This will import your stored Ente secrets into the workflow.
+3. **Search for an Ente Auth TOTP account**
+   - To list all of your Ente Auth TOTP accounts, run `ente` in Alfred.
+   - To search for a specific account, simply append a search string to the previous command.
+     Example: `ente GitHub`
+   - The search feature also supports loose search queries, matching words in the account name in any order.
+      - For example "Docker Hub" will match with the queries "Docker Hub", "Hub", "Do Hu".
 
 ---
 

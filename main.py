@@ -1,45 +1,57 @@
-import json
 import logging
 import os
 import sys
-from glob import glob
 
-# Add the venv directory to the path
-python_dirs = glob(os.path.join(os.path.dirname(__file__), ".venv/lib/python3.*"))
-if python_dirs:
-    sys.path.append(os.path.join(python_dirs[0], "site-packages"))
-else:
-    raise FileNotFoundError("Could not find python3.* directory in .venv/lib")
-
-from src.ente_auth import EnteAuth  # noqa: E402, I001
-from src.store_keychain import (  # noqa: E402
-    ente_export_to_keychain,
-    import_accounts_from_keychain,
-)
-from src.totp_accounts_manager import format_totp_result  # noqa: E402
-from src.utils import (  # noqa: E402
-    fuzzy_search_accounts,
-    sanitize_service_name,
-    output_alfred_message,
-    str_to_bool,
-)
-
-from src.constants import (  # noqa: E402
+from src.constants import (
     CACHE_ENV_VAR,
     ICONS_FOLDER,
 )
-
-from src.icon_downloader import get_icon  # noqa: E402
-
+from src.ente_auth import EnteAuth
+from src.icon_downloader import download_icon
+from src.models import AlfredOutput
+from src.store_keychain import (
+    ente_export_to_keychain,
+    get_totp_accounts,
+)
+from src.totp_accounts_manager import format_totp_result
+from src.utils import (
+    fuzzy_search_accounts,
+    output_alfred_message,
+    sanitize_service_name,
+    str_to_bool,
+)
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 
+def get_accounts(search_string: str | None = None) -> AlfredOutput | None:
+    """
+    Load TOTP accounts from the environment variable or keychain, filtering by `search_string`.
+    Dumps the results to stdout in Alfred JSON format, adding all TotpAccounts for Alfred cache."""
+    try:
+        accounts = get_totp_accounts()
+        logger.info("Loaded TOTP accounts.")
+    except Exception as e:
+        logger.exception(f"Failed to load TOTP accounts: {e}", e)
+        output_alfred_message("Failed to load TOTP accounts", str(e))
+    else:
+        # Store all TOTP accounts for Alfred cache
+        alfred_cache = {CACHE_ENV_VAR: accounts.to_json()}
+
+        if search_string:
+            accounts = fuzzy_search_accounts(search_string, accounts)
+
+        # Format accounts/search results for Alfred, adding all accounts to the 'variables' key for Alfred cache.
+        fmt_result = format_totp_result(accounts)
+        fmt_result.variables = alfred_cache
+        return fmt_result
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        raise ValueError("No subcommand found. Use one of: import, search")
+        raise ValueError("No subcommand found. Use one of: import, search, get_accounts")
 
     elif sys.argv[1] == "import":
         ente_export_dir = os.getenv("ENTE_EXPORT_DIR")
@@ -65,25 +77,21 @@ if __name__ == "__main__":
                 service_names_list: list[str] = []
                 result = ente_export_to_keychain(ente_export_path)
 
-                variables = result.variables
-                totp_accounts = json.loads(variables[CACHE_ENV_VAR])
-
-                for k, _ in totp_accounts.items():
+                for k, _ in result.accounts.items():
                     try:
-                        get_icon(sanitize_service_name(k), ICONS_FOLDER)
+                        download_icon(sanitize_service_name(k), ICONS_FOLDER)
                     except Exception as e:
                         logger.warning(f"Failed to download icon: {e}")
 
                 output_alfred_message(
                     "Imported TOTP data",
                     f"Successfully imported {result.count} TOTP accounts and downloaded icons.",
-                    variables=variables,
                 )
             except Exception as e:
+                output_alfred_message("Failed to import TOTP data", str(e))
                 logger.exception(
                     f"Failed to populate TOTP data in keychain from file: {e}", e
                 )
-                output_alfred_message("Failed to import TOTP data", str(e))
 
             ente_auth.delete_ente_export(ente_export_path)
 
@@ -91,15 +99,15 @@ if __name__ == "__main__":
         if len(sys.argv) < 3:
             raise ValueError("No search string found")
 
-        try:
-            accounts = import_accounts_from_keychain()
-            logger.info("Loaded TOTP accounts from keychain.")
-        except Exception as e:
-            logger.exception(f"Failed to load TOTP accounts from keychain: {e}", e)
-            output_alfred_message("Failed to load TOTP accounts", str(e))
-
+        results = get_accounts(sys.argv[2])
+        if results:
+            results.print_json()
         else:
-            search_string = sys.argv[2]
-            matched_accounts = fuzzy_search_accounts(search_string, accounts)
-            formatted_account_data = format_totp_result(matched_accounts)
-            formatted_account_data.print_json()
+            output_alfred_message("No results found", "Try a different search term.")
+
+    elif sys.argv[1] == "get_accounts":
+        accounts = get_accounts()
+        if accounts:
+            accounts.print_json()
+        else:
+            output_alfred_message("No TOTP accounts found", "Try importing some accounts.")

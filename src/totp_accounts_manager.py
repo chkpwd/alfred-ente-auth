@@ -12,12 +12,13 @@ from src.models import (
     TotpAccount,
     TotpAccounts,
 )
-from src.utils import calculate_time_remaining, str_to_bool
+from src.utils import calculate_time_remaining, sanitize_service_name, str_to_bool
 
 logger = logging.getLogger(__name__)
 
 
 def parse_ente_export(file_path: str) -> TotpAccounts:
+    """Parses an Ente export file of otpauth URIs and returns a TotpAccounts object."""
     accounts = TotpAccounts()
 
     with open(file_path, "r") as ente_export_file:
@@ -40,19 +41,30 @@ def parse_ente_export(file_path: str) -> TotpAccounts:
 
                     query_params = parse_qs(parsed_uri.query)
                     secret = query_params.get("secret", [None])[0]
+                    period = query_params.get("period", [None])[0]
 
                     if not secret:
-                        raise ValueError(
+                        raise KeyError(
                             f"Unable to parse 'secret' parameter in: {line}"
                         )
 
-                    accounts[service_name] = TotpAccount(username, secret)
+                    if not period or period == "null":
+                        logger.warning(f"Unable to parse 'period' parameter for '{service_name} - {username}'. Will use default of 30 seconds.")
+                        accounts[service_name] = TotpAccount(username, secret)
+                    else:
+                        try:
+                            period = int(period)
+                        except ValueError:
+                            logger.warning(f"Value of 'period' parameter ('{period}') for '{service_name} - {username}' could not be cast to int. Will use default of 30 seconds.")
+                            period = 30
+                        accounts[service_name] = TotpAccount(username, secret, period)
+
     return accounts
 
 
 def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
-    """Format TOTP accounts for Alfred."""
-    result = AlfredOutput([])
+    """Transforms a TotpAccounts object into an AlfredOutput object."""
+    result = AlfredOutput([], rerun=1)
 
     username_in_title = str_to_bool(os.getenv("USERNAME_IN_TITLE", "False"))
     username_in_subtitle = str_to_bool(os.getenv("USERNAME_IN_SUBTITLE", "False"))
@@ -62,13 +74,13 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
             # Generate TOTP
             totp = pyotp.TOTP(service_data.secret)
             current_totp = totp.now()
-            next_totp = totp.at(datetime.now() + timedelta(seconds=30))
+            next_totp = totp.at(datetime.now() + timedelta(seconds=service_data.period))
 
             # Calculate remaining time using the utility
-            time_remaining = calculate_time_remaining()
+            time_remaining = calculate_time_remaining(service_data.period)
 
             # Sanitize service name for display and icons
-            sanitized_service_name = service_name.strip()
+            sanitized_service_name = sanitize_service_name(service_name)
 
             # Update title and subtitle
             title = (
@@ -90,6 +102,7 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
                     title=title,
                     subtitle=subtitle,
                     arg=current_totp,
+                    match=service_name,
                     icon=AlfredOutputItemIcon.from_service(sanitized_service_name),
                 )
             )

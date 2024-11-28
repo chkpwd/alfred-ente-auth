@@ -1,6 +1,6 @@
 import json
 import sys
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from src.constants import ICONS_FOLDER
@@ -9,6 +9,11 @@ from src.constants import ICONS_FOLDER
 # https://www.alfredapp.com/help/workflows/inputs/script-filter/json
 @dataclass
 class AlfredOutputItemIcon:
+    """
+    Class to represent a custom icon for an AlfredOutputItem object.
+    
+    See https://www.alfredapp.com/help/workflows/inputs/script-filter/json
+    """
     path: str = "icon.png"
     type: str | None = None
 
@@ -34,9 +39,15 @@ class AlfredOutputItemIcon:
 
 @dataclass
 class AlfredOutputItem:
+    """
+    Class to represent an item in an AlfredOutput object.
+
+    See https://www.alfredapp.com/help/workflows/inputs/script-filter/json
+    """
     title: str
     uid: str | None = None
     subtitle: str | None = None
+    match: str | None = None
     arg: str | list[str] | None = None
     icon: AlfredOutputItemIcon | None = None
     variables: dict[str, Any] | None = None
@@ -55,10 +66,22 @@ class AlfredOutputItem:
 
 @dataclass
 class AlfredOutput:
+    """
+    Class to represent structured output to an Alfred session.
+
+    See https://www.alfredapp.com/help/workflows/inputs/script-filter/json
+    """
     items: list[AlfredOutputItem]
+    rerun: float | None = None
+    variables: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self):
-        return {"items": [item.to_dict() for item in self.items]}
+        return {k: v for k, v in {
+            "items": [item.to_dict() for item in self.items],
+            "rerun": self.rerun,
+            "variables": self.variables,
+        }.items() if v}
+
 
     def to_json(self):
         return json.dumps(self.to_dict(), separators=(",", ":"))
@@ -68,18 +91,15 @@ class AlfredOutput:
 
 
 @dataclass
-class ImportResult:
-    count: int
-    variables: dict[str, str]
-
-
-@dataclass
 class TotpAccount:
+    """Class to represent a TOTP account imported from Ente or stored locally."""
     username: str
     secret: str
+    period: int = 30
 
 
 class TotpAccounts(dict[str, TotpAccount]):
+    """Class to represent a collection of TOTP accounts."""
     def to_json(self) -> str:
         json_data = {k: asdict(v) for k, v in self.items()}
         return json.dumps(json_data, separators=(",", ":"))
@@ -87,3 +107,10 @@ class TotpAccounts(dict[str, TotpAccount]):
     def from_json(self, json_str: str) -> "TotpAccounts":
         data = json.loads(json_str)
         return TotpAccounts({k: TotpAccount(**v) for k, v in data.items()})
+
+
+@dataclass
+class ImportResult:
+    """Class to represent the result of a parsed Ente export."""
+    count: int
+    accounts: TotpAccounts

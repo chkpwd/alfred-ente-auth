@@ -4,6 +4,8 @@
 <dict>
 	<key>bundleid</key>
 	<string>com.chkpwd.ente.auth</string>
+	<key>category</key>
+	<string>Tools</string>
 	<key>connections</key>
 	<dict>
 		<key>4C82069F-5857-4F72-9807-0A05DACC1F7C</key>
@@ -97,6 +99,19 @@
 				<integer>1572864</integer>
 				<key>modifiersubtext</key>
 				<string>Paste next code</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>E6427711-FED1-47CC-AA39-D59E50B504C7</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>3101A957-02C3-4D0C-8B13-1C3721459261</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -240,15 +255,15 @@
 			<key>config</key>
 			<dict>
 				<key>alfredfiltersresults</key>
-				<false/>
+				<true/>
 				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
+				<integer>2</integer>
 				<key>argumenttreatemptyqueryasnil</key>
 				<true/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
-				<integer>0</integer>
+				<integer>1</integer>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
@@ -262,15 +277,15 @@
 				<key>queuemode</key>
 				<integer>2</integer>
 				<key>runningsubtext</key>
-				<string>Getting code for query: "{query}"...</string>
+				<string>Getting TOTP accounts...</string>
 				<key>script</key>
-				<string>python3 main.py search "{query}"</string>
+				<string>python3 main.py get_accounts</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
 				<string></string>
 				<key>subtext</key>
-				<string>What service do you need a code for?</string>
+				<string>Get Ente TOTP Codes</string>
 				<key>title</key>
 				<string>{const:alfred_workflow_name}</string>
 				<key>type</key>
@@ -361,8 +376,6 @@
 				<integer>2</integer>
 				<key>escaping</key>
 				<integer>102</integer>
-				<key>keyword</key>
-				<string>ente import</string>
 				<key>queuedelaycustom</key>
 				<integer>10</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -398,6 +411,27 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>ente import</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>Import Ente Secrets</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>E6427711-FED1-47CC-AA39-D59E50B504C7</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>autopaste</key>
 				<true/>
 				<key>clipboardtext</key>
@@ -416,109 +450,132 @@
 		</dict>
 	</array>
 	<key>readme</key>
-	<string># An Alfred Workflow that uses your Ente Exports
+	<string>## 📖 Usage Instructions
 
-&gt; [!WARNING]
-&gt; This workflow exports secrets from the Ente Auth CLI. Please exercise caution when using it.
+1. **Import Your Data**
+   - To import your Ente Auth TOTP accounts, simply trigger the workflow by running `ente import` in Alfred.
 
-## Setup
+2. **Search for an Ente Auth TOTP account**
+   - To list all of your Ente Auth TOTP accounts, run `ente` in Alfred.
+   - To search for a specific account, simply append a search string to the previous command.
+     Example: `ente GitHub`
+   - The search feature also supports loose search queries, matching words in the account name in any order.
+      - For example "Docker Hub" will match with the queries "Docker Hub", "Hub", "Do Hu".
 
-1. Install workflow from releases
-2. Follow instructions below to create the database
+---
 
-## Instructions
+## 🚀 Setup
 
-1. Open Alfred
-2. Go to Workflows.
-3. Click the "Ente Auth" workflow and click the Configure Workflow button.
-4. Next, configure the settings (NOTE: the export path is what you configured when adding your ente account).
-5. Finally, run the Alfred command `ente import`.
+### 1. Download and Install the Ente CLI
 
-## Local Development
+To use the **Ente Auth** workflow, you'll need the **Ente CLI**. Follow the steps below to install it:
 
-### Install/Update dependencies
-poetry install --only=main
+1. Visit the [Ente CLI releases page](https://github.com/ente-io/ente/releases?q=tag%3Acli-v0).
+2. Download the latest version for **macOS**.
+3. Move the binary to `/usr/local/bin` and make it executable with the following commands:
 
-### Build alfred workflow file
-python3 build.py</string>
+```bash
+sudo mv /path/to/ente /usr/local/bin/ente
+sudo chmod +x /usr/local/bin/ente
+```
+
+Once installed, verify that it's working by running the following command in your terminal:
+
+```bash
+ente version
+```
+
+### 2. Configure Ente CLI
+
+- Run `ente account add` to authenticate yourself with Ente CLI.
+- You'll first be prompted for the app type. Enter `auth`.
+- Next, you'll be asked for an export directory. You can choose any path you wish, but it must exist before you press return, else Ente CLI will not accept it.
+- Finally, you'll be prompted to provide your Ente login credentials.</string>
 	<key>uidata</key>
 	<dict>
 		<key>046A5FD1-F7FF-430A-A92C-62D5AC3C5328</key>
 		<dict>
 			<key>xpos</key>
-			<real>965.0</real>
+			<real>1020.0</real>
 			<key>ypos</key>
-			<real>445.0</real>
+			<real>260.0</real>
 		</dict>
 		<key>3101A957-02C3-4D0C-8B13-1C3721459261</key>
 		<dict>
 			<key>xpos</key>
-			<real>280.0</real>
+			<real>315.0</real>
 			<key>ypos</key>
-			<real>650.0</real>
+			<real>450.0</real>
 		</dict>
 		<key>4C82069F-5857-4F72-9807-0A05DACC1F7C</key>
 		<dict>
 			<key>xpos</key>
-			<real>540.0</real>
+			<real>595.0</real>
 			<key>ypos</key>
-			<real>505.0</real>
+			<real>320.0</real>
 		</dict>
 		<key>4D86E603-A8EB-4EE2-BB90-12BECBE1D574</key>
 		<dict>
 			<key>xpos</key>
-			<real>540.0</real>
+			<real>595.0</real>
 			<key>ypos</key>
-			<real>380.0</real>
+			<real>195.0</real>
 		</dict>
 		<key>5B0C442D-7335-4973-A2EE-E58281C60266</key>
 		<dict>
 			<key>xpos</key>
-			<real>965.0</real>
+			<real>1020.0</real>
 			<key>ypos</key>
-			<real>710.0</real>
+			<real>525.0</real>
 		</dict>
 		<key>7F4B5FD3-5072-47C9-8129-E130EF0D2E59</key>
 		<dict>
 			<key>xpos</key>
-			<real>960.0</real>
+			<real>1015.0</real>
 			<key>ypos</key>
-			<real>305.0</real>
+			<real>120.0</real>
 		</dict>
 		<key>7F6F4EBD-9981-4B82-B039-7183EA9EEB15</key>
 		<dict>
 			<key>xpos</key>
-			<real>540.0</real>
+			<real>595.0</real>
 			<key>ypos</key>
-			<real>435.0</real>
+			<real>250.0</real>
 		</dict>
 		<key>A8D008AC-C61A-4037-A423-E33492A4CC62</key>
 		<dict>
 			<key>xpos</key>
-			<real>40.0</real>
+			<real>95.0</real>
 			<key>ypos</key>
-			<real>440.0</real>
+			<real>255.0</real>
 		</dict>
 		<key>C7B89588-34B4-49B4-9848-43975E80F16B</key>
 		<dict>
 			<key>xpos</key>
-			<real>260.0</real>
+			<real>315.0</real>
+			<key>ypos</key>
+			<real>265.0</real>
+		</dict>
+		<key>E6427711-FED1-47CC-AA39-D59E50B504C7</key>
+		<dict>
+			<key>xpos</key>
+			<real>95.0</real>
 			<key>ypos</key>
 			<real>450.0</real>
 		</dict>
 		<key>ECD812F2-4D1E-41CA-B344-81B25B4A6357</key>
 		<dict>
 			<key>xpos</key>
-			<real>540.0</real>
+			<real>595.0</real>
 			<key>ypos</key>
-			<real>565.0</real>
+			<real>380.0</real>
 		</dict>
 		<key>F80F0C10-7220-4984-8EED-67425751FBC3</key>
 		<dict>
 			<key>xpos</key>
-			<real>960.0</real>
+			<real>1015.0</real>
 			<key>ypos</key>
-			<real>585.0</real>
+			<real>400.0</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
@@ -569,7 +626,7 @@ python3 build.py</string>
 			<key>config</key>
 			<dict>
 				<key>default</key>
-				<string>~/Documents/ente</string>
+				<string></string>
 				<key>filtermode</key>
 				<integer>1</integer>
 				<key>placeholder</key>
@@ -578,7 +635,7 @@ python3 build.py</string>
 				<true/>
 			</dict>
 			<key>description</key>
-			<string>Point this to the plain text export file from Ente Auth containing your 2FA data. It can be deleted after initial import.</string>
+			<string>Set this to the export path you configured when you set up Ente CLI. If you can't remember, run `ente account list` and refer to the `ExportDir` value.</string>
 			<key>label</key>
 			<string>Ente Export Directory</string>
 			<key>type</key>
@@ -635,7 +692,7 @@ python3 build.py</string>
 				<string></string>
 			</dict>
 			<key>description</key>
-			<string></string>
+			<string>Overwrite any existing Ente export files when you you import TOTP accounts into this workflow.</string>
 			<key>label</key>
 			<string>Overwrite current export</string>
 			<key>type</key>
@@ -644,8 +701,11 @@ python3 build.py</string>
 			<string>OVERWRITE_EXPORT</string>
 		</dict>
 	</array>
-	<key>variablesdontexport</key>
-	<array/>
+	<key>variables</key>
+	<dict>
+		<key>PYTHONPATH</key>
+		<string>.venv/lib/python3.13/site-packages</string>
+	</dict>
 	<key>version</key>
 	<string>2.1.0</string>
 	<key>webaddress</key>

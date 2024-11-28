@@ -16,6 +16,7 @@ class EnteAuth:
             self.ente_auth_binary_path = self._find_ente_path()
 
     def _find_ente_path(self) -> str:
+        """Returns the path to the ente binary if it can be found."""
         result = subprocess.run(
             ["which", "ente"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
@@ -24,12 +25,17 @@ class EnteAuth:
 
         return result.stdout.decode("utf-8").strip()
 
-    def create_ente_path(self, path: str) -> None:
+    def create_ente_export_dir(self, path: str) -> None:
         if not os.path.exists(path):
             os.makedirs(path)
             logger.info(f"Ente folder created at: {path}")
 
     def export_ente_auth_accounts(self, export_path: str, overwrite: bool) -> None:
+        """
+        Execute Ente export command.
+
+        Handles removing an old export file if it exists and overwrite is True, and creating the export directory if it doesn't exist.
+        """
         path_exists = os.path.exists(export_path)
 
         if path_exists and overwrite:
@@ -53,7 +59,7 @@ class EnteAuth:
             if "error: path does not exist" in result.stderr.decode("utf-8"):
                 export_dir = os.path.dirname(export_path)
                 logger.info(f"Export directory does not exist. Creating: {export_dir}")
-                self.create_ente_path(export_dir)
+                self.create_ente_export_dir(export_dir)
                 logger.info("Retrying export...")
                 self.export_ente_auth_accounts(export_path, overwrite)
 
@@ -75,10 +81,11 @@ class EnteAuth:
             raise e
 
     @staticmethod
-    def check_ente_binary(path) -> bool:
+    def check_ente_binary(path: str) -> bool:
+        """Check if the ente binary exists and is executable."""
         try:
             subprocess.run(
-                [f"{path}", "version"],
+                [path, "version"],
                 check=True,
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
