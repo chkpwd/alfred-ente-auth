@@ -39,12 +39,11 @@ def ente_export_to_keychain(file: str) -> ImportResult:
         accounts = parse_ente_export(file)
         accounts_json = accounts.to_json()
 
-        if accounts:
-            keyring.set_password(
-                service_name=KEYCHAIN_SERVICE,
-                username=KEYCHAIN_ACCOUNT,
-                password=accounts_json,
-            )
+        keyring.set_password(
+            service_name=KEYCHAIN_SERVICE,
+            username=KEYCHAIN_ACCOUNT,
+            password=accounts_json,
+        )
 
         secrets_imported_count = sum(len(k) for k in accounts.items())
 
