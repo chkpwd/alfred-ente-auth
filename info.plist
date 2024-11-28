@@ -569,7 +569,7 @@ python3 build.py</string>
 			<key>config</key>
 			<dict>
 				<key>default</key>
-				<string>~/Documents/ente</string>
+				<string></string>
 				<key>filtermode</key>
 				<integer>1</integer>
 				<key>placeholder</key>
@@ -578,7 +578,7 @@ python3 build.py</string>
 				<true/>
 			</dict>
 			<key>description</key>
-			<string>Point this to the plain text export file from Ente Auth containing your 2FA data. It can be deleted after initial import.</string>
+			<string>Set this to the export path you configured when you set up Ente CLI. If you can't remember, run `ente account list` and refer to the `ExportDir` value.</string>
 			<key>label</key>
 			<string>Ente Export Directory</string>
 			<key>type</key>
