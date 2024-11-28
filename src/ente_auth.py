@@ -9,9 +9,10 @@ class EnteAuth:
     def __init__(self):
         ente_auth_binary_path_env = os.getenv("ENTE_AUTH_BINARY_PATH")
         if ente_auth_binary_path_env:
-            self.ente_auth_binary_path = self.check_ente_binary(
-                ente_auth_binary_path_env
-            )
+            if self.check_ente_binary(ente_auth_binary_path_env):
+                self.ente_auth_binary_path = ente_auth_binary_path_env
+            else:
+                raise OSError(f"Ente binary was not found at {ente_auth_binary_path_env} or is not executable. Please check the path is correct.")
         else:
             self.ente_auth_binary_path = self._find_ente_path()
 
