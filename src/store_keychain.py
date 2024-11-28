@@ -1,4 +1,3 @@
-import json
 import logging
 import os
 
@@ -16,7 +15,7 @@ def get_totp_accounts() -> TotpAccounts:
 
     if cached_accounts:
         logger.info("Loading TOTP accounts from environment variable cache.")
-        return json.loads(cached_accounts)
+        return TotpAccounts().from_json(cached_accounts)
 
     # If not cached, load from the keychain
     logger.info("Loading TOTP accounts from keychain.")
@@ -34,8 +33,6 @@ def get_totp_accounts() -> TotpAccounts:
 
 def ente_export_to_keychain(file: str) -> ImportResult:
     """Import TOTP accounts from an Ente export file and store them in the keychain."""
-    result = ImportResult(0, {})
-
     try:
         logger.debug(f"import_file: {file}")
 
@@ -53,8 +50,7 @@ def ente_export_to_keychain(file: str) -> ImportResult:
 
         logger.info(f"Keychain database created with {secrets_imported_count} entries.")
 
-        result.count = secrets_imported_count
-        result.variables = {CACHE_ENV_VAR: accounts_json}
+        result = ImportResult(secrets_imported_count, accounts)
 
     except FileNotFoundError:
         error_message = f"File not found: {file}"

@@ -1,6 +1,6 @@
 import json
 import sys
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from src.constants import ICONS_FOLDER
@@ -56,21 +56,19 @@ class AlfredOutputItem:
 @dataclass
 class AlfredOutput:
     items: list[AlfredOutputItem]
+    variables: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self):
-        return {"items": [item.to_dict() for item in self.items]}
+        return {
+            "items": [item.to_dict() for item in self.items],
+            "variables": self.variables,
+        }
 
     def to_json(self):
         return json.dumps(self.to_dict(), separators=(",", ":"))
 
     def print_json(self):
         sys.stdout.write(self.to_json())
-
-
-@dataclass
-class ImportResult:
-    count: int
-    variables: dict[str, str]
 
 
 @dataclass
@@ -87,3 +85,9 @@ class TotpAccounts(dict[str, TotpAccount]):
     def from_json(self, json_str: str) -> "TotpAccounts":
         data = json.loads(json_str)
         return TotpAccounts({k: TotpAccount(**v) for k, v in data.items()})
+
+
+@dataclass
+class ImportResult:
+    count: int
+    accounts: TotpAccounts

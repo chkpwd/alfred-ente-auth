@@ -1,4 +1,3 @@
-import json
 import logging
 import os
 import sys
@@ -45,9 +44,17 @@ def get_accounts(search_string: str | None = None):
         logger.exception(f"Failed to load TOTP accounts: {e}", e)
         output_alfred_message("Failed to load TOTP accounts", str(e))
     else:
+        # Store all TOTP accounts for Alfred cache
+        alfred_cache = {CACHE_ENV_VAR: accounts.to_json()}
+
         if search_string:
             accounts = fuzzy_search_accounts(search_string, accounts)
-        return format_totp_result(accounts)
+
+        # Format accounts/search results for Alfred, adding all accounts to the 'variables' key for Alfred cache.
+        fmt_result = format_totp_result(accounts)
+        fmt_result.variables = alfred_cache
+        return fmt_result
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -77,10 +84,7 @@ if __name__ == "__main__":
                 service_names_list: list[str] = []
                 result = ente_export_to_keychain(ente_export_path)
 
-                variables = result.variables
-                totp_accounts = json.loads(variables[CACHE_ENV_VAR])
-
-                for k, _ in totp_accounts.items():
+                for k, _ in result.accounts.items():
                     try:
                         get_icon(sanitize_service_name(k), ICONS_FOLDER)
                     except Exception as e:
@@ -89,7 +93,7 @@ if __name__ == "__main__":
                 output_alfred_message(
                     "Imported TOTP data",
                     f"Successfully imported {result.count} TOTP accounts and downloaded icons.",
-                    variables=variables,
+                    variables=result.accounts,
                 )
             except Exception as e:
                 logger.exception(
