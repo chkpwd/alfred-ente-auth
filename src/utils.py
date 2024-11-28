@@ -1,3 +1,5 @@
+import hashlib
+import uuid
 from datetime import datetime
 
 from src.models import AlfredOutput, AlfredOutputItem, TotpAccounts
@@ -69,3 +71,8 @@ def output_alfred_message(title: str, subtitle: str, variables: dict | None = No
     AlfredOutput(
         [AlfredOutputItem(title=title, subtitle=subtitle, variables=variables)]
     ).print_json()
+
+
+def create_uuid_from_string(val: str) -> str:
+    hex_string = hashlib.md5(val.encode("UTF-8")).hexdigest()
+    return str(uuid.UUID(hex=hex_string))

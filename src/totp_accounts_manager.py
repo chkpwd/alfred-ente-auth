@@ -12,7 +12,12 @@ from src.models import (
     TotpAccount,
     TotpAccounts,
 )
-from src.utils import calculate_time_remaining, sanitize_service_name, str_to_bool
+from src.utils import (
+    calculate_time_remaining,
+    create_uuid_from_string,
+    sanitize_service_name,
+    str_to_bool,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -104,6 +109,7 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
                     arg=current_totp,
                     match=service_name,
                     icon=AlfredOutputItemIcon.from_service(sanitized_service_name),
+                    uid=create_uuid_from_string(service_name + service_data.username),
                 )
             )
 
