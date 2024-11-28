@@ -27,6 +27,13 @@ jobs:
         run: |
           python3 build.py
 
+      - name: Commit info.plist
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: main
+          commit_message: 'chore: bump workflow version'
+          file_pattern: info.plist
+  
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
