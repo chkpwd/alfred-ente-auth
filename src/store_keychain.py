@@ -4,8 +4,9 @@ import os
 import keyring
 
 from src.constants import CACHE_ENV_VAR, KEYCHAIN_ACCOUNT, KEYCHAIN_SERVICE
-from src.models import AlfredOutput, AlfredOutputItem, ImportResult, TotpAccounts
+from src.models import ImportResult, TotpAccounts
 from src.totp_accounts_manager import parse_ente_export
+from src.utils import output_alfred_message
 
 logger = logging.getLogger(__name__)
 
@@ -49,30 +50,12 @@ def ente_export_to_keychain(file: str) -> ImportResult:
 
         logger.info(f"Keychain database created with {secrets_imported_count} entries.")
 
-        result = ImportResult(secrets_imported_count, accounts)
+        return ImportResult(secrets_imported_count, accounts)
 
-    except FileNotFoundError:
-        error_message = f"File not found: {file}"
-        logger.error(error_message)
-        AlfredOutput(
-            [
-                AlfredOutputItem(
-                    title="Import Failed",
-                    subtitle=f"File not found: {file}",
-                )
-            ]
-        ).print_json()
+    except FileNotFoundError as e:
+        output_alfred_message("Import Failed", f"File not found: {file}")
+        raise e
 
     except Exception as e:
-        error_message = f"An error occurred: {str(e)}"
-        logger.exception(error_message, e)
-        AlfredOutput(
-            [
-                AlfredOutputItem(
-                    title="Import Failed",
-                    subtitle=error_message,
-                )
-            ]
-        ).print_json()
-
-    return result
+        output_alfred_message("Import Failed", f"An error occurred during Ente export: {str(e)}")
+        raise e
