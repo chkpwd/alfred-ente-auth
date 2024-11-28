@@ -89,7 +89,7 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
 
             # Update title and subtitle
             title = (
-                f"{sanitized_service_name} - {service_data.username}"
+                f"{service_name} - {service_data.username}"
                 if service_data.username and username_in_title
                 else sanitized_service_name
             )
