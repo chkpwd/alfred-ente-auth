@@ -78,7 +78,7 @@ class EnteAuth:
     def check_ente_binary(path) -> bool:
         try:
             subprocess.run(
-                [f"{path}", "version"],
+                [path, "version"],
                 check=True,
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
