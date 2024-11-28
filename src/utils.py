@@ -3,11 +3,11 @@ from datetime import datetime
 from src.models import AlfredOutput, AlfredOutputItem, TotpAccounts
 
 
-def sanitize_service_name(service_name):
+def sanitize_service_name(service_name: str) -> str:
     return service_name.split("-")[0].strip().replace(" ", "").lower()
 
 
-def str_to_bool(val):
+def str_to_bool(val: str | bool) -> bool:
     if isinstance(val, str):
         val = val.lower()
     if val in (True, "true", "1", 1):
@@ -18,14 +18,18 @@ def str_to_bool(val):
     raise ValueError(msg)
 
 
-def calculate_time_remaining(time_step=30):
-    # Calculate the time remaining until the next TOTP period.
-
+def calculate_time_remaining(time_step: int = 30) -> int:
+    """
+    Calculate the seconds remaining until the next multiple of the given time step.
+    """
     current_time = datetime.now().timestamp()
     return int(time_step - (current_time % time_step))
 
 
 def fuzzy_search_accounts(search_string: str, values: TotpAccounts) -> TotpAccounts:
+    """
+    Fuzzy search given TOTP accounts, matching on service name and username, and return the matched accounts.
+    """
     matches: list[tuple[float, str]] = []
 
     # Split the search_string by spaces for more granular search
@@ -37,7 +41,7 @@ def fuzzy_search_accounts(search_string: str, values: TotpAccounts) -> TotpAccou
         username_lower = service_info.username.lower()
 
         # Define match scores for prioritization
-        score = 0
+        score: float = 0
         if all(part in service_name_lower for part in search_parts):
             score += 3  # Full match in service name
         if all(part in username_lower for part in search_parts):
@@ -60,7 +64,8 @@ def fuzzy_search_accounts(search_string: str, values: TotpAccounts) -> TotpAccou
     return matched_accounts
 
 
-def output_alfred_message(title: str, subtitle: str, variables: dict | None = None):
+def output_alfred_message(title: str, subtitle: str, variables: dict | None = None) -> None:
+    """Helper function to print a simple message in Alfred JSON format."""
     AlfredOutput(
         [AlfredOutputItem(title=title, subtitle=subtitle, variables=variables)]
     ).print_json()

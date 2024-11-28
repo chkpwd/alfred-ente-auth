@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 def parse_ente_export(file_path: str) -> TotpAccounts:
+    """Parses an Ente export file of otpauth URIs and returns a TotpAccounts object."""
     accounts = TotpAccounts()
 
     with open(file_path, "r") as ente_export_file:
@@ -51,7 +52,7 @@ def parse_ente_export(file_path: str) -> TotpAccounts:
 
 
 def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
-    """Format TOTP accounts for Alfred."""
+    """Transforms a TotpAccounts object into an AlfredOutput object."""
     result = AlfredOutput([], rerun=1)
 
     username_in_title = str_to_bool(os.getenv("USERNAME_IN_TITLE", "False"))

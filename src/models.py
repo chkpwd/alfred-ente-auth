@@ -9,6 +9,11 @@ from src.constants import ICONS_FOLDER
 # https://www.alfredapp.com/help/workflows/inputs/script-filter/json
 @dataclass
 class AlfredOutputItemIcon:
+    """
+    Class to represent a custom icon for an AlfredOutputItem object.
+    
+    See https://www.alfredapp.com/help/workflows/inputs/script-filter/json
+    """
     path: str = "icon.png"
     type: str | None = None
 
@@ -34,6 +39,11 @@ class AlfredOutputItemIcon:
 
 @dataclass
 class AlfredOutputItem:
+    """
+    Class to represent an item in an AlfredOutput object.
+
+    See https://www.alfredapp.com/help/workflows/inputs/script-filter/json
+    """
     title: str
     uid: str | None = None
     subtitle: str | None = None
@@ -55,6 +65,11 @@ class AlfredOutputItem:
 
 @dataclass
 class AlfredOutput:
+    """
+    Class to represent structured output to an Alfred session.
+
+    See https://www.alfredapp.com/help/workflows/inputs/script-filter/json
+    """
     items: list[AlfredOutputItem]
     rerun: float | None = None
     variables: dict[str, Any] = field(default_factory=dict)
@@ -75,11 +90,13 @@ class AlfredOutput:
 
 @dataclass
 class TotpAccount:
+    """Class to represent a TOTP account imported from Ente or stored locally."""
     username: str
     secret: str
 
 
 class TotpAccounts(dict[str, TotpAccount]):
+    """Class to represent a collection of TOTP accounts."""
     def to_json(self) -> str:
         json_data = {k: asdict(v) for k, v in self.items()}
         return json.dumps(json_data, separators=(",", ":"))
@@ -91,5 +108,6 @@ class TotpAccounts(dict[str, TotpAccount]):
 
 @dataclass
 class ImportResult:
+    """Class to represent the result of a parsed Ente export."""
     count: int
     accounts: TotpAccounts

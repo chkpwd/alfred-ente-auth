@@ -8,7 +8,10 @@ from simplepycons import all_icons
 logger = logging.getLogger(__name__)
 
 
-def get_ente_custom_icon(name: str):
+def get_ente_custom_icon(name: str) -> str | None:
+    """
+    Searches Ente custom icons on GitHub for the provided name and returns the SVG content if found.
+    """
     icons_database_url = "https://raw.githubusercontent.com/ente-io/ente/refs/heads/main/auth/assets/custom-icons/_data/custom-icons.json"
     ente_custom_icons_db = "https://raw.githubusercontent.com/ente-io/ente/refs/heads/main/auth/assets/custom-icons/icons/"
 
@@ -40,14 +43,8 @@ def get_ente_custom_icon(name: str):
         logger.error(f"Error while fetching custom icons: {e}")
 
 
-def get_simplepycons_icon(name: str):
-    """
-    Gets an icon for a given service name.
-
-    Returns:
-        str: Path to the icon, or the default icon if retrieving the object fails.
-    """
-
+def get_simplepycons_icon(name: str) -> str | None:
+    """Searches Simple Icons for the provided name and returns the SVG content if found."""
     try:
         icon = all_icons[name]  # type: ignore
     except KeyError:
@@ -57,7 +54,8 @@ def get_simplepycons_icon(name: str):
         return str(icon)
 
 
-def get_icon(service: str, icons_dir: Path):
+def get_icon(service: str, icons_dir: Path) -> None:
+    """Downloads the icon for the given service and saves it to the provided icons directory if found."""
     icons_dir.mkdir(parents=True, exist_ok=True)
     icon_path = icons_dir / f"{service}.svg"
 

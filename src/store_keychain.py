@@ -11,7 +11,7 @@ from src.utils import output_alfred_message
 logger = logging.getLogger(__name__)
 
 def get_totp_accounts() -> TotpAccounts:
-    """Load TOTP accounts from the environment variable or keychain."""
+    """Load TOTP accounts from Alfred session cache or keychain."""
     cached_accounts = os.getenv(CACHE_ENV_VAR)
 
     if cached_accounts:

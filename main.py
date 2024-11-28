@@ -1,7 +1,6 @@
 import logging
 import os
 import sys
-from glob import glob
 
 from src.constants import (
     CACHE_ENV_VAR,
@@ -9,6 +8,7 @@ from src.constants import (
 )
 from src.ente_auth import EnteAuth
 from src.icon_downloader import get_icon
+from src.models import AlfredOutput
 from src.store_keychain import (
     ente_export_to_keychain,
     get_totp_accounts,
@@ -26,7 +26,10 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 
-def get_accounts(search_string: str | None = None):
+def get_accounts(search_string: str | None = None) -> AlfredOutput | None:
+    """
+    Load TOTP accounts from the environment variable or keychain, filtering by `search_string`.
+    Dumps the results to stdout in Alfred JSON format, adding all TotpAccounts for Alfred cache."""
     try:
         accounts = get_totp_accounts()
         logger.info("Loaded TOTP accounts.")
