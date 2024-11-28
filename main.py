@@ -3,33 +3,23 @@ import os
 import sys
 from glob import glob
 
-# Add the venv directory to the path
-python_dirs = glob(os.path.join(os.path.dirname(__file__), ".venv/lib/python3.*"))
-if python_dirs:
-    sys.path.append(os.path.join(python_dirs[0], "site-packages"))
-else:
-    raise FileNotFoundError("Could not find python3.* directory in .venv/lib")
-
-from src.ente_auth import EnteAuth  # noqa: E402, I001
-from src.store_keychain import (  # noqa: E402
-    ente_export_to_keychain,
-    get_totp_accounts,
-)
-from src.totp_accounts_manager import format_totp_result  # noqa: E402
-from src.utils import (  # noqa: E402
-    fuzzy_search_accounts,
-    sanitize_service_name,
-    output_alfred_message,
-    str_to_bool,
-)
-
-from src.constants import (  # noqa: E402
+from src.constants import (
     CACHE_ENV_VAR,
     ICONS_FOLDER,
 )
-
-from src.icon_downloader import get_icon  # noqa: E402
-
+from src.ente_auth import EnteAuth
+from src.icon_downloader import get_icon
+from src.store_keychain import (
+    ente_export_to_keychain,
+    get_totp_accounts,
+)
+from src.totp_accounts_manager import format_totp_result
+from src.utils import (
+    fuzzy_search_accounts,
+    output_alfred_message,
+    sanitize_service_name,
+    str_to_bool,
+)
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(

@@ -644,8 +644,11 @@ python3 build.py</string>
 			<string>OVERWRITE_EXPORT</string>
 		</dict>
 	</array>
-	<key>variablesdontexport</key>
-	<array/>
+	<key>variables</key>
+	<dict>
+		<key>PYTHONPATH</key>
+		<string>.venv/lib/python3.13/site-packages</string>
+	</dict>
 	<key>version</key>
 	<string>2.1.0</string>
 	<key>webaddress</key>

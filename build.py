@@ -9,6 +9,11 @@ from zipfile import ZIP_STORED, ZipFile
 import tomllib
 
 
+def find_venv_py_version():
+    venv_python_version = os.listdir(os.path.join(os.getcwd(), ".venv", "lib"))[0]
+    return venv_python_version
+
+
 def parse_info_plist():
     """Parse the info.plist file"""
     with open("info.plist", "rb") as f:
@@ -42,6 +47,16 @@ def update_version(version: str, plist_path: str = "info.plist"):
     """Update the version in info.plist"""
     plist = parse_info_plist()
     plist["version"] = version
+    with open(plist_path, "wb") as f:
+        plistlib.dump(plist, f)
+
+
+def update_workflow_pythonpath_var(python_dirname: str, plist_path: str = "info.plist"):
+    """Update "PYTHONPATH" string variables dict in parsed plist"""
+    plist = parse_info_plist()
+    plist["variables"]["PYTHONPATH"] = os.path.join(
+        ".venv", "lib", python_dirname, "site-packages"
+    )
     with open(plist_path, "wb") as f:
         plistlib.dump(plist, f)
 
