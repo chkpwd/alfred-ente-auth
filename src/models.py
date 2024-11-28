@@ -56,11 +56,13 @@ class AlfredOutputItem:
 @dataclass
 class AlfredOutput:
     items: list[AlfredOutputItem]
+    rerun: float | None = None
     variables: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self):
         return {
             "items": [item.to_dict() for item in self.items],
+            "rerun": self.rerun,
             "variables": self.variables,
         }
 

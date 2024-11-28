@@ -52,7 +52,7 @@ def parse_ente_export(file_path: str) -> TotpAccounts:
 
 def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
     """Format TOTP accounts for Alfred."""
-    result = AlfredOutput([])
+    result = AlfredOutput([], rerun=1)
 
     username_in_title = str_to_bool(os.getenv("USERNAME_IN_TITLE", "False"))
     username_in_subtitle = str_to_bool(os.getenv("USERNAME_IN_SUBTITLE", "False"))
