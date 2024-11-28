@@ -60,7 +60,7 @@ Download and open the workflow file from the [latest release](https://github.com
    - To list all of your Ente Auth TOTP accounts, run `ente` in Alfred.
    - To search for a specific account, simply append a search string to the previous command.
      Example: `ente GitHub`
-   - The search feature also supports loose search quries, matching words in the account name in any order.
+   - The search feature also supports loose search queries, matching words in the account name in any order.
       - For example "Docker Hub" will match with the queries "Docker Hub", "Hub", "Do Hu".
 
 ---
