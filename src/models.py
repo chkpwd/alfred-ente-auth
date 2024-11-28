@@ -93,6 +93,7 @@ class TotpAccount:
     """Class to represent a TOTP account imported from Ente or stored locally."""
     username: str
     secret: str
+    period: int = 30
 
 
 class TotpAccounts(dict[str, TotpAccount]):

@@ -41,13 +41,24 @@ def parse_ente_export(file_path: str) -> TotpAccounts:
 
                     query_params = parse_qs(parsed_uri.query)
                     secret = query_params.get("secret", [None])[0]
+                    period = query_params.get("period", [None])[0]
 
                     if not secret:
-                        raise ValueError(
+                        raise KeyError(
                             f"Unable to parse 'secret' parameter in: {line}"
                         )
 
-                    accounts[service_name] = TotpAccount(username, secret)
+                    if not period or period == "null":
+                        logger.warning(f"Unable to parse 'period' parameter for '{service_name} - {username}'. Will use default of 30 seconds.")
+                        accounts[service_name] = TotpAccount(username, secret)
+                    else:
+                        try:
+                            period = int(period)
+                        except ValueError:
+                            logger.warning(f"Value of 'period' parameter ('{period}') for '{service_name} - {username}' could not be cast to int. Will use default of 30 seconds.")
+                            period = 30
+                        accounts[service_name] = TotpAccount(username, secret, period)
+
     return accounts
 
 
@@ -63,10 +74,10 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
             # Generate TOTP
             totp = pyotp.TOTP(service_data.secret)
             current_totp = totp.now()
-            next_totp = totp.at(datetime.now() + timedelta(seconds=30))
+            next_totp = totp.at(datetime.now() + timedelta(seconds=service_data.period))
 
             # Calculate remaining time using the utility
-            time_remaining = calculate_time_remaining()
+            time_remaining = calculate_time_remaining(service_data.period)
 
             # Sanitize service name for display and icons
             sanitized_service_name = sanitize_service_name(service_name)

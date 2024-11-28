@@ -18,7 +18,7 @@ def str_to_bool(val: str | bool) -> bool:
     raise ValueError(msg)
 
 
-def calculate_time_remaining(time_step: int = 30) -> int:
+def calculate_time_remaining(time_step: int) -> int:
     """
     Calculate the seconds remaining until the next multiple of the given time step.
     """
