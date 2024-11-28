@@ -48,7 +48,7 @@ class EnteAuth:
         logger.debug("Ente auth export file not found. Exporting...")
         try:
             result = subprocess.run(
-                ["ente", "export"],
+                [self.ente_auth_binary_path, "export"],
                 check=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
