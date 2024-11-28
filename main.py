@@ -7,7 +7,7 @@ from src.constants import (
     ICONS_FOLDER,
 )
 from src.ente_auth import EnteAuth
-from src.icon_downloader import get_icon
+from src.icon_downloader import download_icon
 from src.models import AlfredOutput
 from src.store_keychain import (
     ente_export_to_keychain,
@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
                 for k, _ in result.accounts.items():
                     try:
-                        get_icon(sanitize_service_name(k), ICONS_FOLDER)
+                        download_icon(sanitize_service_name(k), ICONS_FOLDER)
                     except Exception as e:
                         logger.warning(f"Failed to download icon: {e}")
 
@@ -89,10 +89,10 @@ if __name__ == "__main__":
                     variables=result.accounts,
                 )
             except Exception as e:
+                output_alfred_message("Failed to import TOTP data", str(e))
                 logger.exception(
                     f"Failed to populate TOTP data in keychain from file: {e}", e
                 )
-                output_alfred_message("Failed to import TOTP data", str(e))
 
             ente_auth.delete_ente_export(ente_export_path)
 
