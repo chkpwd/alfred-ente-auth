@@ -101,6 +101,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>E6427711-FED1-47CC-AA39-D59E50B504C7</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>3101A957-02C3-4D0C-8B13-1C3721459261</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>ECD812F2-4D1E-41CA-B344-81B25B4A6357</key>
 		<array>
 			<dict>
@@ -361,8 +374,6 @@
 				<integer>2</integer>
 				<key>escaping</key>
 				<integer>102</integer>
-				<key>keyword</key>
-				<string>ente import</string>
 				<key>queuedelaycustom</key>
 				<integer>10</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -394,6 +405,27 @@
 			<string>3101A957-02C3-4D0C-8B13-1C3721459261</string>
 			<key>version</key>
 			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>ente import</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>Import Ente Secrets</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>E6427711-FED1-47CC-AA39-D59E50B504C7</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -453,9 +485,9 @@ python3 build.py</string>
 		<key>3101A957-02C3-4D0C-8B13-1C3721459261</key>
 		<dict>
 			<key>xpos</key>
-			<real>95.0</real>
+			<real>315.0</real>
 			<key>ypos</key>
-			<real>445.0</real>
+			<real>450.0</real>
 		</dict>
 		<key>4C82069F-5857-4F72-9807-0A05DACC1F7C</key>
 		<dict>
@@ -505,6 +537,13 @@ python3 build.py</string>
 			<real>315.0</real>
 			<key>ypos</key>
 			<real>265.0</real>
+		</dict>
+		<key>E6427711-FED1-47CC-AA39-D59E50B504C7</key>
+		<dict>
+			<key>xpos</key>
+			<real>95.0</real>
+			<key>ypos</key>
+			<real>450.0</real>
 		</dict>
 		<key>ECD812F2-4D1E-41CA-B344-81B25B4A6357</key>
 		<dict>
