@@ -51,6 +51,7 @@ class AlfredOutputItem:
     arg: str | list[str] | None = None
     icon: AlfredOutputItemIcon | None = None
     variables: dict[str, Any] | None = None
+    uid: str | None = None
 
     def __post_init__(self):
         # Automatically fetch an icon based on the title if no icon is provided
