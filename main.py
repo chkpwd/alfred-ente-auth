@@ -86,7 +86,6 @@ if __name__ == "__main__":
                 output_alfred_message(
                     "Imported TOTP data",
                     f"Successfully imported {result.count} TOTP accounts and downloaded icons.",
-                    variables=result.accounts,
                 )
             except Exception as e:
                 output_alfred_message("Failed to import TOTP data", str(e))
