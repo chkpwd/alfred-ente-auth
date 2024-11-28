@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.2.1] - 2024-11-28
+### :bug: Bug Fixes
+- [`8722385`](https://github.com/chkpwd/alfred-ente-auth/commit/872238505f61dcb399bb89595accd3dbcf32b0da) - **ente_auth**: use defined binary path *(commit by [@tigattack](https://github.com/tigattack))*
+- [`0b774ed`](https://github.com/chkpwd/alfred-ente-auth/commit/0b774ed8436d777f54025335f75ab26d5dce705f) - **ente_auth**: correctly assign binary path when defined by user *(commit by [@tigattack](https://github.com/tigattack))*
+- [`cb0cc15`](https://github.com/chkpwd/alfred-ente-auth/commit/cb0cc159dce8ce8b5faebeb101c41e17cbe67c99) - set uid for each item in Alfred response *(commit by [@tigattack](https://github.com/tigattack))*
+
+### :wrench: Chores
+- [`2e9ef2e`](https://github.com/chkpwd/alfred-ente-auth/commit/2e9ef2ea526415f9b98ca18ab1f68c7e4f4b4fdd) - bump version *(commit by [@tigattack](https://github.com/tigattack))*
+
+
 ## [v2.2.0] - 2024-11-28
 ### :sparkles: New Features
 - [`4c2be35`](https://github.com/chkpwd/alfred-ente-auth/commit/4c2be35137cd6cc6054c0750d2473b16eeef34ce) - return all accounts, filter in Alfred *(commit by [@tigattack](https://github.com/tigattack))*
@@ -69,3 +79,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v2.0.0]: https://github.com/chkpwd/alfred-ente-auth/compare/latest...v2.0.0
 [v2.1.0]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.0.0...v2.1.0
 [v2.2.0]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.1.0...v2.2.0
+[v2.2.1]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.2.0...v2.2.1
