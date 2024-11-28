@@ -8,31 +8,25 @@ from zipfile import ZIP_STORED, ZipFile
 
 import tomllib
 
+WORKFLOW_PLIST_PATH = "info.plist"
 
-def find_venv_py_version():
+
+def find_venv_py_version() -> str:
     venv_python_version = os.listdir(os.path.join(os.getcwd(), ".venv", "lib"))[0]
     return venv_python_version
 
 
 def parse_info_plist():
-    """Parse the info.plist file"""
-    with open("info.plist", "rb") as f:
+    """Parse a plist file"""
+    with open(WORKFLOW_PLIST_PATH, "rb") as f:
         plist = plistlib.load(f)
     return plist
 
 
-def get_workflow_name():
+def get_workflow_name(plist):
     """Get the workflow name from parsed plist"""
-    plist = parse_info_plist()
     name = plist["name"].replace(" ", "_").lower()
     return name
-
-
-def get_workflow_version():
-    """Get the workflow version from parsed plist"""
-    plist = parse_info_plist()
-    version = plist["version"].replace(" ", "_").lower()
-    return version
 
 
 def get_pyproject_version():
@@ -43,21 +37,25 @@ def get_pyproject_version():
     return version
 
 
-def update_version(version: str, plist_path: str = "info.plist"):
-    """Update the version in info.plist"""
-    plist = parse_info_plist()
+def get_workflow_version(plist):
+    """Get the workflow version from parsed plist"""
+    version = plist["version"].replace(" ", "_").lower()
+    return version
+
+
+def update_workflow_version(plist, version: str):
+    """Update "version" string in parsed plist"""
     plist["version"] = version
-    with open(plist_path, "wb") as f:
+    with open(WORKFLOW_PLIST_PATH, "wb") as f:
         plistlib.dump(plist, f)
 
 
-def update_workflow_pythonpath_var(python_dirname: str, plist_path: str = "info.plist"):
+def update_workflow_pythonpath_var(plist, python_dirname: str):
     """Update "PYTHONPATH" string variables dict in parsed plist"""
-    plist = parse_info_plist()
     plist["variables"]["PYTHONPATH"] = os.path.join(
         ".venv", "lib", python_dirname, "site-packages"
     )
-    with open(plist_path, "wb") as f:
+    with open(WORKFLOW_PLIST_PATH, "wb") as f:
         plistlib.dump(plist, f)
 
 
@@ -101,16 +99,24 @@ def zip_workflow(filename: str):
 
 
 def main():
-    workflow_name = get_workflow_name()
-    workflow_version = get_workflow_version()
+    plist = parse_info_plist()
+
+    workflow_name = get_workflow_name(plist)
+    workflow_version = get_workflow_version(plist)
     pyproject_version = get_pyproject_version()
 
     init_venv()
 
+    venv_python_version = find_venv_py_version()
+    update_workflow_pythonpath_var(plist, venv_python_version)
+
     if workflow_version != pyproject_version:
-        update_version(pyproject_version)
+        update_workflow_version(plist, pyproject_version)
+        workflow_version = pyproject_version
     else:
-        print("Workflow version matches PyProject version. Should this be updated?")
+        print(
+            "\nWARNING: Workflow version matches PyProject version. Should this be updated?"
+        )
 
     zip_name = f"{workflow_name}-{workflow_version}.alfredworkflow"
     zip_workflow(zip_name)
