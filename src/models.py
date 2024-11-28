@@ -76,11 +76,12 @@ class AlfredOutput:
     variables: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self):
-        return {
+        return {k: v for k, v in {
             "items": [item.to_dict() for item in self.items],
             "rerun": self.rerun,
             "variables": self.variables,
-        }
+        }.items() if v}
+
 
     def to_json(self):
         return json.dumps(self.to_dict(), separators=(",", ":"))
