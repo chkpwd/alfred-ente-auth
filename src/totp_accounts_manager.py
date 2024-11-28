@@ -12,7 +12,7 @@ from src.models import (
     TotpAccount,
     TotpAccounts,
 )
-from src.utils import calculate_time_remaining, str_to_bool
+from src.utils import calculate_time_remaining, sanitize_service_name, str_to_bool
 
 logger = logging.getLogger(__name__)
 
@@ -69,7 +69,7 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
             time_remaining = calculate_time_remaining()
 
             # Sanitize service name for display and icons
-            sanitized_service_name = service_name.strip()
+            sanitized_service_name = sanitize_service_name(service_name)
 
             # Update title and subtitle
             title = (
