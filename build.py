@@ -118,7 +118,7 @@ def main():
             "\nWARNING: Workflow version matches PyProject version. Should this be updated?"
         )
 
-    zip_name = f"{workflow_name}-{workflow_version}.alfredworkflow"
+    zip_name = f"{workflow_name}_{workflow_version}.alfredworkflow"
     zip_workflow(zip_name)
 
     if os.getenv("GITHUB_ACTIONS"):
