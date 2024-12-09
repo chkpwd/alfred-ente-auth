@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.2.2] - 2024-12-09
+### :bug: Bug Fixes
+- [`4e55249`](https://github.com/chkpwd/alfred-ente-auth/commit/4e552497d626e6547968bc34da7bb8ac3f5e7ac7) - santized name being returned in final output *(commit by [@chkpwd](https://github.com/chkpwd))*
+
+### :wrench: Chores
+- [`1519b53`](https://github.com/chkpwd/alfred-ente-auth/commit/1519b537e15a5474a6566001c1e4e798ee57e7a4) - bump workflow version *(commit by [@tigattack](https://github.com/tigattack))*
+- [`9cfad0b`](https://github.com/chkpwd/alfred-ente-auth/commit/9cfad0bce5dfd25bb72ed4f831b000fde80526a3) - updated screenshot *(commit by [@chkpwd](https://github.com/chkpwd))*
+
+
 ## [v2.2.1] - 2024-11-28
 ### :bug: Bug Fixes
 - [`8722385`](https://github.com/chkpwd/alfred-ente-auth/commit/872238505f61dcb399bb89595accd3dbcf32b0da) - **ente_auth**: use defined binary path *(commit by [@tigattack](https://github.com/tigattack))*
@@ -80,3 +89,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v2.1.0]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.0.0...v2.1.0
 [v2.2.0]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.1.0...v2.2.0
 [v2.2.1]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.2.0...v2.2.1
+[v2.2.2]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.2.1...v2.2.2
