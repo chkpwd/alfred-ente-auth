@@ -81,10 +81,8 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
             current_totp = totp.now()
             next_totp = totp.at(datetime.now() + timedelta(seconds=service_data.period))
 
-            # Calculate remaining time using the utility
             time_remaining = calculate_time_remaining(service_data.period)
 
-            # Sanitize service name for display and icons
             sanitized_service_name = sanitize_service_name(service_name)
 
             # Conditionally add username to title and subtitle
