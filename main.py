@@ -26,6 +26,7 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 
+
 def get_accounts(search_string: str | None = None) -> AlfredOutput | None:
     """
     Load TOTP accounts from the environment variable or keychain, filtering by `search_string`.
@@ -51,7 +52,9 @@ def get_accounts(search_string: str | None = None) -> AlfredOutput | None:
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        raise ValueError("No subcommand found. Use one of: import, search, get_accounts")
+        raise ValueError(
+            "No subcommand found. Use one of: import, search, get_accounts"
+        )
 
     elif sys.argv[1] == "import":
         ente_export_dir = os.getenv("ENTE_EXPORT_DIR")
@@ -110,4 +113,6 @@ if __name__ == "__main__":
         if accounts:
             accounts.print_json()
         else:
-            output_alfred_message("No TOTP accounts found", "Try importing some accounts.")
+            output_alfred_message(
+                "No TOTP accounts found", "Try importing some accounts."
+            )

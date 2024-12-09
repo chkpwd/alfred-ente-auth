@@ -66,7 +66,9 @@ def fuzzy_search_accounts(search_string: str, values: TotpAccounts) -> TotpAccou
     return matched_accounts
 
 
-def output_alfred_message(title: str, subtitle: str, variables: dict | None = None) -> None:
+def output_alfred_message(
+    title: str, subtitle: str, variables: dict | None = None
+) -> None:
     """Helper function to print a simple message in Alfred JSON format."""
     AlfredOutput(
         [AlfredOutputItem(title=title, subtitle=subtitle, variables=variables)]

@@ -49,18 +49,20 @@ def parse_ente_export(file_path: str) -> TotpAccounts:
                     period = query_params.get("period", [None])[0]
 
                     if not secret:
-                        raise KeyError(
-                            f"Unable to parse 'secret' parameter in: {line}"
-                        )
+                        raise KeyError(f"Unable to parse 'secret' parameter in: {line}")
 
                     if not period or period == "null":
-                        logger.warning(f"Unable to parse 'period' parameter for '{service_name} - {username}'. Will use default of 30 seconds.")
+                        logger.warning(
+                            f"Unable to parse 'period' parameter for '{service_name} - {username}'. Will use default of 30 seconds."
+                        )
                         accounts[service_name] = TotpAccount(username, secret)
                     else:
                         try:
                             period = int(period)
                         except ValueError:
-                            logger.warning(f"Value of 'period' parameter ('{period}') for '{service_name} - {username}' could not be cast to int. Will use default of 30 seconds.")
+                            logger.warning(
+                                f"Value of 'period' parameter ('{period}') for '{service_name} - {username}' could not be cast to int. Will use default of 30 seconds."
+                            )
                             period = 30
                         accounts[service_name] = TotpAccount(username, secret, period)
 
