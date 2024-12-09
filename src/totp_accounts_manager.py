@@ -87,11 +87,11 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
             # Sanitize service name for display and icons
             sanitized_service_name = sanitize_service_name(service_name)
 
-            # Update title and subtitle
+            # Conditionally add username to title and subtitle
             title = (
                 f"{service_name} - {service_data.username}"
                 if service_data.username and username_in_title
-                else sanitized_service_name
+                else service_name
             )
             subtitle = (
                 f"Current TOTP: {current_totp} | Next TOTP: {next_totp}, {time_remaining} seconds left"
