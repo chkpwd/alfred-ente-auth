@@ -10,6 +10,7 @@ from src.utils import output_alfred_message
 
 logger = logging.getLogger(__name__)
 
+
 def get_totp_accounts() -> TotpAccounts:
     """Load TOTP accounts from Alfred session cache or keychain."""
     cached_accounts = os.getenv(CACHE_ENV_VAR)
@@ -57,5 +58,7 @@ def ente_export_to_keychain(file: str) -> ImportResult:
         raise e
 
     except Exception as e:
-        output_alfred_message("Import Failed", f"An error occurred during Ente export: {str(e)}")
+        output_alfred_message(
+            "Import Failed", f"An error occurred during Ente export: {str(e)}"
+        )
         raise e

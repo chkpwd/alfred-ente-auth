@@ -11,9 +11,10 @@ from src.constants import ICONS_FOLDER
 class AlfredOutputItemIcon:
     """
     Class to represent a custom icon for an AlfredOutputItem object.
-    
+
     See https://www.alfredapp.com/help/workflows/inputs/script-filter/json
     """
+
     path: str = "icon.png"
     type: str | None = None
 
@@ -44,6 +45,7 @@ class AlfredOutputItem:
 
     See https://www.alfredapp.com/help/workflows/inputs/script-filter/json
     """
+
     title: str
     uid: str | None = None
     subtitle: str | None = None
@@ -72,17 +74,21 @@ class AlfredOutput:
 
     See https://www.alfredapp.com/help/workflows/inputs/script-filter/json
     """
+
     items: list[AlfredOutputItem]
     rerun: float | None = None
     variables: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self):
-        return {k: v for k, v in {
-            "items": [item.to_dict() for item in self.items],
-            "rerun": self.rerun,
-            "variables": self.variables,
-        }.items() if v}
-
+        return {
+            k: v
+            for k, v in {
+                "items": [item.to_dict() for item in self.items],
+                "rerun": self.rerun,
+                "variables": self.variables,
+            }.items()
+            if v
+        }
 
     def to_json(self):
         return json.dumps(self.to_dict(), separators=(",", ":"))
@@ -94,6 +100,7 @@ class AlfredOutput:
 @dataclass
 class TotpAccount:
     """Class to represent a TOTP account imported from Ente or stored locally."""
+
     username: str
     secret: str
     period: int = 30
@@ -101,6 +108,7 @@ class TotpAccount:
 
 class TotpAccounts(dict[str, TotpAccount]):
     """Class to represent a collection of TOTP accounts."""
+
     def to_json(self) -> str:
         json_data = {k: asdict(v) for k, v in self.items()}
         return json.dumps(json_data, separators=(",", ":"))
@@ -113,5 +121,6 @@ class TotpAccounts(dict[str, TotpAccount]):
 @dataclass
 class ImportResult:
     """Class to represent the result of a parsed Ente export."""
+
     count: int
     accounts: TotpAccounts
