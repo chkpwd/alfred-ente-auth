@@ -5,6 +5,31 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Python Debugger: import",
+      "type": "debugpy",
+      "env": {
+        "ENTE_AUTH_EXPORT_PATH": "~/Documents/ente/ente_auth.txt",
+        "ENTE_AUTH_BINARY_PATH": "~/ente",
+        "ENTE_EXPORT_DIR": "~/Documents/ente",
+        "alfred_workflow_data": "~/.local/share/ente-totp/icons"
+      },
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "args": [ "import" ]
+    },
+    {
+      "name": "Python Debugger: Ente Auth",
+      "type": "debugpy",
+      "env": {
+        "ENTE_AUTH_EXPORT_PATH": "~/Documents/ente/ente_auth.txt",
+        "ENTE_AUTH_BINARY_PATH": "~/ente"
+      },
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal"
+    },
+    {
       "name": "Python Debugger: main - search arg",
       "type": "debugpy",
       "env": {
