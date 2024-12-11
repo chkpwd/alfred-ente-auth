@@ -1,6 +1,7 @@
 import logging
 import os
 import subprocess
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
@@ -28,12 +29,12 @@ class EnteAuth:
 
         return result.stdout.decode("utf-8").strip()
 
-    def create_ente_export_dir(self, path: str) -> None:
-        if not os.path.exists(path):
+    def create_ente_export_dir(self, path: Path) -> None:
+        if not path.exists():
             os.makedirs(path)
             logger.info(f"Ente folder created at: {path}")
 
-    def export_ente_auth_accounts(self, export_path: str, overwrite: bool) -> None:
+    def export_ente_auth_accounts(self, export_path: Path, overwrite: bool) -> None:
         """
         Execute Ente export command.
 
@@ -41,10 +42,10 @@ class EnteAuth:
         """
         path_exists = os.path.exists(export_path)
 
-        if path_exists and overwrite:
+        if export_path.exists() and overwrite:
             logger.debug("Ente auth export file found. Overwrite is true. Deleting...")
             self.delete_ente_export(export_path)
-        elif path_exists and not overwrite:
+        elif export_path.exists() and not overwrite:
             logger.info("Export file already exists. Skipping export.")
             return
 
@@ -60,9 +61,9 @@ class EnteAuth:
             # When export directory doesn't exist, Ente CLI still returns rc0 but prints an error to stderr.
             # If this happens, we'll create the path and retry.
             if "error: path does not exist" in result.stderr.decode("utf-8"):
-                export_dir = os.path.dirname(export_path)
+                export_dir = export_path.parent
                 logger.info(f"Export directory does not exist. Creating: {export_dir}")
-                self.create_ente_export_dir(export_dir)
+                self.create_ente_export_dir(Path(export_dir))
                 logger.info("Retrying export...")
                 self.export_ente_auth_accounts(export_path, overwrite)
 
@@ -70,12 +71,12 @@ class EnteAuth:
             logger.error("Export failed", e)
             raise e
 
-        if not os.path.exists(export_path):
+        if not export_path.exists():
             raise OSError(
                 "Export appeared to succeed, but the export file was not found."
             )
 
-    def delete_ente_export(self, export_path: str) -> None:
+    def delete_ente_export(self, export_path: Path) -> None:
         try:
             os.remove(export_path)
             logger.info("Ente export file deleted")
@@ -84,7 +85,7 @@ class EnteAuth:
             raise e
 
     @staticmethod
-    def check_ente_binary(path: str) -> bool:
+    def check_ente_binary(path: Path) -> bool:
         """Check if the ente binary exists and is executable."""
         try:
             subprocess.run(

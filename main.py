@@ -1,6 +1,7 @@
 import logging
 import os
 import sys
+from pathlib import Path
 
 from src.constants import (
     CACHE_ENV_VAR,
@@ -61,9 +62,8 @@ if __name__ == "__main__":
         if not ente_export_dir:
             logger.error("ENTE_EXPORT_DIR not configured.")
             sys.exit(1)
-        ente_export_path = os.path.join(
-            os.path.expanduser(ente_export_dir), "ente_auth.txt"
-        )
+
+        ente_export_path = Path(ente_export_dir).expanduser() / "ente_auth.txt"
 
         overwrite_export = str_to_bool(os.getenv("OVERWRITE_EXPORT", "True"))
 

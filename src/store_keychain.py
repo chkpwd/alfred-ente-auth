@@ -1,5 +1,6 @@
 import logging
 import os
+from pathlib import Path
 
 import keyring
 
@@ -33,7 +34,7 @@ def get_totp_accounts() -> TotpAccounts:
     return accounts
 
 
-def ente_export_to_keychain(file: str) -> ImportResult:
+def ente_export_to_keychain(file: Path) -> ImportResult:
     """Import TOTP accounts from an Ente export file and store them in the keychain."""
     try:
         logger.debug(f"import_file: {file}")

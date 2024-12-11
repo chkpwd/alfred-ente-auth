@@ -1,6 +1,7 @@
 import logging
 import os
 from datetime import datetime, timedelta
+from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
 import pyotp
@@ -22,7 +23,7 @@ from src.utils import (
 logger = logging.getLogger(__name__)
 
 
-def parse_ente_export(file_path: str) -> TotpAccounts:
+def parse_ente_export(file_path: Path) -> TotpAccounts:
     """Parses an Ente export file of otpauth URIs and returns a TotpAccounts object."""
     accounts = TotpAccounts()
 
