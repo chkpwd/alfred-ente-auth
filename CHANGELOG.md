@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.2.3] - 2024-12-11
+### :sparkles: New Features
+- [`9c256b8`](https://github.com/chkpwd/alfred-ente-auth/commit/9c256b8a249be6c21afe53276e1ae61cac452a95) - bump release *(commit by [@chkpwd](https://github.com/chkpwd))*
+
+### :bug: Bug Fixes
+- [`ddf7acd`](https://github.com/chkpwd/alfred-ente-auth/commit/ddf7acda15324e3637235c8d7c09d8824b04fe3b) - show service name instead of sanitized name in title *(commit by [@chkpwd](https://github.com/chkpwd))*
+- [`5d400e9`](https://github.com/chkpwd/alfred-ente-auth/commit/5d400e9e0cc8f5b97f69d1c2b6804de212891acd) - expanduser path for binary path *(commit by [@chkpwd](https://github.com/chkpwd))*
+
+### :wrench: Chores
+- [`9d1f23c`](https://github.com/chkpwd/alfred-ente-auth/commit/9d1f23c8111ce10d50a3b178efef4229f6721acc) - remove unnecessary comments *(commit by [@chkpwd](https://github.com/chkpwd))*
+- [`50d7184`](https://github.com/chkpwd/alfred-ente-auth/commit/50d718412d455f22fa13957d206911d17c3273ef) - add pre-commit dep *(commit by [@chkpwd](https://github.com/chkpwd))*
+- [`216a5ef`](https://github.com/chkpwd/alfred-ente-auth/commit/216a5ef01a1f2c7551325a7eee4d05d9d7bc90b3) - add pre-commit configuration for ruff lint/format *(commit by [@chkpwd](https://github.com/chkpwd))*
+- [`bff9886`](https://github.com/chkpwd/alfred-ente-auth/commit/bff98867abf93bf52047dabfc578d74c8598731c) - formatting post pre-commit addition *(commit by [@chkpwd](https://github.com/chkpwd))*
+- [`33c3e18`](https://github.com/chkpwd/alfred-ente-auth/commit/33c3e18e8dadf40c0ec842d6e648a1e86b02bd70) - add new launch params for debugger *(commit by [@chkpwd](https://github.com/chkpwd))*
+- [`449c11b`](https://github.com/chkpwd/alfred-ente-auth/commit/449c11b2103f6822ac682667c7dc1c56e0360b36) - switched to Pathlib instead *(commit by [@chkpwd](https://github.com/chkpwd))*
+- [`351d4f6`](https://github.com/chkpwd/alfred-ente-auth/commit/351d4f6d86617f92c8318d581888a78f84f9a7e6) - swap data from dict to list to simplify calls *(commit by [@chkpwd](https://github.com/chkpwd))*
+
+
 ## [v2.2.2] - 2024-12-09
 ### :bug: Bug Fixes
 - [`4e55249`](https://github.com/chkpwd/alfred-ente-auth/commit/4e552497d626e6547968bc34da7bb8ac3f5e7ac7) - santized name being returned in final output *(commit by [@chkpwd](https://github.com/chkpwd))*
@@ -90,3 +108,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v2.2.0]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.1.0...v2.2.0
 [v2.2.1]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.2.0...v2.2.1
 [v2.2.2]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.2.1...v2.2.2
+[v2.2.3]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.2.2...v2.2.3
