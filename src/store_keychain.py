@@ -29,10 +29,9 @@ def get_totp_accounts() -> TotpAccounts:
     if accounts_json is None:
         raise Exception("No TOTP accounts found in keychain.")
 
-    accounts = TotpAccounts().from_json(accounts_json)
+    accounts = TotpAccounts.from_json(accounts_json)
 
     return accounts
-
 
 def ente_export_to_keychain(file: Path) -> ImportResult:
     """Import TOTP accounts from an Ente export file and store them in the keychain."""
@@ -48,7 +47,7 @@ def ente_export_to_keychain(file: Path) -> ImportResult:
             password=accounts_json,
         )
 
-        secrets_imported_count = sum(len(k) for k in accounts.items())
+        secrets_imported_count = len(accounts)
 
         logger.info(f"Keychain database created with {secrets_imported_count} entries.")
 

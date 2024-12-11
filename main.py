@@ -80,9 +80,9 @@ if __name__ == "__main__":
                 service_names_list: list[str] = []
                 result = ente_export_to_keychain(ente_export_path)
 
-                for k, _ in result.accounts.items():
+                for k in result.accounts:
                     try:
-                        download_icon(sanitize_service_name(k), ICONS_FOLDER)
+                        download_icon(sanitize_service_name(k.service_name), ICONS_FOLDER)
                     except Exception as e:
                         logger.warning(f"Failed to download icon: {e}")
 

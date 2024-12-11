@@ -101,21 +101,23 @@ class AlfredOutput:
 class TotpAccount:
     """Class to represent a TOTP account imported from Ente or stored locally."""
 
+    service_name: str
     username: str
     secret: str
     period: int = 30
 
 
-class TotpAccounts(dict[str, TotpAccount]):
+class TotpAccounts(list[TotpAccount]):
     """Class to represent a collection of TOTP accounts."""
 
     def to_json(self) -> str:
-        json_data = {k: asdict(v) for k, v in self.items()}
+        json_data = [asdict(i) for i in self]
         return json.dumps(json_data, separators=(",", ":"))
 
-    def from_json(self, json_str: str) -> "TotpAccounts":
+    @classmethod
+    def from_json(cls, json_str: str) -> "TotpAccounts":
         data = json.loads(json_str)
-        return TotpAccounts({k: TotpAccount(**v) for k, v in data.items()})
+        return cls([TotpAccount(**i) for i in data])
 
 
 @dataclass

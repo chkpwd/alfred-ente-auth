@@ -56,7 +56,7 @@ def parse_ente_export(file_path: Path) -> TotpAccounts:
                         logger.warning(
                             f"Unable to parse 'period' parameter for '{service_name} - {username}'. Will use default of 30 seconds."
                         )
-                        accounts[service_name] = TotpAccount(username, secret)
+                        accounts.append(TotpAccount(service_name, username, secret))
                     else:
                         try:
                             period = int(period)
@@ -65,7 +65,8 @@ def parse_ente_export(file_path: Path) -> TotpAccounts:
                                 f"Value of 'period' parameter ('{period}') for '{service_name} - {username}' could not be cast to int. Will use default of 30 seconds."
                             )
                             period = 30
-                        accounts[service_name] = TotpAccount(username, secret, period)
+
+                        accounts.append(TotpAccount(service_name, username, secret, period))
 
     return accounts
 
@@ -78,27 +79,27 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
     username_in_subtitle = str_to_bool(os.getenv("USERNAME_IN_SUBTITLE", "False"))
 
     try:
-        for service_name, service_data in accounts.items():
+        for account in accounts:
             # Generate TOTP
-            totp = pyotp.TOTP(service_data.secret)
+            totp = pyotp.TOTP(account.secret)
             current_totp = totp.now()
-            next_totp = totp.at(datetime.now() + timedelta(seconds=service_data.period))
+            next_totp = totp.at(datetime.now() + timedelta(seconds=account.period))
 
-            time_remaining = calculate_time_remaining(service_data.period)
+            time_remaining = calculate_time_remaining(account.period)
 
-            sanitized_service_name = sanitize_service_name(service_name)
+            sanitized_service_name = sanitize_service_name(account.service_name)
 
             # Conditionally add username to title and subtitle
             title = (
-                f"{service_name} - {service_data.username}"
-                if service_data.username and username_in_title
-                else service_name
+                f"{account.service_name} - {account.username}"
+                if account.username and username_in_title
+                else account.service_name
             )
             subtitle = (
                 f"Current TOTP: {current_totp} | Next TOTP: {next_totp}, {time_remaining} seconds left"
                 + (
-                    f" - {service_data.username}"
-                    if service_data.username and username_in_subtitle
+                    f" - {account.username}"
+                    if account.username and username_in_subtitle
                     else ""
                 )
             )
@@ -108,9 +109,9 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
                     title=title,
                     subtitle=subtitle,
                     arg=current_totp,
-                    match=service_name,
+                    match=account.service_name,
                     icon=AlfredOutputItemIcon.from_service(sanitized_service_name),
-                    uid=create_uuid_from_string(service_name + service_data.username),
+                    uid=create_uuid_from_string(account.service_name + account.username),
                 )
             )
 

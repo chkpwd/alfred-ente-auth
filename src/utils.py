@@ -28,7 +28,7 @@ def calculate_time_remaining(time_step: int) -> int:
     return int(time_step - (current_time % time_step))
 
 
-def fuzzy_search_accounts(search_string: str, values: TotpAccounts) -> TotpAccounts:
+def fuzzy_search_accounts(search_string: str, accounts: TotpAccounts) -> TotpAccounts:
     """
     Fuzzy search given TOTP accounts, matching on service name and username, and return the matched accounts.
     """
@@ -37,10 +37,10 @@ def fuzzy_search_accounts(search_string: str, values: TotpAccounts) -> TotpAccou
     # Split the search_string by spaces for more granular search
     search_parts = search_string.lower().split()
 
-    for service_name, service_info in values.items():
+    for account in accounts:
         # Lowercase the service_name and username for case-insensitive matching
-        service_name_lower = service_name.lower()
-        username_lower = service_info.username.lower()
+        service_name_lower = account.service_name.lower()
+        username_lower = account.username.lower()
 
         # Define match scores for prioritization
         score: float = 0
@@ -54,13 +54,13 @@ def fuzzy_search_accounts(search_string: str, values: TotpAccounts) -> TotpAccou
             score += 0.5  # Partial match in username
 
         if score > 0:
-            matches.append((float(score), service_name))
+            matches.append((float(score), account.service_name))
 
     # Sort matches by score in descending order
     matches.sort(reverse=True, key=lambda x: x[0])
 
     matched_accounts = TotpAccounts(
-        {k: v for k, v in values.items() if k in [match[1] for match in matches]}
+        {k for k in accounts if k in [match[1] for match in matches]}
     )
 
     return matched_accounts
