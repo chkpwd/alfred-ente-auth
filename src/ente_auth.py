@@ -8,8 +8,11 @@ logger = logging.getLogger(__name__)
 
 class EnteAuth:
     def __init__(self):
-        ente_auth_binary_path_env = os.getenv("ENTE_AUTH_BINARY_PATH")
-        if ente_auth_binary_path_env:
+        env_path = os.getenv("ENTE_AUTH_BINARY_PATH")
+
+        if env_path:
+            ente_auth_binary_path_env = Path(env_path).expanduser()
+
             if self.check_ente_binary(ente_auth_binary_path_env):
                 self.ente_auth_binary_path = ente_auth_binary_path_env
             else:
@@ -40,7 +43,7 @@ class EnteAuth:
 
         Handles removing an old export file if it exists and overwrite is True, and creating the export directory if it doesn't exist.
         """
-        path_exists = os.path.exists(export_path)
+        export_path = export_path.expanduser()
 
         if export_path.exists() and overwrite:
             logger.debug("Ente auth export file found. Overwrite is true. Deleting...")
@@ -78,7 +81,7 @@ class EnteAuth:
 
     def delete_ente_export(self, export_path: Path) -> None:
         try:
-            os.remove(export_path)
+            export_path.unlink()
             logger.info("Ente export file deleted")
         except OSError as e:
             logger.error("Error during removal", e)
