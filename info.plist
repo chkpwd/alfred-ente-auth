@@ -279,7 +279,8 @@
 				<key>runningsubtext</key>
 				<string>Getting TOTP accounts...</string>
 				<key>script</key>
-				<string>python3 main.py get_accounts</string>
+				<string>export PYTHONPATH='.venv/lib/python3.12/site-packages'
+python3 main.py get_accounts</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -387,7 +388,8 @@
 				<key>runningsubtext</key>
 				<string>Importing TOTP accounts and downloading icons....</string>
 				<key>script</key>
-				<string>python3 main.py import</string>
+				<string>export PYTHONPATH='.venv/lib/python3.12/site-packages'
+python3 main.py import</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -703,11 +705,6 @@ ente version
 			<string>OVERWRITE_EXPORT</string>
 		</dict>
 	</array>
-	<key>variables</key>
-	<dict>
-		<key>PYTHONPATH</key>
-		<string>.venv/lib/python3.12/site-packages</string>
-	</dict>
 	<key>version</key>
 	<string>2.2.3</string>
 	<key>webaddress</key>
