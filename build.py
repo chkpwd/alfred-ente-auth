@@ -50,11 +50,21 @@ def update_workflow_version(plist, version: str):
         plistlib.dump(plist, f)
 
 
-def update_workflow_pythonpath_var(plist, python_dirname: str):
-    """Update "PYTHONPATH" string variables dict in parsed plist"""
-    plist["variables"]["PYTHONPATH"] = os.path.join(
-        ".venv", "lib", python_dirname, "site-packages"
-    )
+def update_workflow_pythonpath(plist, python_dirname: str):
+    """Update "PYTHONPATH" in parsed plist"""
+    script_filters = [
+        obj
+        for obj in plist["objects"]
+        if obj["type"] == "alfred.workflow.input.scriptfilter"
+    ]
+
+    for script_filter in script_filters:
+        print(script_filter)
+        script_lines = str(script_filter["config"]["script"]).split("\n")
+        pythonpath = os.path.join(".venv", "lib", python_dirname, "site-packages")
+        script_lines[0] = f"export PYTHONPATH='{pythonpath}'"
+        script_filter["config"]["script"] = "\n".join(script_lines)
+
     with open(WORKFLOW_PLIST_PATH, "wb") as f:
         plistlib.dump(plist, f)
 
@@ -108,7 +118,7 @@ def main():
     init_venv()
 
     venv_python_version = find_venv_py_version()
-    update_workflow_pythonpath_var(plist, venv_python_version)
+    update_workflow_pythonpath(plist, venv_python_version)
 
     if workflow_version != pyproject_version:
         update_workflow_version(plist, pyproject_version)
