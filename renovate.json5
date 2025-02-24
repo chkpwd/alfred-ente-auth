@@ -13,7 +13,7 @@
     },
     {
       "matchPackageNames": ["carstencodes/simplepycons"],
-      "versioning": "regex:^(?<version>\\d)\!(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
+      "versioning": "pep440"
     }
   ]
 }
