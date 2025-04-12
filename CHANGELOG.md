@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.2.4] - 2025-04-12
+### :bug: Bug Fixes
+- [`6058155`](https://github.com/chkpwd/alfred-ente-auth/commit/605815584c00f6e881a0408e82ef71fc91340e68) - define `PYTHONPATH` in script filters *(commit by [@tigattack](https://github.com/tigattack))*
+- [`dae3cf5`](https://github.com/chkpwd/alfred-ente-auth/commit/dae3cf51e16c5c5fc313e8013c83a36ec68b536b) - **renovate**: use proper capture group *(commit by [@chkpwd](https://github.com/chkpwd))*
+- [`6029bde`](https://github.com/chkpwd/alfred-ente-auth/commit/6029bde141d3159908226a5253525570fff5c685) - **poetry**: use correct version constraint *(commit by [@chkpwd](https://github.com/chkpwd))*
+
+### :wrench: Chores
+- [`bf5c55c`](https://github.com/chkpwd/alfred-ente-auth/commit/bf5c55c4b786eed7efb9977c5b5b50a7b7d8647e) - bump workflow version *(commit by [@chkpwd](https://github.com/chkpwd))*
+- [`e1fb02a`](https://github.com/chkpwd/alfred-ente-auth/commit/e1fb02a0d458993e0c2c7e9d094f4e46e39f694c) - **deps**: update dependency keyring to v25.6.0 *(commit by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`e611158`](https://github.com/chkpwd/alfred-ente-auth/commit/e611158f05ba1ba0c129569f3f02ab59366f8959) - **deps**: update dependency pre-commit to v4.1.0 *(commit by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`8da6b0e`](https://github.com/chkpwd/alfred-ente-auth/commit/8da6b0ec2873094443366fe79dc37df74780342d) - renovate versioning schema for simplepycons *(commit by [@chkpwd](https://github.com/chkpwd))*
+- [`56469c2`](https://github.com/chkpwd/alfred-ente-auth/commit/56469c27e040805a38bec93c1e0078937c6a5057) - **deps**: update dependency pre-commit to v4.2.0 *(PR [#43](https://github.com/chkpwd/alfred-ente-auth/pull/43) by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`196d0b5`](https://github.com/chkpwd/alfred-ente-auth/commit/196d0b5a142830651dfb1ca83c60528f04d6238a) - **deps**: update dependency simplepycons to v14 *(commit by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`6ad8d09`](https://github.com/chkpwd/alfred-ente-auth/commit/6ad8d09124c94cd315ae1bda027c16475fcadf95) - **deps**: update dependency simplepycons to v1!14.12.1 *(commit by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`0d79234`](https://github.com/chkpwd/alfred-ente-auth/commit/0d79234843671afbb618df96d76c9958cbef36c6) - bump workflow version *(commit by [@chkpwd](https://github.com/chkpwd))*
+
+
 ## [v2.2.3] - 2024-12-11
 ### :sparkles: New Features
 - [`9c256b8`](https://github.com/chkpwd/alfred-ente-auth/commit/9c256b8a249be6c21afe53276e1ae61cac452a95) - bump release *(commit by [@chkpwd](https://github.com/chkpwd))*
@@ -109,3 +126,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v2.2.1]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.2.0...v2.2.1
 [v2.2.2]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.2.1...v2.2.2
 [v2.2.3]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.2.2...v2.2.3
+[v2.2.4]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.2.3...v2.2.4
