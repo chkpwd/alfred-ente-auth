@@ -279,7 +279,7 @@
 				<key>runningsubtext</key>
 				<string>Getting TOTP accounts...</string>
 				<key>script</key>
-				<string>export PYTHONPATH='.venv/lib/python3.12/site-packages'
+				<string>export PYTHONPATH='.venv/lib/python3.13/site-packages'
 python3 main.py get_accounts</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
@@ -388,7 +388,7 @@ python3 main.py get_accounts</string>
 				<key>runningsubtext</key>
 				<string>Importing TOTP accounts and downloading icons....</string>
 				<key>script</key>
-				<string>export PYTHONPATH='.venv/lib/python3.12/site-packages'
+				<string>export PYTHONPATH='.venv/lib/python3.13/site-packages'
 python3 main.py import</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
