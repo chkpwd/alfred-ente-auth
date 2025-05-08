@@ -5,14 +5,28 @@ Easily integrate your **Ente Auth** with Alfred using this simple workflow to qu
 The workflow uses Ente CLI to export your secrets from Ente Auth and then stashes them securely into the macOS Keychain.
 
 ## 📸 Shots
+
 ![image1](./metadata/image.png)
 
 ## 🚀 Setup
 
-> [!NOTE]
-> Currently, Homebrew installation is not available for the Ente CLI. A formula will be added pending a new release including a [required fix](https://github.com/ente-io/ente/pull/4028). For the time being, please use the manual installation steps outlined below.
+> The Ente Auth [CLI](https://github.com/ente-io/ente/tree/main/cli) is required.
 
-### 1. Download and Install the Ente CLI
+### Homebrew (Recommended)
+
+You can install the Ente CLI using [Homebrew](https://formulae.brew.sh/formula/ente-cli#default) for a simpler and more automated setup. Run the following command in your terminal:
+
+```bash
+brew install ente-cli
+```
+
+Once installed, verify the installation:
+
+```bash
+ente version
+```
+
+### Github Release (Optional)
 
 To use the **Ente Auth** workflow, you'll need the **Ente CLI**. Follow the steps below to install it:
 
@@ -43,7 +57,7 @@ ente version
 Download and open the workflow file from the [latest release](https://github.com/chkpwd/alfred-ente-auth/releases/latest) page.
 
 > [!NOTE]
-> To ensure the workflow can import your accounts from Ente Auth, you'll need to define the "Ente Export Directory" when you add this extension to Alfred.
+> To ensure the workflow can import your accounts from Ente Auth, you'll need to define the "Ente Export Directory" when you add this workflow to Alfred.
 > This path should be the same one you configured when adding your Ente account.
 > To show the Ente CLI's configured export path, run `ente account list` and refer to the `ExportDir` value.
 
