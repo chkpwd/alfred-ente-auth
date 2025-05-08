@@ -43,9 +43,22 @@ ente version
 Download and open the workflow file from the [latest release](https://github.com/chkpwd/alfred-ente-auth/releases/latest) page.
 
 > [!NOTE]
-> To ensure the workflow can import your accounts from Ente Auth, you'll need to define the "Ente Export Directory" when you add this extension to Alfred.  
-> This path should be the same one you configured when adding your Ente account.  
+> To ensure the workflow can import your accounts from Ente Auth, you'll need to define the "Ente Export Directory" when you add this extension to Alfred.
+> This path should be the same one you configured when adding your Ente account.
 > To show the Ente CLI's configured export path, run `ente account list` and refer to the `ExportDir` value.
+
+```bash
+# Example of configured export path from `ente account list`
+❯ ente account list
+Configured accounts: 1
+====================================
+Email:     ente@domain.com
+ID:        1111111111111111
+App:       auth
+ExportDir: /foo/bar/ente
+```
+
+Note: In the workflow preferences, **Ente Export Directory** refers to the `exportDir` value shown above.
 
 ---
 
