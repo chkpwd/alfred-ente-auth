@@ -99,3 +99,7 @@ python3 build.py
 ## Making it Better 🤝
 
 Feel free to open issues or submit pull requests.
+
+## Disclaimer
+
+This project is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Ente. The official Ente website can be found at https://ente.io. "Ente" as well as related names, marks, emblems and images are registered trademarks of their respective owners.
