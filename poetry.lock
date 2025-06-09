@@ -651,12 +651,12 @@ jeepney = ">=0.6"
 
 [[package]]
 name = "simplepycons"
-version = "1!14.14.0"
+version = "1!15.1.0"
 description = "Python Wrapper for the simpleicons (https://simpleicons.org) library"
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "simplepycons-1!14.14.0-py3-none-any.whl", hash = "sha256:bc5e063ff84f4a5f5ac3675e8d5f004d728ffe720ecf93b9bb067db832e3a096"},
+    {file = "simplepycons-1!15.1.0-py3-none-any.whl", hash = "sha256:2df4dc262f413d6c63b9dd78402a1434a3df1ee3d0ccd645fb492677a8d2256e"},
 ]
 
 [[package]]
