@@ -28,7 +28,7 @@ jobs:
           python3 build.py
 
       - name: Commit info.plist
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v6
         with:
           branch: main
           commit_message: 'chore: bump workflow version'
@@ -79,7 +79,7 @@ jobs:
           artifacts: ${{ needs.build.outputs.OUTPUT_FILE }}
 
       - name: Commit CHANGELOG.md
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v6
         with:
           branch: main
           commit_message: 'docs: update CHANGELOG.md for ${{ github.ref_name }}'
