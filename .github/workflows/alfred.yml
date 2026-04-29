@@ -12,7 +12,7 @@ jobs:
     outputs:
       OUTPUT_FILE: ${{ steps.builder.outputs.OUTPUT_FILE }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install poetry
         run: pipx install poetry
@@ -46,7 +46,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Download build artifact
         uses: actions/download-artifact@v6
