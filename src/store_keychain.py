@@ -2,7 +2,6 @@ import logging
 import os
 from pathlib import Path
 
-import keyring
 
 from src.constants import CACHE_ENV_VAR, KEYCHAIN_ACCOUNT, KEYCHAIN_SERVICE
 from src.models import ImportResult, TotpAccounts
@@ -22,6 +21,7 @@ def get_totp_accounts() -> TotpAccounts:
 
     # If not cached, load from the keychain
     logger.info("Loading TOTP accounts from keychain.")
+    import keyring
     accounts_json = keyring.get_password(
         service_name=KEYCHAIN_SERVICE, username=KEYCHAIN_ACCOUNT
     )
@@ -41,6 +41,7 @@ def ente_export_to_keychain(file: Path) -> ImportResult:
         accounts = parse_ente_export(file)
         accounts_json = accounts.to_json()
 
+        import keyring
         keyring.set_password(
             service_name=KEYCHAIN_SERVICE,
             username=KEYCHAIN_ACCOUNT,
