@@ -108,7 +108,7 @@ def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
                 AlfredOutputItem(
                     title=title,
                     subtitle=subtitle,
-                    arg=current_totp,
+                    arg=f"{current_totp},{next_totp}",
                     match=account.service_name,
                     icon=AlfredOutputItemIcon.from_service(sanitized_service_name),
                     uid=create_uuid_from_string(account.service_name + account.username),
