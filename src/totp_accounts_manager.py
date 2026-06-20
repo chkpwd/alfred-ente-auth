@@ -138,18 +138,13 @@ def format_totp_result(accounts: TotpAccounts, uid_seed: str | None = None) -> A
                 if account.username and username_in_title
                 else account.service_name
             )
+            # Pin icon is always appended to the title if pinned
+            if account.pinned:
+                title += " 📌"
+
             subtitle = f"Current TOTP: {current_totp} | Next TOTP: {next_totp}, {time_remaining} seconds left"
             if account.username and username_in_subtitle:
                 subtitle += f" - {account.username}"
-
-            # Add pin icon to the right of the username (or title if username is hidden)
-            if account.pinned:
-                if username_in_title:
-                    title += " 📌"
-                elif username_in_subtitle:
-                    subtitle += " 📌"
-                else:
-                    title += " 📌"
 
             uid_base = (uid_seed or "") + account.service_name + account.username
             result.items.append(

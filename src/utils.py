@@ -1,6 +1,7 @@
 import hashlib
 import uuid
 from datetime import datetime
+from pathlib import Path
 
 from src.models import AlfredOutput, AlfredOutputItem, TotpAccounts
 
