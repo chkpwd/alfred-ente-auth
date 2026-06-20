@@ -8,7 +8,11 @@ KEYCHAIN_ACCOUNT = "totp_secrets"
 # Use an environment variable to cache the JSON data to reduce keychain calls
 CACHE_ENV_VAR = "TOTP_CACHE"
 
-ICONS_FOLDER = Path(environ["alfred_workflow_data"]) / "service_icons"
+workflow_data = environ.get("alfred_workflow_data")
+if workflow_data:
+    ICONS_FOLDER = Path(workflow_data) / "service_icons"
+else:
+    ICONS_FOLDER = Path("~/.cache/alfred-ente-auth").expanduser() / "service_icons"
 
 ENTE_ICONS_DATABASE_URL = "https://raw.githubusercontent.com/ente-io/ente/refs/heads/main/auth/assets/custom-icons/_data/custom-icons.json"
 ENTE_CUSTOM_ICONS_URL = "https://raw.githubusercontent.com/ente-io/ente/refs/heads/main/auth/assets/custom-icons/icons/"

@@ -78,9 +78,10 @@ class AlfredOutput:
     items: list[AlfredOutputItem]
     rerun: float | None = None
     variables: dict[str, Any] = field(default_factory=dict)
+    skipknowledge: bool = True
 
     def to_dict(self):
-        return {
+        result = {
             k: v
             for k, v in {
                 "items": [item.to_dict() for item in self.items],
@@ -89,6 +90,9 @@ class AlfredOutput:
             }.items()
             if v
         }
+        if self.skipknowledge:
+            result["skipknowledge"] = True
+        return result
 
     def to_json(self):
         return json.dumps(self.to_dict(), separators=(",", ":"))
@@ -105,6 +109,9 @@ class TotpAccount:
     username: str
     secret: str
     period: int = 30
+    pinned: bool = False
+    last_used_at: int = 0
+    tap_count: int = 0
 
 
 class TotpAccounts(list[TotpAccount]):

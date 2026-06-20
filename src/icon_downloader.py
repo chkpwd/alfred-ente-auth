@@ -2,9 +2,6 @@ import logging
 from pathlib import Path
 from urllib.parse import urljoin
 
-import requests
-from simplepycons import all_icons
-
 from src.constants import ENTE_CUSTOM_ICONS_URL, ENTE_ICONS_DATABASE_URL
 
 logger = logging.getLogger(__name__)
@@ -14,6 +11,7 @@ def search_ente_custom_icons(name: str) -> str | None:
     """
     Searches Ente custom icons on GitHub for the provided name and returns the SVG content if found.
     """
+    import requests
     try:
         response = requests.get(ENTE_ICONS_DATABASE_URL)
 
@@ -45,6 +43,7 @@ def search_ente_custom_icons(name: str) -> str | None:
 
 def search_simple_icons(name: str) -> str | None:
     """Searches Simple Icons for the provided name and returns the SVG content if found."""
+    from simplepycons import all_icons
     try:
         icon = all_icons[name]  # type: ignore
     except KeyError:

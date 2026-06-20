@@ -34,8 +34,12 @@ class EnteAuth:
 
     def create_ente_export_dir(self, path: Path) -> None:
         if not path.exists():
-            os.makedirs(path)
-            logger.info(f"Ente folder created at: {path}")
+            os.makedirs(path, mode=0o700)
+        try:
+            os.chmod(path, 0o700)
+            logger.info(f"Ente folder created/secured at: {path}")
+        except Exception as e:
+            logger.warning(f"Could not secure export directory: {e}")
 
     def export_ente_auth_accounts(self, export_path: Path, overwrite: bool) -> None:
         """
