@@ -99,14 +99,18 @@ if __name__ == "__main__":
             ente_auth.delete_ente_export(ente_export_path)
 
     elif sys.argv[1] == "search":
-        if len(sys.argv) < 3:
-            raise ValueError("No search string found")
-
-        results = get_accounts(sys.argv[2])
-        if results:
-            results.print_json()
-        else:
-            output_alfred_message("No results found", "Try a different search term.")
+        search_str = sys.argv[2] if len(sys.argv) >= 3 else ""
+        if search_str == "{query}":
+            search_str = ""
+        try:
+            results = get_accounts(search_str)
+            if results and results.items:
+                results.print_json()
+            else:
+                output_alfred_message("No results found", "Try a different search term.")
+        except Exception as e:
+            logger.exception(f"Failed to load TOTP accounts: {e}", e)
+            output_alfred_message("Failed to load TOTP accounts", str(e))
 
     elif sys.argv[1] == "get_accounts":
         accounts = get_accounts()
