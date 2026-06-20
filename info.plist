@@ -103,19 +103,7 @@
 				<false/>
 			</dict>
 		</array>
-		<key>E6427711-FED1-47CC-AA39-D59E50B504C7</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>3101A957-02C3-4D0C-8B13-1C3721459261</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
+
 		<key>ECD812F2-4D1E-41CA-B344-81B25B4A6357</key>
 		<array>
 			<dict>
@@ -410,27 +398,7 @@ python3 main.py import</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>2</integer>
-				<key>keyword</key>
-				<string>ente import</string>
-				<key>subtext</key>
-				<string></string>
-				<key>text</key>
-				<string>Import Ente Secrets</string>
-				<key>withspace</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
-			<key>uid</key>
-			<string>E6427711-FED1-47CC-AA39-D59E50B504C7</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
+
 		<dict>
 			<key>config</key>
 			<dict>
@@ -560,13 +528,7 @@ ente version
 			<key>ypos</key>
 			<real>265.0</real>
 		</dict>
-		<key>E6427711-FED1-47CC-AA39-D59E50B504C7</key>
-		<dict>
-			<key>xpos</key>
-			<real>95.0</real>
-			<key>ypos</key>
-			<real>450.0</real>
-		</dict>
+
 		<key>ECD812F2-4D1E-41CA-B344-81B25B4A6357</key>
 		<dict>
 			<key>xpos</key>
