@@ -28,11 +28,17 @@ def calculate_time_remaining(time_step: int) -> int:
     return int(time_step - (current_time % time_step))
 
 
+def is_subsequence(query: str, target: str) -> bool:
+    """Check if all characters of query appear in target in the same order."""
+    it = iter(target)
+    return all(char in it for char in query)
+
+
 def fuzzy_search_accounts(search_string: str, accounts: TotpAccounts) -> TotpAccounts:
     """
     Fuzzy search given TOTP accounts, matching on service name and username, and return the matched accounts.
     """
-    matches: list[tuple[float, str]] = []
+    matches: list[tuple[float, TotpAccount]] = []
 
     # Split the search_string by spaces for more granular search
     search_parts = search_string.lower().split()
@@ -44,26 +50,39 @@ def fuzzy_search_accounts(search_string: str, accounts: TotpAccounts) -> TotpAcc
 
         # Define match scores for prioritization
         score: float = 0
-        if all(part in service_name_lower for part in search_parts):
-            score += 3  # Full match in service name
-        if all(part in username_lower for part in search_parts):
-            score += 2  # Full match in username
-        if any(part in service_name_lower for part in search_parts):
-            score += 1  # Partial match in service name
-        if any(part in username_lower for part in search_parts):
-            score += 0.5  # Partial match in username
+        all_parts_match_service = True
+        all_parts_match_user = True
+
+        for part in search_parts:
+            # Check service name
+            if part in service_name_lower:
+                score += 3.0
+            elif is_subsequence(part, service_name_lower):
+                score += 1.0
+            else:
+                all_parts_match_service = False
+
+            # Check username
+            if part in username_lower:
+                score += 2.0
+            elif is_subsequence(part, username_lower):
+                score += 0.5
+            else:
+                all_parts_match_user = False
+
+        # Boost scores if all search parts match the service name or username
+        if all_parts_match_service:
+            score += 5.0
+        if all_parts_match_user:
+            score += 3.0
 
         if score > 0:
-            matches.append((float(score), account.service_name))
+            matches.append((score, account))
 
     # Sort matches by score in descending order
     matches.sort(reverse=True, key=lambda x: x[0])
 
-    matched_accounts = TotpAccounts(
-        {k for k in accounts if k in [match[1] for match in matches]}
-    )
-
-    return matched_accounts
+    return TotpAccounts([match[1] for match in matches])
 
 
 def output_alfred_message(
