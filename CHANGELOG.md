@@ -5,8 +5,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [v2.3.0] - 2026-06-24
+### :sparkles: New Features
+- [`c27fa1d`](https://github.com/chkpwd/alfred-ente-auth/commit/c27fa1d1041973b574e221185e41d0c284b6df85) - Respect Ente metadata (skip trashed, pin emoji, lastUsedAt/tapCount) + UID_SEED session lock + local usage tracking *(PR [#76](https://github.com/chkpwd/alfred-ente-auth/pull/76) by [@SoPat712](https://github.com/SoPat712))*
+- [`ec5a3e9`](https://github.com/chkpwd/alfred-ente-auth/commit/ec5a3e9) - Improve import usability and command-line compatibility *(PR [#75](https://github.com/chkpwd/alfred-ente-auth/pull/75) by [@SoPat712](https://github.com/SoPat712))*
+- [`6d61621`](https://github.com/chkpwd/alfred-ente-auth/commit/6d61621) - Align rerun interval with system clock *(PR [#71](https://github.com/chkpwd/alfred-ente-auth/pull/71) by [@SoPat712](https://github.com/SoPat712))*
+
+### :zap: Performance
+- [`d417de8`](https://github.com/chkpwd/alfred-ente-auth/commit/d417de8) - Lazy-load requests, simplepycons, and keyring to speed up search *(PR [#70](https://github.com/chkpwd/alfred-ente-auth/pull/70) by [@SoPat712](https://github.com/SoPat712))*
+
+### :lock: Security
+- [`ea93aa3`](https://github.com/chkpwd/alfred-ente-auth/commit/ea93aa3) - Transient clipboard and secure import cleanup *(PR [#72](https://github.com/chkpwd/alfred-ente-auth/pull/72) by [@SoPat712](https://github.com/SoPat712))*
+
 ### :bug: Bug Fixes
+- [`db2603c`](https://github.com/chkpwd/alfred-ente-auth/commit/db2603c) - Fix fuzzy search type bug and support subsequences/usernames *(PR [#73](https://github.com/chkpwd/alfred-ente-auth/pull/73) by [@SoPat712](https://github.com/SoPat712))*
 - [`0f6f090`](https://github.com/chkpwd/alfred-ente-auth/commit/0f6f09054ad1143e62ef14b8e5bb8793281c86ab) - **layout**: place pin icon always in the title, and import Path in utils *(commit by [@SoPat712](https://github.com/SoPat712))*
+
+### :memo: Documentation
+- [`b4c59d9`](https://github.com/chkpwd/alfred-ente-auth/commit/b4c59d9) - add install info *(commit by [@chkpwd](https://github.com/chkpwd))*
+- [`b01e41d`](https://github.com/chkpwd/alfred-ente-auth/commit/b01e41d) - add disclaimer *(commit by [@chkpwd](https://github.com/chkpwd))*
+- [`dd16b43`](https://github.com/chkpwd/alfred-ente-auth/commit/dd16b43) - add ente cli info *(commit by [@chkpwd](https://github.com/chkpwd))*
 
 ### :wrench: Chores
 - [`9789ce2`](https://github.com/chkpwd/alfred-ente-auth/commit/9789ce232cc0d2d292ffd276e80248be5eec2d8c) - bump workflow version *(commit by [@chkpwd](https://github.com/chkpwd))*
