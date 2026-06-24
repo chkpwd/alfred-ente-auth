@@ -143,7 +143,6 @@
 				<false/>
 			</dict>
 		</array>
-
 		<key>ECD812F2-4D1E-41CA-B344-81B25B4A6357</key>
 		<array>
 			<dict>
@@ -307,7 +306,7 @@
 				<key>runningsubtext</key>
 				<string>Getting TOTP accounts...</string>
 				<key>script</key>
-				<string>export PYTHONPATH='.venv/lib/python3.13/site-packages'
+				<string>export PYTHONPATH='.venv/lib/python3.14/site-packages'
 python3 main.py search "$1"</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
@@ -416,7 +415,7 @@ python3 main.py search "$1"</string>
 				<key>runningsubtext</key>
 				<string>Importing TOTP accounts and downloading icons....</string>
 				<key>script</key>
-				<string>export PYTHONPATH='.venv/lib/python3.13/site-packages'
+				<string>export PYTHONPATH='.venv/lib/python3.14/site-packages'
 python3 main.py import</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
@@ -438,7 +437,6 @@ python3 main.py import</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
-
 		<dict>
 			<key>config</key>
 			<dict>
@@ -592,7 +590,6 @@ ente version
 			<key>ypos</key>
 			<real>265.0</real>
 		</dict>
-
 		<key>ECD812F2-4D1E-41CA-B344-81B25B4A6357</key>
 		<dict>
 			<key>xpos</key>
@@ -732,7 +729,7 @@ ente version
 		</dict>
 	</array>
 	<key>version</key>
-	<string>2.2.4</string>
+	<string>2.3.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/chkpwd/alfred-ente-auth</string>
 </dict>
