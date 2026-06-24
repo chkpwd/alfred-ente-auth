@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.3.0] - 2026-06-24
+### :bug: Bug Fixes
+- [`0f6f090`](https://github.com/chkpwd/alfred-ente-auth/commit/0f6f09054ad1143e62ef14b8e5bb8793281c86ab) - **layout**: place pin icon always in the title, and import Path in utils *(commit by [@SoPat712](https://github.com/SoPat712))*
+
+### :wrench: Chores
+- [`9789ce2`](https://github.com/chkpwd/alfred-ente-auth/commit/9789ce232cc0d2d292ffd276e80248be5eec2d8c) - bump workflow version *(commit by [@chkpwd](https://github.com/chkpwd))*
+- [`c36b519`](https://github.com/chkpwd/alfred-ente-auth/commit/c36b51901bc815f9a3bee25c46eed3477ab7dd7d) - **deps**: update dependency simplepycons to v1!14.14.0 *(commit by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`2bd81e4`](https://github.com/chkpwd/alfred-ente-auth/commit/2bd81e4d2b4ce204c5c3f291bf204c907ece6286) - **deps**: update dependency pre-commit to v4.3.0 *(PR [#54](https://github.com/chkpwd/alfred-ente-auth/pull/54) by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`f05c6f0`](https://github.com/chkpwd/alfred-ente-auth/commit/f05c6f0c26b8904504b79c490bbb925abb1d27c3) - **deps**: update dependency python to 3.14 *(commit by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`362161c`](https://github.com/chkpwd/alfred-ente-auth/commit/362161c4f62781e3fa1f255bc428913a0fb96247) - **deps**: update dependency pre-commit to v4.4.0 *(PR [#58](https://github.com/chkpwd/alfred-ente-auth/pull/58) by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`7ef252c`](https://github.com/chkpwd/alfred-ente-auth/commit/7ef252ccbc9884cb438a9c29e475a22019bd067d) - **deps**: update actions/setup-python action to v6 *(commit by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`f41741f`](https://github.com/chkpwd/alfred-ente-auth/commit/f41741f15d23c6ff724104e98ba5b9a81655cc48) - **deps**: update github artifact actions *(commit by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`d995e03`](https://github.com/chkpwd/alfred-ente-auth/commit/d995e035893d34dfafec0ad59f20e47d7cdee571) - **deps**: update stefanzweifel/git-auto-commit-action action to v7 *(commit by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`85161a3`](https://github.com/chkpwd/alfred-ente-auth/commit/85161a35d7fe9cafb0325cbabe1136023e9787f1) - **deps**: update dependency pre-commit to v4.5.0 *(PR [#61](https://github.com/chkpwd/alfred-ente-auth/pull/61) by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`b1b2115`](https://github.com/chkpwd/alfred-ente-auth/commit/b1b211588a5962b1cb48f3cafaff07d2e9f24719) - **deps**: update dependency requests to v2.32.5 *(commit by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`25a4bea`](https://github.com/chkpwd/alfred-ente-auth/commit/25a4bea0c4b0acaecb9c0beb88f025189b695411) - **deps**: update dependency keyring to v25.7.0 *(commit by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`e017014`](https://github.com/chkpwd/alfred-ente-auth/commit/e017014b77a577fa7c530eddbf66c1c9f9cf7920) - **deps**: update dependency simplepycons to v15 *(commit by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`7f675ec`](https://github.com/chkpwd/alfred-ente-auth/commit/7f675ece7d3bb688882d2d1a7738867c40b648e5) - **deps**: update dependency pre-commit to v4.5.1 *(PR [#65](https://github.com/chkpwd/alfred-ente-auth/pull/65) by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`8f55c7b`](https://github.com/chkpwd/alfred-ente-auth/commit/8f55c7b0c6496fb8df15fb6c44a536d0065e107f) - **deps**: update dependency pre-commit to v4.6.0 *(PR [#67](https://github.com/chkpwd/alfred-ente-auth/pull/67) by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`29f268c`](https://github.com/chkpwd/alfred-ente-auth/commit/29f268c31deb20d3eacbfd3f4ed25b4dccaa712c) - **deps**: update github artifact actions *(PR [#62](https://github.com/chkpwd/alfred-ente-auth/pull/62) by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`8176629`](https://github.com/chkpwd/alfred-ente-auth/commit/81766294ea567a79e0c46a8048c333a3f6b87fb4) - **deps**: update actions/checkout action to v7 *(PR [#69](https://github.com/chkpwd/alfred-ente-auth/pull/69) by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`8918d94`](https://github.com/chkpwd/alfred-ente-auth/commit/8918d946b7463ccd91dd9b853a1c3688297c2190) - **deps**: update dependency pyotp to v2.10.0 *(PR [#68](https://github.com/chkpwd/alfred-ente-auth/pull/68) by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`c6bda97`](https://github.com/chkpwd/alfred-ente-auth/commit/c6bda97028e486472670a4475fe850b7e4b54dc7) - **deps**: update dependency requests to v2.34.2 *(PR [#66](https://github.com/chkpwd/alfred-ente-auth/pull/66) by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`581de0e`](https://github.com/chkpwd/alfred-ente-auth/commit/581de0e5cccdca719dc31c5f34f0996ea6dbabda) - **deps**: update dependency simplepycons to v16 *(PR [#64](https://github.com/chkpwd/alfred-ente-auth/pull/64) by [@renovate[bot]](https://github.com/apps/renovate))*
+- [`46ba9b5`](https://github.com/chkpwd/alfred-ente-auth/commit/46ba9b5db2f2349623956e21848469ca2d1825c8) - bump version to v2.3.0 *(commit by [@chkpwd](https://github.com/chkpwd))*
+
+
 ## [v2.2.4] - 2025-04-12
 ### :bug: Bug Fixes
 - [`6058155`](https://github.com/chkpwd/alfred-ente-auth/commit/605815584c00f6e881a0408e82ef71fc91340e68) - define `PYTHONPATH` in script filters *(commit by [@tigattack](https://github.com/tigattack))*
@@ -127,3 +154,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v2.2.2]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.2.1...v2.2.2
 [v2.2.3]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.2.2...v2.2.3
 [v2.2.4]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.2.3...v2.2.4
+[v2.3.0]: https://github.com/chkpwd/alfred-ente-auth/compare/v2.2.4...v2.3.0
