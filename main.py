@@ -7,18 +7,12 @@ from src.constants import (
     CACHE_ENV_VAR,
     ICONS_FOLDER,
 )
-from src.ente_auth import EnteAuth
-from src.icon_downloader import download_icon
 from src.models import AlfredOutput
-from src.store_keychain import (
-    ente_export_to_keychain,
-    get_totp_accounts,
-)
+from src.store_keychain import get_totp_accounts
 from src.totp_accounts_manager import format_totp_result
 from src.utils import (
     fuzzy_search_accounts,
     output_alfred_message,
-    sanitize_service_name,
     str_to_bool,
 )
 
@@ -28,36 +22,50 @@ logging.basicConfig(
 )
 
 
-def get_accounts(search_string: str | None = None) -> AlfredOutput | None:
+
+def get_accounts(search_string: str | None = None) -> AlfredOutput:
     """
     Load TOTP accounts from the environment variable or keychain, filtering by `search_string`.
-    Dumps the results to stdout in Alfred JSON format, adding all TotpAccounts for Alfred cache."""
-    try:
-        accounts = get_totp_accounts()
-        logger.info("Loaded TOTP accounts.")
-    except Exception as e:
-        logger.exception(f"Failed to load TOTP accounts: {e}", e)
-        output_alfred_message("Failed to load TOTP accounts", str(e))
+    """
+    accounts = get_totp_accounts()
+    logger.info("Loaded TOTP accounts.")
+
+    # Get the session seed for UIDs to clear Alfred's knowledge sorting across session boundaries
+    uid_seed = os.getenv("UID_SEED")
+    if not uid_seed:
+        import uuid
+        uid_seed = str(uuid.uuid4())
+
+    # Store all TOTP accounts for Alfred cache along with the UID seed
+    alfred_cache = {
+        CACHE_ENV_VAR: accounts.to_json(),
+        "UID_SEED": uid_seed
+    }
+
+    if search_string:
+        accounts = fuzzy_search_accounts(search_string, accounts)
     else:
-        # Store all TOTP accounts for Alfred cache
-        alfred_cache = {CACHE_ENV_VAR: accounts.to_json()}
+        from src.utils import get_local_usage
+        accounts.sort(key=lambda x: (x.pinned, get_local_usage(x.service_name, x.username), x.tap_count, x.last_used_at), reverse=True)
 
-        if search_string:
-            accounts = fuzzy_search_accounts(search_string, accounts)
-
-        # Format accounts/search results for Alfred, adding all accounts to the 'variables' key for Alfred cache.
-        fmt_result = format_totp_result(accounts)
-        fmt_result.variables = alfred_cache
-        return fmt_result
+    # Format accounts/search results for Alfred, adding all accounts to the 'variables' key for Alfred cache.
+    fmt_result = format_totp_result(accounts, uid_seed=uid_seed)
+    fmt_result.variables = alfred_cache
+    return fmt_result
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         raise ValueError(
-            "No subcommand found. Use one of: import, search, get_accounts"
+            "No subcommand found. Use one of: import, search, get_accounts, record_usage"
         )
 
     elif sys.argv[1] == "import":
+        from src.ente_auth import EnteAuth
+        from src.icon_downloader import download_icon
+        from src.store_keychain import ente_export_to_keychain
+        from src.utils import sanitize_service_name
+
         ente_export_dir = os.getenv("ENTE_EXPORT_DIR")
         if not ente_export_dir:
             logger.error("ENTE_EXPORT_DIR not configured.")
@@ -79,7 +87,16 @@ if __name__ == "__main__":
                 sys.exit(1)
 
             try:
-                service_names_list: list[str] = []
+                # Clear local workflow usage database on import to fall back to Ente's usage numbers
+                from src.utils import get_usage_db_path
+                try:
+                    usage_path = get_usage_db_path()
+                    if usage_path.exists():
+                        usage_path.unlink()
+                        logger.info("Cleared local workflow usage database on import.")
+                except Exception as e:
+                    logger.warning(f"Failed to clear local workflow usage database: {e}")
+
                 result = ente_export_to_keychain(ente_export_path)
 
                 for k in result.accounts:
@@ -117,10 +134,19 @@ if __name__ == "__main__":
             output_alfred_message("Failed to load TOTP accounts", str(e))
 
     elif sys.argv[1] == "get_accounts":
-        accounts = get_accounts()
-        if accounts:
-            accounts.print_json()
-        else:
-            output_alfred_message(
-                "No TOTP accounts found", "Try importing some accounts."
-            )
+        try:
+            accounts = get_accounts()
+            if accounts and accounts.items:
+                accounts.print_json()
+            else:
+                output_alfred_message("No TOTP accounts found", "Try importing some accounts.")
+        except Exception as e:
+            logger.exception(f"Failed to load TOTP accounts: {e}", e)
+            output_alfred_message("Failed to load TOTP accounts", str(e))
+
+    elif sys.argv[1] == "record_usage":
+        from src.utils import record_local_usage
+        service = os.getenv("selected_service")
+        username = os.getenv("selected_username")
+        if service:
+            record_local_usage(service, username or "")

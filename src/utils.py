@@ -1,6 +1,7 @@
 import hashlib
 import uuid
 from datetime import datetime
+from pathlib import Path
 
 from src.models import AlfredOutput, AlfredOutputItem, TotpAccounts
 
@@ -79,8 +80,17 @@ def fuzzy_search_accounts(search_string: str, accounts: TotpAccounts) -> TotpAcc
         if score > 0:
             matches.append((score, account))
 
-    # Sort matches by score in descending order
-    matches.sort(reverse=True, key=lambda x: x[0])
+    # Sort matches: pinned status first, then by search score, then local usage count, then tap_count, then last_used_at
+    matches.sort(
+        reverse=True,
+        key=lambda x: (
+            x[1].pinned,
+            x[0],
+            get_local_usage(x[1].service_name, x[1].username),
+            x[1].tap_count,
+            x[1].last_used_at,
+        ),
+    )
 
     return TotpAccounts([match[1] for match in matches])
 
@@ -97,3 +107,47 @@ def output_alfred_message(
 def create_uuid_from_string(val: str) -> str:
     hex_string = hashlib.md5(val.encode("UTF-8")).hexdigest()
     return str(uuid.UUID(hex=hex_string))
+
+
+def get_usage_db_path() -> Path:
+    import os
+    from pathlib import Path
+    workflow_data = os.getenv("alfred_workflow_data")
+    if workflow_data:
+        path = Path(workflow_data)
+    else:
+        path = Path("~/.cache/alfred-ente-auth").expanduser()
+    path.mkdir(parents=True, exist_ok=True)
+    return path / "local_usage.json"
+
+
+def record_local_usage(service: str, username: str) -> None:
+    import json
+    path = get_usage_db_path()
+    db = {}
+    if path.exists():
+        try:
+            with open(path, "r") as f:
+                db = json.load(f)
+        except Exception:
+            pass
+    key = f"{service}:{username}"
+    db[key] = db.get(key, 0) + 1
+    try:
+        with open(path, "w") as f:
+            json.dump(db, f)
+    except Exception:
+        pass
+
+
+def get_local_usage(service: str, username: str) -> int:
+    import json
+    path = get_usage_db_path()
+    if not path.exists():
+        return 0
+    try:
+        with open(path, "r") as f:
+            db = json.load(f)
+            return db.get(f"{service}:{username}", 0)
+    except Exception:
+        return 0
