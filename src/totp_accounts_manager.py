@@ -73,7 +73,16 @@ def parse_ente_export(file_path: Path) -> TotpAccounts:
 
 def format_totp_result(accounts: TotpAccounts) -> AlfredOutput:
     """Transforms a TotpAccounts object into an AlfredOutput object."""
-    result = AlfredOutput([], rerun=1)
+    import pyotp
+
+    current_time = datetime.now().timestamp()
+    fraction = current_time % 1.0
+    rerun = 1.0 - fraction
+    if rerun < 0.1:
+        rerun += 1.0
+    rerun = round(rerun, 2)
+
+    result = AlfredOutput([], rerun=rerun)
 
     username_in_title = str_to_bool(os.getenv("USERNAME_IN_TITLE", "False"))
     username_in_subtitle = str_to_bool(os.getenv("USERNAME_IN_SUBTITLE", "False"))
