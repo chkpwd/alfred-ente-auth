@@ -1,4 +1,5 @@
 import logging
+import re
 from pathlib import Path
 from urllib.parse import urljoin
 
@@ -41,6 +42,32 @@ def search_ente_custom_icons(name: str) -> str | None:
         logger.error(f"Error while fetching custom icons: {e}")
 
 
+def _glyph_color(background_color: str) -> str:
+    """Pick a glyph colour (white or black) that contrasts with the background."""
+    color = background_color.lstrip("#")
+    if len(color) == 3:
+        color = "".join(c * 2 for c in color)
+    if len(color) != 6:
+        return "#ffffff"
+    r, g, b = (int(color[i : i + 2], 16) for i in (0, 2, 4))
+    luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
+    return "#000000" if luminance > 128 else "#ffffff"
+
+
+def add_icon_background(svg: str, background_color: str) -> str:
+    """
+    Wrap a monochrome SVG glyph in a rounded, brand-coloured background.
+
+    The glyph is recoloured to contrast with the background so the icon stays
+    visible on both light and dark Alfred themes, instead of disappearing when
+    the brand colour happens to match the current theme.
+    """
+    rect = f'<rect width="24" height="24" rx="4" fill="{background_color}"/>'
+    # Insert the background right after the top-level <svg ...> tag so it is
+    # painted behind the (recoloured) glyph.
+    return re.sub(r"(<svg[^>]*>)", rf"\1{rect}", svg, count=1)
+
+
 def search_simple_icons(name: str) -> str | None:
     """Searches Simple Icons for the provided name and returns the SVG content if found."""
     from simplepycons import all_icons
@@ -49,8 +76,9 @@ def search_simple_icons(name: str) -> str | None:
     except KeyError:
         logger.debug(f"Icon for '{name}' not found in Simple Icons.")
     else:
-        icon = icon.customize_svg_as_str(fill=icon.primary_color)
-        return str(icon)
+        background = icon.primary_color
+        glyph = str(icon.customize_svg_as_str(fill=_glyph_color(background)))
+        return add_icon_background(glyph, background)
 
 
 def download_icon(service: str, icons_dir: Path) -> None:
