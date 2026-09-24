@@ -55,6 +55,8 @@ def parse_ente_export(file_path: Path) -> TotpAccounts:
                     pinned = False
                     last_used_at = 0
                     tap_count = 0
+                    icon_src = ""
+                    icon_id = ""
                     if code_display_str:
                         try:
                             code_display = json.loads(code_display_str)
@@ -64,6 +66,11 @@ def parse_ente_export(file_path: Path) -> TotpAccounts:
                             pinned = code_display.get("pinned", False)
                             last_used_at = code_display.get("lastUsedAt", 0)
                             tap_count = code_display.get("tapCount", 0)
+                            # Icon selected in Ente, see CodeDisplay.isCustomIcon in Ente Auth
+                            if isinstance(code_display.get("iconSrc"), str):
+                                icon_src = code_display["iconSrc"]
+                            if isinstance(code_display.get("iconID"), str):
+                                icon_id = code_display["iconID"]
                         except Exception as e:
                             logger.warning(f"Failed to parse codeDisplay: {e}")
 
@@ -79,6 +86,8 @@ def parse_ente_export(file_path: Path) -> TotpAccounts:
                                 pinned=pinned,
                                 last_used_at=last_used_at,
                                 tap_count=tap_count,
+                                icon_src=icon_src,
+                                icon_id=icon_id,
                             )
                         )
                     else:
@@ -99,6 +108,8 @@ def parse_ente_export(file_path: Path) -> TotpAccounts:
                                 pinned=pinned,
                                 last_used_at=last_used_at,
                                 tap_count=tap_count,
+                                icon_src=icon_src,
+                                icon_id=icon_id,
                             )
                         )
 
@@ -153,7 +164,9 @@ def format_totp_result(accounts: TotpAccounts, uid_seed: str | None = None) -> A
                     subtitle=subtitle,
                     arg=f"{current_totp},{next_totp}",
                     match=account.service_name,
-                    icon=AlfredOutputItemIcon.from_service(sanitized_service_name),
+                    icon=AlfredOutputItemIcon.from_service(
+                        sanitized_service_name, account.selected_icon_name
+                    ),
                     uid=create_uuid_from_string(uid_base),
                     variables={
                         "selected_service": account.service_name,
