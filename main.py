@@ -7,7 +7,7 @@ from src.constants import (
     CACHE_ENV_VAR,
     ICONS_FOLDER,
 )
-from src.models import AlfredOutput
+from src.models import AlfredOutput, AlfredOutputItemIcon
 from src.store_keychain import get_totp_accounts
 from src.totp_accounts_manager import format_totp_result
 from src.utils import (
@@ -62,7 +62,7 @@ if __name__ == "__main__":
 
     elif sys.argv[1] == "import":
         from src.ente_auth import EnteAuth
-        from src.icon_downloader import download_icon
+        from src.icon_downloader import ICON_DOWNLOAD_ERRORS, download_account_icon
         from src.store_keychain import ente_export_to_keychain
         from src.utils import sanitize_service_name
 
@@ -101,13 +101,27 @@ if __name__ == "__main__":
 
                 for k in result.accounts:
                     try:
-                        download_icon(sanitize_service_name(k.service_name), ICONS_FOLDER)
+                        download_account_icon(k, ICONS_FOLDER)
                     except Exception as e:
                         logger.warning(f"Failed to download icon: {e}")
 
+                icons_ready = sum(
+                    AlfredOutputItemIcon.from_service(
+                        sanitize_service_name(k.service_name), k.selected_icon_name
+                    ).path
+                    != AlfredOutputItemIcon.path
+                    for k in result.accounts
+                )
+                summary = (
+                    f"Imported {result.count} TOTP accounts. "
+                    f"Icons ready for {icons_ready}/{result.count}."
+                )
+                if ICON_DOWNLOAD_ERRORS:
+                    summary += " " + " ".join(ICON_DOWNLOAD_ERRORS)
+
                 output_alfred_message(
                     "Imported TOTP data",
-                    f"Successfully imported {result.count} TOTP accounts and downloaded icons.",
+                    summary,
                     variables={CACHE_ENV_VAR: result.accounts.to_json()},
                 )
             except Exception as e:
