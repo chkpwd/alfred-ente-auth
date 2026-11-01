@@ -13,6 +13,7 @@ pyotp = "^2.9.0"
 keyring = "^25.5.0"
 simplepycons = ">= 1!13.18.0"
 requests = "^2.32.3"
+truststore = "^0.10.4"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.0.1"

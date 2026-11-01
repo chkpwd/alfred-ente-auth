@@ -3,7 +3,7 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 
-from src.models import AlfredOutput, AlfredOutputItem, TotpAccounts
+from src.models import AlfredOutput, AlfredOutputItem, TotpAccount, TotpAccounts
 
 
 def sanitize_service_name(service_name: str) -> str:
@@ -48,6 +48,8 @@ def fuzzy_search_accounts(search_string: str, accounts: TotpAccounts) -> TotpAcc
         # Lowercase the service_name and username for case-insensitive matching
         service_name_lower = account.service_name.lower()
         username_lower = account.username.lower()
+        if account.username.casefold() == account.service_name.casefold():
+            username_lower = ""
 
         # Define match scores for prioritization
         score: float = 0

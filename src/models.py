@@ -1,3 +1,4 @@
+import hashlib
 import json
 import sys
 from dataclasses import asdict, dataclass, field
@@ -19,16 +20,21 @@ class AlfredOutputItemIcon:
     type: str | None = None
 
     @classmethod
-    def from_service(cls, service_name: str):
+    def from_service(cls, service_name: str, selected_icon_name: str = ""):
         """
-        Creates an icon for the AlfredOutputItem based on the service name.
+        Creates an icon for the AlfredOutputItem, preferring the icon selected in Ente.
 
         Args:
             service_name (str): The name of the service.
+            selected_icon_name (str): File stem of the icon selected in Ente, if any.
 
         Returns:
             AlfredOutputItemIcon: An instance with the correct icon path.
         """
+        if selected_icon_name:
+            selected_path = ICONS_FOLDER / f"{selected_icon_name}.svg"
+            if selected_path.exists():
+                return cls(path=str(selected_path))
         icon_path = ICONS_FOLDER / f"{service_name}.svg"
         if icon_path.exists():
             return cls(path=str(icon_path))
@@ -112,6 +118,21 @@ class TotpAccount:
     pinned: bool = False
     last_used_at: int = 0
     tap_count: int = 0
+    icon_src: str = ""
+    icon_id: str = ""
+
+    @property
+    def selected_icon_name(self) -> str:
+        """
+        File stem for the icon selected in Ente, or an empty string if none was selected.
+
+        Ente only uses a selected icon when both iconSrc and iconID are set, and looks it up by
+        iconID alone. The ID is hashed because icon titles may contain characters such as "/".
+        """
+        if not (self.icon_src and self.icon_id):
+            return ""
+        icon_key = self.icon_id.replace(" ", "").lower()
+        return "selected-" + hashlib.sha256(icon_key.encode("utf-8")).hexdigest()[:16]
 
 
 class TotpAccounts(list[TotpAccount]):
@@ -124,7 +145,27 @@ class TotpAccounts(list[TotpAccount]):
     @classmethod
     def from_json(cls, json_str: str) -> "TotpAccounts":
         data = json.loads(json_str)
-        return cls([TotpAccount(**i) for i in data])
+        try:
+            if isinstance(data, dict):
+                return cls(_accounts_from_older_format(data))
+            return cls([TotpAccount(**i) for i in data])
+        except (KeyError, TypeError, ValueError) as e:
+            raise ValueError(
+                "Stored accounts use an unrecognized format. Run 'ente import' to refresh them."
+            ) from e
+
+
+def _accounts_from_older_format(data: dict) -> list[TotpAccount]:
+    """Reads accounts saved by releases before v2.2.3, which grouped them by service name."""
+    accounts = []
+    for service_name, entries in data.items():
+        if isinstance(entries, dict):
+            # v2.0.0 to v2.2.2: {service: {"username": ..., "secret": ..., "period": ...}}
+            accounts.append(TotpAccount(service_name, **entries))
+        else:
+            # Before v2.0.0: {service: [[username, secret], ...]}
+            accounts.extend(TotpAccount(service_name, *entry) for entry in entries)
+    return accounts
 
 
 @dataclass

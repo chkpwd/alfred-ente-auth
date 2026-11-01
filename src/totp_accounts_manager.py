@@ -4,8 +4,6 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
-
-
 from src.models import (
     AlfredOutput,
     AlfredOutputItem,
@@ -45,6 +43,11 @@ def parse_ente_export(file_path: Path) -> TotpAccounts:
                         service_name, username = path_items[0].strip(":"), ""
 
                     query_params = parse_qs(parsed_uri.query)
+                    issuer = query_params.get("issuer", [""])[0].strip()
+                    if issuer:
+                        if len(path_items) == 1:
+                            username = path_items[0]
+                        service_name = issuer
                     secret = query_params.get("secret", [None])[0]
                     period = query_params.get("period", [None])[0]
                     code_display_str = query_params.get("codeDisplay", [None])[0]
@@ -55,6 +58,8 @@ def parse_ente_export(file_path: Path) -> TotpAccounts:
                     pinned = False
                     last_used_at = 0
                     tap_count = 0
+                    icon_src = ""
+                    icon_id = ""
                     if code_display_str:
                         try:
                             code_display = json.loads(code_display_str)
@@ -64,6 +69,11 @@ def parse_ente_export(file_path: Path) -> TotpAccounts:
                             pinned = code_display.get("pinned", False)
                             last_used_at = code_display.get("lastUsedAt", 0)
                             tap_count = code_display.get("tapCount", 0)
+                            # Icon selected in Ente, see CodeDisplay.isCustomIcon in Ente Auth
+                            if isinstance(code_display.get("iconSrc"), str):
+                                icon_src = code_display["iconSrc"]
+                            if isinstance(code_display.get("iconID"), str):
+                                icon_id = code_display["iconID"]
                         except Exception as e:
                             logger.warning(f"Failed to parse codeDisplay: {e}")
 
@@ -79,6 +89,8 @@ def parse_ente_export(file_path: Path) -> TotpAccounts:
                                 pinned=pinned,
                                 last_used_at=last_used_at,
                                 tap_count=tap_count,
+                                icon_src=icon_src,
+                                icon_id=icon_id,
                             )
                         )
                     else:
@@ -99,13 +111,17 @@ def parse_ente_export(file_path: Path) -> TotpAccounts:
                                 pinned=pinned,
                                 last_used_at=last_used_at,
                                 tap_count=tap_count,
+                                icon_src=icon_src,
+                                icon_id=icon_id,
                             )
                         )
 
     return accounts
 
 
-def format_totp_result(accounts: TotpAccounts, uid_seed: str | None = None) -> AlfredOutput:
+def format_totp_result(
+    accounts: TotpAccounts, uid_seed: str | None = None
+) -> AlfredOutput:
     """Transforms a TotpAccounts object into an AlfredOutput object."""
     import pyotp
 
@@ -132,10 +148,14 @@ def format_totp_result(accounts: TotpAccounts, uid_seed: str | None = None) -> A
 
             sanitized_service_name = sanitize_service_name(account.service_name)
 
+            show_username = bool(account.username) and (
+                account.username.casefold() != account.service_name.casefold()
+            )
+
             # Conditionally add username to title and subtitle
             title = (
                 f"{account.service_name} - {account.username}"
-                if account.username and username_in_title
+                if show_username and username_in_title
                 else account.service_name
             )
             # Pin icon is always appended to the title if pinned
@@ -143,7 +163,7 @@ def format_totp_result(accounts: TotpAccounts, uid_seed: str | None = None) -> A
                 title += " 📌"
 
             subtitle = f"Current TOTP: {current_totp} | Next TOTP: {next_totp}, {time_remaining} seconds left"
-            if account.username and username_in_subtitle:
+            if show_username and username_in_subtitle:
                 subtitle += f" - {account.username}"
 
             uid_base = (uid_seed or "") + account.service_name + account.username
@@ -153,7 +173,9 @@ def format_totp_result(accounts: TotpAccounts, uid_seed: str | None = None) -> A
                     subtitle=subtitle,
                     arg=f"{current_totp},{next_totp}",
                     match=account.service_name,
-                    icon=AlfredOutputItemIcon.from_service(sanitized_service_name),
+                    icon=AlfredOutputItemIcon.from_service(
+                        sanitized_service_name, account.selected_icon_name
+                    ),
                     uid=create_uuid_from_string(uid_base),
                     variables={
                         "selected_service": account.service_name,

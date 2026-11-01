@@ -101,6 +101,13 @@ To set up your local environment, run the following command to install or update
 poetry install --only=main
 ```
 
+### Run Tests
+Tests use synthetic data and don't need network access, Alfred, or your Keychain:
+
+```bash
+poetry run python -m unittest
+```
+
 ### Build the Alfred Workflow File
 Once your environment is ready, use this command to build the workflow file:
 
